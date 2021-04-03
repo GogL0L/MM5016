@@ -1,3 +1,4 @@
+import math
 ## Description
 
 # The solution to task 1 will be the functions find_root_newton and
@@ -21,7 +22,7 @@ def iterate(function, root_approximates, tolerance, next_values_function,
     # the root. In the case of Newton's method, the root_approximates list
     # will just be a single value surrounded by a list.
     newest_root_approximate = root_approximates[-1]
-    satisfies_tolerance = function(newest_root_approximate) <= tolerance
+    satisfies_tolerance = abs(function(newest_root_approximate)) <= tolerance
     if iteration > max_iterations:
         raise RecursionError("<iterate: maximum ammount of iterations reached>")
     elif satisfies_tolerance and debug:
@@ -31,7 +32,7 @@ def iterate(function, root_approximates, tolerance, next_values_function,
     else:
         next_values = next_values_function(root_approximates)
         return iterate(function, next_values, tolerance, next_values_function,
-                       iteration+1, max_iterations)
+                       iteration+1, max_iterations, debug)
 
 ## Newtons's method
 # The next values function for Newton's method just takes a list of size
@@ -74,3 +75,20 @@ def find_root_secant(function, root_approximates, tolerance, debug=False):
     next_values_function = secant_next_values_function(function)
     return iterate(function, root_approximates, tolerance, next_values_function,
                    debug=debug)
+
+def function1(x):
+    """ Equation (1) has zero on the right hand side so we let the left hand
+    side be the function.
+    """
+    return x**4 - 5 * x**3 + 9 * x + 3
+
+def function2(x):
+    """ If we substract exp(x) on each side of equation (2), we get zero on
+    the right hand side, so we let the left hand side be the function.
+    """
+    return 2 * x**2 + 5 - math.exp(x)
+
+square_root_2 = lambda x: x ** 2 -2
+print(find_root_newton(square_root_2, lambda x: 2*x, -10, 0.001, debug=True))
+
+print(find_root_secant(square_root_2, [0,2], 0.001, debug=True))
