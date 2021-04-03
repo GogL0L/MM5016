@@ -132,9 +132,27 @@ def function1(x):
     return x**4 - 5 * x**3 + 9 * x + 3
 
 
+def function1_derivative(x):
+    """ The derivative to function1 with respect to x. """
+    return 4 * x**3 - 15 * x**2 + 9
+
+
+def find_a_root_equation_1(method, debug=False):
+    """ Finds a root to the equation x^4 - 5x^3 + 9x + 3 = 0 with the
+    method 'Newton' or 'Secant'. """
+    if method == "Newton":
+        return find_root_newton(function1, function1_derivative,1, 0.001, debug=debug)
+    elif method == "Secant":
+        return find_root_secant(function1, [4,6], 0.001, debug=debug)
+    else:
+        raise ValueError(f"<find_a_root_equation_1: '{method}' not a valid method.>")
+
+
+print(find_a_root_equation_1('Newton', debug=True))
 #+end_src
 
 #+RESULTS:
+: (4.528917959646293, 5)
 
 
 *** Second equation
