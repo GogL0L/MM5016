@@ -1,0 +1,54 @@
+% Created 2021-03-25 Thu 13:24
+% Intended LaTeX compiler: pdflatex
+\documentclass[10pt]{article}
+     \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
+     \input{/home/john/skola/test/test3/bold.tex}
+     \usepackage{minted}
+\author{John Möller}
+\date{\today}
+\title{Introduktion to Numerical Analysis}
+\hypersetup{
+ pdfauthor={John Möller},
+ pdftitle={Introduktion to Numerical Analysis},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.4.4)}, 
+ pdflang={Samin}}
+\begin{document}
+
+\maketitle
+
+\section{What this course will encompase}
+\label{sec:org9205e4c}
+\begin{itemize}
+\item Non-linear algebraic equations
+\item Numerical Integration
+\item Gaussioan elimmination
+\item QR methods
+\item Iterative methods
+\item Error analysis
+\item ODE Theory
+\end{itemize}
+
+\section{Simple Climate model}
+\label{sec:org35a5bd9}
+Shortwave Incomming FLux
+\begin{align*}
+ &  \text{ Shortwave Incoming Flux } = \text{ Longwave Outgoing Flux } \\
+ &  S_0 (1- \alpha) = \alpha T^{4} \\
+ &  T =^{4} \sqrt{\frac{S_0 (1-\alpha)}{\sigma} }
+.
+\end{align*}
+
+\section{Transient Climate status}
+\label{sec:org3369958}
+
+\begin{align*}
+R \frac{dT}{dt} = S_0 (1-\alpha(T)) - \sigma T^{4} \\
+\alpha(T) = \frac{\alpha _{w} + \alpha _{c}}{2} + \frac{\alpha _{w} - \alpha _{c}}{2} \text{tanh}(\frac{T}{\Delta T}) \\
+t = R \int_{ T _{0} }^{ T} \frac{1}{S_0 ( 1- \alpha(T')) - \sigma T '^{4} } dT' 
+.
+\end{align*}
+
+Difficult integral.
+\end{document}

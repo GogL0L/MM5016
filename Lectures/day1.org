@@ -1,0 +1,42 @@
+#+TITLE: Introduktion to Numerical Analysis
+#+DATE: \today
+#+AUTHOR: John Möller
+#+OPTIONS: num:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: se
+#+LaTeX_CLASS: notesse
+#+LATEX_HEADER: \input{/home/john/texstuff/org/env.tex}
+#+LATEX_HEADER: \input{/home/john/texstuff/org/bold.tex}
+#+STARTUP: latexpreview
+
+* What this course will encompase
+ - Non-linear algebraic equations
+ - Numerical Integration
+ - Gaussioan elimmination
+ - QR methods
+ - Iterative methods
+ - Error analysis
+ - ODE Theory
+
+* Simple Climate model
+Shortwave Incomming FLux
+\begin{align*}
+ &  \text{ Shortwave Incoming Flux } = \text{ Longwave Outgoing Flux } \\
+ &  S_0 (1- \alpha) = \alpha T^{4} \\
+ &  T =^{4} \sqrt{\frac{S_0 (1-\alpha)}{\sigma} }
+.
+\end{align*}
+
+* Transient Climate status
+
+\begin{align*}
+R \frac{dT}{dt} = S_0 (1-\alpha(T)) - \sigma T^{4} \\
+\alpha(T) = \frac{\alpha _{w} + \alpha _{c}}{2} + \frac{\alpha _{w} - \alpha _{c}}{2} \text{tanh}(\frac{T}{\Delta T}) \\
+t = R \int_{ T _{0} }^{ T} \frac{1}{S_0 ( 1- \alpha(T')) - \sigma T '^{4} } dT' 
+.
+\end{align*}
+
+Difficult integral.
+
