@@ -13,6 +13,9 @@ import math
 # The solution to task 1 will be the functions find_root_newton and
 # find_root_secant.
 
+# The solution to task 2 will be displayed by running this program in a terminal.
+# The discussion of the dependence of initial values will be in the report.
+
 
 #+end_src
 
@@ -128,7 +131,7 @@ def find_root_secant(function, root_approximates,
 
 *** First equation (old)
 
-#+begin_src python :results output :session :noexport
+#+begin_src python :results output :session :tangle no
 def function1(x):
     """ Equation (1) has zero on the right hand side so we let the left hand
     side be the function.
@@ -160,9 +163,10 @@ def find_a_root_equation_1_newton(root_approximate):
 
 
 
-*** First equation (old)
+*** First equation
 
 #+begin_src python :results output :session
+## The following functions are for task 2.
 def function1(x):
     """ Equation (1) has zero on the right hand side so we let the left hand
     side be the function.
@@ -239,17 +243,17 @@ def test_secant(function, boundary):
 
 #+begin_src python :results output :session
 def main():
-    """ Asks the user for an equation and what method to use in order
+    """ Asks the user to choose an equation and what method to use in order
     to find a root, and an appropiate result will be output.
     """
     print("At any point write 'exit' to exit.")
     loop = True
     while loop:
-        message = ("Choose one of the following tasks:"
-                   "Find a root to x^4-5x^3+9x+3=0 using Newton's method. (1)"
-                   "Find a root to x^4-5x^3+9x+3=0 using the Secant method. (2)"
-                   "Find a root to 2x^2 + 5 = e^x using Newton's method. (3)"
-                   "Find a root to 2x^2 + 5 = e^x using the Secant method. (4)")
+        message = ("Choose one of the following tasks:\n"
+                   "Find a root to x^4-5x^3+9x+3=0 using Newton's method. (1)\n"
+                   "Find a root to x^4-5x^3+9x+3=0 using the Secant method. (2)\n"
+                   "Find a root to 2x^2 + 5 = e^x using Newton's method. (3)\n"
+                   "Find a root to 2x^2 + 5 = e^x using the Secant method. (4)\n")
         case = input(message)
         if case == 'exit':
             print("The program will now terminate.")
@@ -257,11 +261,11 @@ def main():
         elif case == '1':
             test_newton(function1, function1_derivative)
         elif case == '2':
-            test_secant(function1)
+            test_secant(function1, [4,6])
         elif case == '3':
             test_newton(function2, function2_derivative)
         elif case == '4':
-            test_secant(function2)
+            test_secant(function2, [3,4])
         else:
             print("Not a valid input.")
             
@@ -270,11 +274,12 @@ if __name__ == "__main__":
     main()
 #+end_src
 
+
 ** Testning
 
 *** Newton
 
-#+begin_src python :results output :session
+#+begin_src python :results output :session :tangle no
 square_root_2 = lambda x: x ** 2 -2
 print(find_root_newton(square_root_2, lambda x: 2*x, -10, 0.001, debug=True))
 #+end_src
@@ -285,7 +290,7 @@ print(find_root_newton(square_root_2, lambda x: 2*x, -10, 0.001, debug=True))
 *** Secant
 
 
-#+begin_src python :results output :session
+#+begin_src python :results output :session :tangle no
 print(find_root_secant(square_root_2, [0,2], 0.001, debug=True))
 #+end_src
 
