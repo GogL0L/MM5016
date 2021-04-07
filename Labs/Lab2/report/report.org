@@ -1,0 +1,14 @@
+#+TITLE: Lab Assignment 2 MM5016
+#+DATE: \today
+#+AUTHOR: John Möller
+#+OPTIONS: num:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: se
+#+LaTeX_CLASS: default
+#+STARTUP: latexpreview
+
+* Task 1
+
+Example text
