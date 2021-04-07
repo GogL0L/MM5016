@@ -1,7 +1,6 @@
 #+TITLE: Lab Assignment 2 MM5016
 #+DATE: \today
-#+AUTHOR: John Möller
-#+OPTIONS: num:t
+#+OPTIONS: num:nil
 #+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
 #+EXCLUDE_TAGS: noexport
 #+KEYWORDS:
@@ -11,4 +10,25 @@
 
 * Task 1
 
-Example text
+The functions \texttt{find\_root\_newton} and \texttt{find\_root\_secant} in the python file. They give
+the right root if the inintal value(s) is (are) inside the interval.
+
+* Task 2
+** Finding the roots and testing several initial values
+Run "python lab2.py" in a terminal to solve the equations with a certain method.
+** Dependence of initial value
+From the lecture notes we now that the error of the iteration
+\( x _{n+1} \) to the root \( \alpha \) can be expressed as:
+\begin{align*}
+\alpha - x _{n+1} = (\alpha - x_n ) ^2 [\frac{-f''(x_n)}{2f'(x_n)}] 
+.
+\end{align*}
+
+So given that \( \frac{-f''(x_n)}{2f'(x_n)}  \) stays roughly the same, the method gets really effective when \( \alpha - x_0 < 1 \), as the square will be smaller.
+
+
+Because the Secant method doesn't use tangents there isn't a simmilar error formula that
+can be derived from a taylor expansion. But because secants approximates an interval
+better if it's smaller (given that the function is a normal continous function), then such
+a choice of initial values will converge faster.
+

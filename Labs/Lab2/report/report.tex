@@ -1,4 +1,4 @@
-% Created 2021-04-07 Wed 21:54
+% Created 2021-04-08 Thu 01:53
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -23,11 +23,10 @@
      \newtheorem{lem}{Lemma}[thm]
      \newtheorem{ex}{Example}[ex]
      \usepackage{minted}
-\author{John Möller}
 \date{\today}
 \title{Lab Assignment 2 MM5016}
 \hypersetup{
- pdfauthor={John Möller},
+ pdfauthor={},
  pdftitle={Lab Assignment 2 MM5016},
  pdfkeywords={},
  pdfsubject={},
@@ -37,8 +36,31 @@
 
 \maketitle
 
-\section{Task 1}
-\label{sec:orgd33d52f}
+\section*{Task 1}
+\label{sec:org57d1514}
 
-Example text
+The functions \texttt{find\_root\_newton} and \texttt{find\_root\_secant} in the python file. They give
+the right root if the inintal value(s) is (are) inside the interval.
+
+\section*{Task 2}
+\label{sec:orgc290f2f}
+\subsection*{Finding the roots and testing several initial values}
+\label{sec:orgc327088}
+Run "python lab2.py" in a terminal to solve the equations with a certain method.
+\subsection*{Dependence of initial value}
+\label{sec:org37eed1b}
+From the lecture notes we now that the error of the iteration
+\(x _{n+1}\) to the root \(\alpha\) can be expressed as:
+\begin{align*}
+\alpha - x _{n+1} = (\alpha - x_n ) ^2 [\frac{-f''(x_n)}{2f'(x_n)}] 
+.
+\end{align*}
+
+So given that \(\frac{-f''(x_n)}{2f'(x_n)}\) stays roughly the same, the method gets really effective when \(\alpha - x_0 < 1\), as the square will be smaller.
+
+
+Because the Secant method doesn't use tangents there isn't a simmilar error formula that
+can be derived from a taylor expansion. But because secants approximates an interval
+better if it's smaller (given that the function is a normal continous function), then such
+a choice of initial values will converge faster.
 \end{document}
