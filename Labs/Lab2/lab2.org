@@ -215,7 +215,8 @@ def test_newton(function, function_derivative):
     for init_value in range(10):
         solution, iterations = find_root_newton(function, function_derivative,
                                                 init_value, debug=True)
-        print("Found solution: x =", solution, ", in", iterations, "iterations")
+        print("Found solution x =", solution, "in", iterations, "iterations",
+              "using initial value x0 =", init_value)
     
     
 #+end_src
@@ -232,7 +233,7 @@ def test_secant(function, boundary):
     """
     solution, iterations = find_root_secant(function, boundary,
                                             debug=True)
-    print("Found solution: x =", solution, ", in", iterations, "iterations")
+    print("Found solution: x =", solution, "in", iterations, "iterations")
 
     
 #+end_src
