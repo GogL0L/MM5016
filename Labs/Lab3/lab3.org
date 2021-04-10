@@ -12,14 +12,16 @@ def partition_interval(start, end, number_of_partitions):
     The return value, is a list of the partitioned intervals, symbolysed
     by tuples.
     """
-    partition_size = (end - start) / number_of_partitions
-    intervals = [(i, i + partition_size) for i in range(start,
-                                                        end,
-                                                        partition_size)]
+    # dx symbolises the partition_size
+    dx = (end - start) / number_of_partitions
+    intervals = [(start + i * dx, start + (i+1) * dx)
+                 for i in range(number_of_partitions)]
     return intervals
 
 
 #+end_src
+
+#+RESULTS:
 
 
 ** Trapezoidal integration
@@ -31,10 +33,28 @@ def trapezoidal_integration(function, start, end, number_of_partitions):
     symbolises the ammount of partitioned intervals the we will use the
     trapezoidal rule to estimate the area.
     """
-    # From result (7) in the reference material
-    trapezoidal_rule = lambda f,a,b = (b-a) * (f(a) + f(b)) /2
-    intervals
+    # From result (7) in the reference material, with t = (a,b)
+    f = function
+    trapezoidal_rule = lambda t : (t[1]-t[0]) * (f(t[0]) + f(t[1])) / 2
+
+    intervals = partition_interval(start, end, number_of_partitions)
+    areas_of_intervals = map(trapezoidal_rule, intervals)
+    sum_of_interval_areas = sum(areas_of_intervals)
+    return sum_of_interval_areas
+
+
 #+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+result = trapezoidal_integration(lambda x: x**2, 0,1,4)
+print("result:", result)
+#+end_src
+
+#+RESULTS:
+: result: 0.34375
 
 
 ** Simpson Integration
@@ -50,7 +70,7 @@ def trapezoidal_integration(function, start, end, number_of_partitions):
 #+begin_src python :results output :tangle no
 numbers = list(range(6))
 intervals = [[i,i+1] for i in numbers[:-1]]
-dx = 2
+dx = 0.5
 intervals2 = [(i,i+dx) for i in range(0,6,dx)]
 
 print ("Numbers:",numbers)
@@ -71,6 +91,20 @@ def partition_interval(start, end, ammount_of_partitions):
 #+end_src
 
 #+RESULTS:
-: Numbers: [0, 1, 2, 3, 4, 5]
-: Intervals: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]]
-: Intervals2: [(0, 2), (2, 4), (4, 6)]
+
+
+** Sum of maps
+
+#+begin_src python :results output
+list_of_tuples = [(1,2),(3,4),(5,5)]
+
+tuple_sum = lambda t: t[0] + t[1]
+
+tuple_map = map(tuple_sum, list_of_tuples)
+
+map_sum = sum(tuple_map)
+print("map_sum:", map_sum)
+#+end_src
+
+#+RESULTS:
+: map_sum: 20
