@@ -1,0 +1,13 @@
+#+title: Lab assignment 3 MM5016
+#+description: Numerical integration
+#+PROPERTY: header-args :tangle ./lab2.py 
+
+* Subroutines 
+
+** Trapezoidal integration
+
+** Simpson Integration
+
+* Task 1
+
+* Task 2
