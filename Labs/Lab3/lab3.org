@@ -30,11 +30,11 @@ def partition_interval(start, end, number_of_partitions):
 def trapezoidal_integration(function, start, end, number_of_partitions):
     """ Numerically integrates function(x) over the interval 
     start <= x <= end using the trapezoidal rule. number_of_partitions
-    symbolises the ammount of partitioned intervals the we will use the
-    trapezoidal rule to estimate the area.
+    symbolises the ammount of partitioned intervals that we will use the
+    trapezoidal rule on.
     """
-    # From result (7) in the reference material, with t = (a,b)
     f = function
+    # From result (7) in the reference material, with t = (a,b)
     trapezoidal_rule = lambda t : (t[1]-t[0]) * (f(t[0]) + f(t[1])) / 2
 
     intervals = partition_interval(start, end, number_of_partitions)
@@ -58,6 +58,41 @@ print("result:", result)
 
 
 ** Simpson Integration
+
+#+begin_src python :results output :session
+def simpson_integration(function, start, end, number_of_partitions):
+    """ Numerically integrates function(x) over the interval 
+    start <= x <= end using Simpson's rule. number_of_partitions
+    symbolises the ammount of partitioned intervals that we will use
+    Simpson's rule on.
+    """
+    
+    f = function
+    # From result (9) in the reference material
+    simpson_rule_untupled = lambda a,b: ((1/6) * (b-a) * (f(a)
+                                                           + 4 * f((a+b)/2)
+                                                           + f(b)))
+    # simpsons_rule_untupled, but takes a tuple (a,b) instead
+    simpson_rule = lambda t: simpson_rule_untupled(t[0],t[1])
+
+    intervals = partition_interval(start, end, number_of_partitions)
+    areas_of_intervals = map(simpson_rule, intervals)
+    sum_of_interval_areas = sum(areas_of_intervals)
+    return sum_of_interval_areas
+
+#+end_src
+
+#+RESULTS:
+
+*** test
+
+#+begin_src python :results output :session :tangle no
+result = simpson_integration(lambda x: x**2, 0,1,4)
+print("result:", result)
+#+end_src
+
+#+RESULTS:
+: result: 0.3333333333333333
 
 
 * Task 1
