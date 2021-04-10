@@ -1,9 +1,3 @@
-#+title: Lab assignment 3 MM5016
-#+description: Numerical integration
-#+PROPERTY: header-args :tangle ./lab3.py 
-
-* Header
-#+begin_src python :results output :session
 ## Description
 """
 The functions for integrating using the trapezoidal rule or Simpson's rule
@@ -14,15 +8,7 @@ terminal in the directory of this script.
 
 
 from math import sqrt
-#+end_src
 
-#+RESULTS:
-
-
-* Subroutines 
-
-** Partition interval
-#+begin_src python :results output :session
 def partition_interval(start, end, number_of_partitions):
     """ Divides the interval start<= x <= end into 
     ammount_of_partitions ammount of partitions, with each partition 
@@ -35,15 +21,6 @@ def partition_interval(start, end, number_of_partitions):
                  for i in range(number_of_partitions)]
     return intervals
 
-
-#+end_src
-
-#+RESULTS:
-
-
-** Trapezoidal integration
-
-#+begin_src python :results output :session
 ## Trapezoidal integration
 def trapezoidal_integration(function, start, end, number_of_partitions):
     """ Numerically integrates function(x) over the interval 
@@ -59,24 +36,6 @@ def trapezoidal_integration(function, start, end, number_of_partitions):
     areas_of_intervals = map(trapezoidal_rule, intervals)
     return sum(areas_of_intervals)
 
-
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-result = trapezoidal_integration(lambda x: x**2, 0,1,4)
-print("result:", result)
-#+end_src
-
-#+RESULTS:
-: result: 0.34375
-
-
-** Simpson Integration
-
-#+begin_src python :results output :session
 ## Simpson integration
 def simpson_integration(function, start, end, number_of_partitions):
     """ Numerically integrates function(x) over the interval 
@@ -97,27 +56,6 @@ def simpson_integration(function, start, end, number_of_partitions):
     areas_of_intervals = map(simpson_rule, intervals)
     return sum(areas_of_intervals)
 
-
-#+end_src
-
-#+RESULTS:
-
-*** test
-
-#+begin_src python :results output :session :tangle no
-result = simpson_integration(lambda x: x**2, 0,1,4)
-print("result:", result)
-#+end_src
-
-#+RESULTS:
-: result: 0.3333333333333333
-
-
-* Task 1 and 2
-
-** Main function
-
-#+begin_src python :results output :session
 ## Solution to task 1 and 2
 def main():
     """ Prints the solution to task 1 and 2 in this lab assignment. """
@@ -136,56 +74,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-#+end_src
-
-#+RESULTS:
-: Integrating sqrt(x) from x=0 to x=2 using the trapezoidal rule over 4 partitions yields: 1.819479216882342
-: Integrating sqrt(x) from x=0 to x=2 using Simpson's rule over 4 partitions yields: 1.875471421649657
-: Integrating sqrt(x) from x=0 to x=2 analytically yields: 1.8856180831641272
-
-
-
-* Test 
-
-** List into even chunks (intervals in this case)
-#+begin_src python :results output :tangle no
-numbers = list(range(6))
-intervals = [[i,i+1] for i in numbers[:-1]]
-dx = 0.5
-intervals2 = [(i,i+dx) for i in range(0,6,dx)]
-
-print ("Numbers:",numbers)
-print ("Intervals:",intervals)
-print ("Intervals2:",intervals2)
-
-def partition_interval(start, end, ammount_of_partitions):
-    """ Divides the interval start<= x <= end into 
-    ammount_of_partiitions ammount of partitions, of the same size.
-    The return value, is a list of the partitioned intervals, symbolysed
-    by tuples, and the partition size.
-    """
-    partition_size = (end - start) / ammount_of_partitions
-    intervals = [(i, i + partition_size) for i in range(start,
-                                                        end,
-                                                        partition_size)]
-    return intervals, partition_size
-#+end_src
-
-#+RESULTS:
-
-
-** Sum of maps
-
-#+begin_src python :results output :tangle no
-list_of_tuples = [(1,2),(3,4),(5,5)]
-
-tuple_sum = lambda t: t[0] + t[1]
-
-tuple_map = map(tuple_sum, list_of_tuples)
-
-map_sum = sum(tuple_map)
-print("map_sum:", map_sum)
-#+end_src
-
-#+RESULTS:
-: map_sum: 20
