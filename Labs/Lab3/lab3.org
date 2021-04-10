@@ -18,6 +18,8 @@ from math import sqrt
 
 #+end_src
 
+#+RESULTS:
+
 
 * Subroutines 
 
@@ -127,13 +129,22 @@ def main():
           "4 partitions yields:", result1)
 
     result2 = simpson_integration(sqrt, 0, 2, 4)
-    print("Integrating sqrt(x) from x=0 to x=2 using the trapezoidal rule over",
-          "4 partitions yields:" result2)
+    print("Integrating sqrt(x) from x=0 to x=2 using Simpson's rule over",
+          "4 partitions yields:", result2)
+
+    analytic_result = (2 / 3) * sqrt(2) ** 3
+    print("Integrating sqrt(x) from x=0 to x=2 analytically yields:",
+          analytic_result)
         
 
 if __name__ == "__main__":
     main()
 #+end_src
+
+#+RESULTS:
+: Integrating sqrt(x) from x=0 to x=2 using the trapezoidal rule over 4 partitions yields: 1.819479216882342
+: Integrating sqrt(x) from x=0 to x=2 using Simpson's rule over 4 partitions yields: 1.875471421649657
+: Integrating sqrt(x) from x=0 to x=2 analytically yields: 1.8856180831641272
 
 
 * Test 
