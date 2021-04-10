@@ -1,3 +1,5 @@
+
+
 ## Description
 """
 The functions for integrating using the trapezoidal rule or Simpson's rule
@@ -8,6 +10,7 @@ terminal in the directory of this script.
 
 
 from math import sqrt
+
 
 def partition_interval(start, end, number_of_partitions):
     """ Divides the interval start<= x <= end into 
@@ -20,6 +23,7 @@ def partition_interval(start, end, number_of_partitions):
     intervals = [(start + i * dx, start + (i+1) * dx)
                  for i in range(number_of_partitions)]
     return intervals
+
 
 ## Trapezoidal integration
 def trapezoidal_integration(function, start, end, number_of_partitions):
@@ -35,6 +39,7 @@ def trapezoidal_integration(function, start, end, number_of_partitions):
     intervals = partition_interval(start, end, number_of_partitions)
     areas_of_intervals = map(trapezoidal_rule, intervals)
     return sum(areas_of_intervals)
+
 
 ## Simpson integration
 def simpson_integration(function, start, end, number_of_partitions):
@@ -55,6 +60,7 @@ def simpson_integration(function, start, end, number_of_partitions):
     intervals = partition_interval(start, end, number_of_partitions)
     areas_of_intervals = map(simpson_rule, intervals)
     return sum(areas_of_intervals)
+
 
 ## Solution to task 1 and 2
 def main():
