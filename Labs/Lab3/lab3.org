@@ -2,15 +2,32 @@
 #+description: Numerical integration
 #+PROPERTY: header-args :tangle ./lab2.py 
 
+* Header
+#+begin_src python :results output :session
+## Description
+"""
+The functions for integrating using the trapezoidal rule or Simpson's rule
+are 'trapezoidal_integration' and 'simpson_integration' respectively. The
+solution to task 1 and 2 can be displayed by running "python lab3.py" in a
+terminal in the directory of this script.
+"""
+
+
+from math import sqrt
+
+
+#+end_src
+
+
 * Subroutines 
 
 ** Partition interval
 #+begin_src python :results output :session
 def partition_interval(start, end, number_of_partitions):
     """ Divides the interval start<= x <= end into 
-    ammount_of_partiitions ammount of partitions, of the same size.
-    The return value, is a list of the partitioned intervals, symbolysed
-    by tuples.
+    ammount_of_partitions ammount of partitions, with each partition 
+    having the same size. The return value, is a list of the partitioned 
+    intervals, symbolysed by tuples.
     """
     # dx symbolises the partition_size
     dx = (end - start) / number_of_partitions
@@ -27,6 +44,7 @@ def partition_interval(start, end, number_of_partitions):
 ** Trapezoidal integration
 
 #+begin_src python :results output :session
+## Trapezoidal integration
 def trapezoidal_integration(function, start, end, number_of_partitions):
     """ Numerically integrates function(x) over the interval 
     start <= x <= end using the trapezoidal rule. number_of_partitions
@@ -60,6 +78,7 @@ print("result:", result)
 ** Simpson Integration
 
 #+begin_src python :results output :session
+## Simpson integration
 def simpson_integration(function, start, end, number_of_partitions):
     """ Numerically integrates function(x) over the interval 
     start <= x <= end using Simpson's rule. number_of_partitions
@@ -95,9 +114,27 @@ print("result:", result)
 : result: 0.3333333333333333
 
 
-* Task 1
+* Task 1 and 2
 
-* Task 2
+** Main function
+
+#+begin_src python :results output :session
+## Solution to task 1 and 2
+def main():
+    """ Prints the solution to task 1 and 2 in this lab assignment. """
+    result1 = trapezoidal_integration(sqrt, 0, 2, 4)
+    print("Integrating sqrt(x) from x=0 to x=2 using the trapezoidal rule over",
+          "4 partitions yields:", result1)
+
+    result2 = simpson_integration(sqrt, 0, 2, 4)
+    print("Integrating sqrt(x) from x=0 to x=2 using the trapezoidal rule over",
+          "4 partitions yields:" result2)
+        
+
+if __name__ == "__main__":
+    main()
+#+end_src
+
 
 * Test 
 
