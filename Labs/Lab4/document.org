@@ -58,13 +58,25 @@ And thus we can from this equation solve that \( x_1 = -8 \).
 #+LATEX: \begin{exercise}[System 2]  \label{exe:System_2}
 Use Gaussian elimination to solve the system of linear equation
 \begin{align*}
-x_1 - 2x_2 - 6x_3 = 12 \\
+2x_2 + x_3 = -8 \\
+x_1 - 2x_2 - 3x_3 = 0 \\
+-x_1 + x_2 + 2x_3 = 3
+.
+\end{align*}
+#+LATEX: \end{exercise}
+
+
+
+** exe: System 3 :ignore:
+#+LATEX: \begin{exercise}[System 3]  \label{exe:System_3}
+Use Gaussian elimination to solve the system of linear equations
+\begin{align*}
+x_1 - 2x_2 -6x_3 = 12 \\
 2x_1 + 4x_2 + 12x_3 = -17 \\
 x_1 - 4x_2 - 12x_3 = 22
 .
 \end{align*}
 #+LATEX: \end{exercise}
-
 
 ** sol:  :ignore:
 #+LATEX: \begin{solution}[]  \label{sol:}
@@ -78,15 +90,3 @@ to it. That yields the following equation:
 \end{align*}
 
 #+LATEX: \end{solution}
-
-
-** exe: System 3 :ignore:
-#+LATEX: \begin{exercise}[System 3]  \label{exe:System_3}
-Use Gaussian elimination to solve the system of linear equations
-\begin{align*}
-x_1 - 2x_2 -6x_3 = 12 \\
-2x_1 + 4x_2 + 12x_3 = -17 \\
-x_1 - 4x_2 - 12x_3 = 22
-.
-\end{align*}
-#+LATEX: \end{exercise}
