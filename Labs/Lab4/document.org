@@ -28,10 +28,10 @@ x_1 + 5x_2 = 7 \\
 #+LATEX: \begin{solution}[]  \label{sol:}
 First step is to check that the coefficient of \( x_1 \) of the first
 equation is non-zero.
-Next step is to eliminate all \( x_1 \) under line 1. We do this by
-adding an appropiate multiple of line 1 to the line we
+Next step is to eliminate all \( x_1 \) under row 1. We do this by
+adding an appropiate multiple of row 1 to the row we
 want to eliminate \( x_1 \) from. In this case it means to add the first
-line times 2 to second line. That yields the following system:
+row times 2 to second row. That yields the following system:
 \begin{align*}
 x_1 + 5x_2 = 7 \\
 3x_2 = 9
@@ -71,9 +71,9 @@ x_1 - 2x_2 - 3x_3 = 0 \\
 ** sol:  :ignore:
 #+LATEX: \begin{solution}[]  \label{sol:}
 First step is to see if the first equation has a non-zero coefficent for
-\( x_1 \), we see that this is not the case. So we swap this line and the closest
-line below which has a non-zero coefficient for \( x_1 \). In this case it's
-line 2. So we swap line 1 and 2. We get the following system:
+\( x_1 \), we see that this is not the case. So we swap this row and the closest
+row below which has a non-zero coefficient for \( x_1 \). In this case it's
+row 2. So we swap row 1 and 2. We get the following system:
 \begin{align*}
 x_1 - 2x_2 - 3x_3 = 0 \\
 2x_2 + x_3 = -8 \\
@@ -82,8 +82,8 @@ x_1 - 2x_2 - 3x_3 = 0 \\
 \end{align*}
 
 Next step is to eliminate all \( x_1 \) from the equations below by adding
-an appropiate multiple of line 1 to it. We see that line 2 already is
-free from \( x_1 \). So we go to the next line which is line number 3. We see
+an appropiate multiple of row 1 to it. We see that row 2 already is
+free from \( x_1 \). So we go to the next row which is row number 3. We see
 that we can add 1 times equation 1 to it, which yields the following
 system:
 \begin{align*}
@@ -94,7 +94,7 @@ x_1 - 2x_2 - 3x_3 = 0 \\
 \end{align*}
 
 Now we apply Gaussian elimination on this new system of 2 equations and
-2 variables under line 1:
+2 variables under row 1:
 \begin{align*}
 2x_2 + x_3 = -8 \\
 -x_2 - x_3 = 3
@@ -154,13 +154,37 @@ x_1 - 4x_2 - 12x_3 = 22
 
 ** sol:  :ignore:
 #+LATEX: \begin{solution}[]  \label{sol:}
-As in the previous system we start by eliminating all \( x_1 \) from
-all the lines below the first line.
-To eliminate \( x_1 \) from the second line we add \( -2 \) times the first line
+\( x_1 \) is non-zero so we don't need to swap equations as for now.
+So we start by eliminating all \( x_1 \) from
+all the rows below the first row.
+To eliminate \( x_1 \) from the second row we add \( -2 \) times the first row
 to it. That yields the following equation:
 \begin{align*}
 8x_2 + 24x_3 = -41
 .
 \end{align*}
+
+To eliminate \( x_1 \) from the third equation we add \( -1 \) times the first equation.
+Resulting in the equation:
+\begin{align*}
+-2x_2 - 6 x_3 = 10
+.
+\end{align*}
+
+So under row 1 we have the following system of 2 variables and equations:
+\begin{align*}
+8x_2 + 24x_3 = -41 \\
+-2x_2 - 6x_3 = 10
+.
+\end{align*}
+
+So we start by elimaniting \( x_2 \) from the equations under row 1.
+We do this by adding \( \frac{1}{4} \) times the first equation to the second
+equation. The second equation then becomes:
+\begin{align*}
+0 = 10 - \frac{41}{4}
+.
+\end{align*}
+Which is a contradiction which means there exists no solutions.
 
 #+LATEX: \end{solution}
