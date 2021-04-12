@@ -66,6 +66,20 @@ x_1 - 4x_2 - 12x_3 = 22
 #+LATEX: \end{exercise}
 
 
+** sol:  :ignore:
+#+LATEX: \begin{solution}[]  \label{sol:}
+As in the previous system we start by eliminating all \( x_1 \) from
+all the lines below the first line.
+To eliminate \( x_1 \) from the second line we add \( -2 \) times the first line
+to it. That yields the following equation:
+\begin{align*}
+8x_2 + 24x_3 = -41
+.
+\end{align*}
+
+#+LATEX: \end{solution}
+
+
 ** exe: System 3 :ignore:
 #+LATEX: \begin{exercise}[System 3]  \label{exe:System_3}
 Use Gaussian elimination to solve the system of linear equations
