@@ -1,0 +1,47 @@
+#+TITLE: Lab 4 MM5016
+#+DATE: \today
+#+OPTIONS: num:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: se
+#+LaTeX_CLASS: notesse
+#+LATEX_HEADER: \input{/home/john/texstuff/org/env.tex}
+#+LATEX_HEADER: \input{/home/john/texstuff/org/bold.tex}
+#+STARTUP: latexpreview
+
+
+* Problems
+
+** exe: System 1 :ignore:
+#+LATEX: \begin{exercise}[System 1]  \label{exe:System_1}
+Use Gaussian elimination to solve the system of linear equations
+\begin{align*}
+x_1 + 5x_2 = 7 \\
+-2x_1 -7x_2 = -5
+.
+\end{align*}
+#+LATEX: \end{exercise}
+
+** exe: System 2 :ignore:
+#+LATEX: \begin{exercise}[System 2]  \label{exe:System_2}
+Use Gaussian elimination to solve the system of linear equation
+\begin{align*}
+x_1 - 2x_2 - 6x_3 = 12 \\
+2x_1 + 4x_2 + 12x_3 = -17 \\
+x_1 - 4x_2 - 12x_3 = 22
+.
+\end{align*}
+#+LATEX: \end{exercise}
+
+
+** exe: System 3 :ignore:
+#+LATEX: \begin{exercise}[System 3]  \label{exe:System_3}
+Use Gaussian elimination to solve the system of linear equations
+\begin{align*}
+x_1 - 2x_2 -6x_3 = 12 \\
+2x_1 + 4x_2 + 12x_3 = -17 \\
+x_1 - 4x_2 - 12x_3 = 22
+.
+\end{align*}
+#+LATEX: \end{exercise}
