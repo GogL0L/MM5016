@@ -1,4 +1,4 @@
-% Created 2021-04-12 Mon 11:17
+% Created 2021-04-12 Mon 12:36
 % Intended LaTeX compiler: pdflatex
 \documentclass[10pt]{article}
      \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
@@ -19,7 +19,7 @@
 
 
 \section{Problems}
-\label{sec:orgf8091d2}
+\label{sec:org2f6b97e}
 
 \begin{exercise}[System 1]  \label{exe:System_1}
 Use Gaussian elimination to solve the system of linear equations
@@ -29,6 +29,33 @@ x_1 + 5x_2 = 7 \\
 .
 \end{align*}
 \end{exercise}
+\begin{solution}[]  \label{sol:}
+First step is to eliminate all \(x_1\) under line 1. We do this by
+adding an appropiate multiple of line 1 to the line we
+want to eliminate \(x_1\) from. In this case it means to add the first
+line times 2 to second line. That yields the following system:
+\begin{align*}
+x_1 + 5x_2 = 7 \\
+3x_2 = 9
+.
+\end{align*}
+
+Our system is now overtriangular, which mean we can go into
+the process of solving each equation by themselves by starting
+from the bottom and substituting into the equation above
+relative of the equation in question.
+
+
+So we start by solving \(x_2 = 3\) from the second equation. Next step is
+to substitute this into the above equation and get the equation
+\begin{align*}
+x_1 + 15 = 7
+.
+\end{align*}
+
+And thus we can from this equation solve that \(x_1 = -8\).
+
+\end{solution}
 \begin{exercise}[System 2]  \label{exe:System_2}
 Use Gaussian elimination to solve the system of linear equation
 \begin{align*}
