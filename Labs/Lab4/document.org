@@ -26,7 +26,9 @@ x_1 + 5x_2 = 7 \\
 
 ** sol:  :ignore:
 #+LATEX: \begin{solution}[]  \label{sol:}
-First step is to eliminate all \( x_1 \) under line 1. We do this by
+First step is to check that the coefficient of \( x_1 \) of the first
+equation is non-zero.
+Next step is to eliminate all \( x_1 \) under line 1. We do this by
 adding an appropiate multiple of line 1 to the line we
 want to eliminate \( x_1 \) from. In this case it means to add the first
 line times 2 to second line. That yields the following system:
@@ -65,6 +67,51 @@ x_1 - 2x_2 - 3x_3 = 0 \\
 \end{align*}
 #+LATEX: \end{exercise}
 
+
+** sol:  :ignore:
+#+LATEX: \begin{solution}[]  \label{sol:}
+First step is to see if the first equation has a non-zero coefficent for
+\( x_1 \), we see that this is not the case. So we swap this line and the closest
+line below which has a non-zero coefficient for \( x_1 \). In this case it's
+line 2. So we swap line 1 and 2. We get the following system:
+\begin{align*}
+x_1 - 2x_2 - 3x_3 = 0 \\
+2x_2 + x_3 = -8 \\
+-x_1 + x_2 + 2x_3 = 3
+.
+\end{align*}
+
+Next step is to eliminate all \( x_1 \) from the equations below by adding
+an appropiate multiple of line 1 to it. We see that line 2 already is
+free from \( x_2 \). So we go to the next line which is line number 3. We see
+that we can add 1 times equation 1 to it, which yields the following
+system:
+\begin{align*}
+x_1 - 2x_2 - 3x_3 = 0 \\
+2x_2 + x_3 = -8 \\
+-x_2 - x_3 = 3
+.
+\end{align*}
+
+Now we apply Gaussian elimination on this new system of 2 equations and
+2 variables under line 1:
+\begin{align*}
+2x_2 + x_3 = -8 \\
+-x_2 - x_3 = 3
+.
+\end{align*}
+
+To solve this system we use the same algorithm as in the previous task, but the
+first variable is now \( x_2 \) instead. So we eliminate \( x_2 \) from the second equation
+by adding the first equation times \( \frac{1}{2} \). Which yields the following system:
+\begin{align*}
+2x_2 + x_3 = -8 \\
+- \frac{1}{2} x_3 = 7
+.
+\end{align*}
+
+
+#+LATEX: \end{solution}
 
 
 ** exe: System 3 :ignore:
