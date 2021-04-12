@@ -1,0 +1,14 @@
+#+title: Lab 4 MM5016
+#+description: Solve linear equation AX=B
+#+PROPERTY: header-args :tangle ./lab2.py :padline 2
+
+* Header
+#+begin_src python :results output :session :padline 0
+## Description
+"""
+The column vector 'X' will be symbolised as a list that is
+X = [x1, x2 ,x3, ... , xn]. An m by n matrix 'A' will be symbolised by a list of size
+m consisting of lists of size n. I.e. it will be seen as a column vector of size
+m consisting of row vectors of size n.
+"""
+#+end_src
