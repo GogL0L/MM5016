@@ -38,13 +38,29 @@ def add_multiple_of_row_to_other_row(matrix, multiple, row, other_row):
 
 #+RESULTS:
 
+** swap rows
+#+begin_src python :results output :session
+def swap_row_with_other_row(matrix, row, other_row):
+    """ Takes the matrix 'matrix' and returns the matrix where the rows 'row'
+    and 'other_row' has been swapped. Rows are numbered so the first row is 0.
+    """
+    return [matrix[row] if i == other_row
+            else matrix[other_row] if i == row
+            else matrix[i] for i in range(len(matrix))]
+#+end_src
+
+#+RESULTS:
+
 * Testing
 
-#+begin_src python :results output :session
+#+begin_src python :results output :session :tangle no
 matrix = [[1,2,3],[4,5,6],[7,8,9]]
 new_matrix = add_multiple_of_row_to_other_row(matrix, -1, 0, 1)
+swapped_matrix = swap_row_with_other_row(matrix,1,2)
 print(new_matrix)
+print(swapped_matrix)
 #+end_src
 
 #+RESULTS:
 : [[1, 2, 3], [3, 3, 3], [7, 8, 9]]
+: [[1, 2, 3], [7, 8, 9], [4, 5, 6]]
