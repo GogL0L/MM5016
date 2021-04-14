@@ -29,17 +29,22 @@ def add_multiple_of_row_to_other_row(matrix, multiple, row, other_row):
     row_vector = matrix[row]
     other_row_vector = matrix[other_row]
     row_vector_scaled = scale_row_vector(multiple, row_vector)
-    new_other_row_vector = other_row_vector
-#+end_src
+    new_other_row_vector = add_row_vectors(other_row_vector, row_vector_scaled)
 
-* Testing
-
-#+begin_src python :results output
-matrix = [[1,2,3],[4,5,6],[7,8,9]]
-
-second_row_times_5 = matrix[1] * 5
-print(second_row_times_5)
+    new_matrix = [new_other_row_vector if i == other_row
+                  else matrix[i] for i in range(len(matrix))]
+    return new_matrix
 #+end_src
 
 #+RESULTS:
-: [4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6]
+
+* Testing
+
+#+begin_src python :results output :session
+matrix = [[1,2,3],[4,5,6],[7,8,9]]
+new_matrix = add_multiple_of_row_to_other_row(matrix, -1, 0, 1)
+print(new_matrix)
+#+end_src
+
+#+RESULTS:
+: [[1, 2, 3], [3, 3, 3], [7, 8, 9]]
