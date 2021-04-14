@@ -12,3 +12,34 @@ m consisting of lists of size n. I.e. it will be seen as a column vector of size
 m consisting of row vectors of size n.
 """
 #+end_src
+
+* Row operations
+
+** add multiple of row
+#+begin_src python :results output :session
+def add_multiple_of_row_to_other_row(matrix, multiple, row, other_row):
+    """ Takes the matrix 'matrix' and returns a matrix where 'multiple' 
+    times the row 'row' has been added to the row 'other_row'. The rows
+    are numbered so the first row is 0.
+    """
+    scale_row_vector = lambda scalar, vector: [element * scalar
+                                               for element in vector]
+    add_row_vectors = lambda vector1, vector2: [vector1[i] + vector2[i]
+                                                for i in range(len(vector1))]
+    row_vector = matrix[row]
+    other_row_vector = matrix[other_row]
+    row_vector_scaled = scale_row_vector(multiple, row_vector)
+    new_other_row_vector = other_row_vector
+#+end_src
+
+* Testing
+
+#+begin_src python :results output
+matrix = [[1,2,3],[4,5,6],[7,8,9]]
+
+second_row_times_5 = matrix[1] * 5
+print(second_row_times_5)
+#+end_src
+
+#+RESULTS:
+: [4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6]
