@@ -51,16 +51,72 @@ def swap_row_with_other_row(matrix, row, other_row):
 
 #+RESULTS:
 
+** eliminate column
+#+begin_src python :results output :session
+def eliminate_first_column(matrix):
+    """ Takes the matrix 'matrix' and returns a matrix where the first 
+    column has been eliminated except for on the first row. In the case 
+    where the whole column is zero, the original matrix is returned.
+    """
+    first_column = [matrix[i][0] for i in range(len(matrix))]
+    try:
+        non_zero_row = first_column.index(0)
+    except ValueError:
+        return matrix
+
+    # Getting the non_zero element of the column to the top.
+    matrix = swap_row_with_other_row(matrix, 0, non_zero_row)
+
+    # Range starts from one because we don't want to change the first row.
+    for row in range(1,len(matrix)):
+        coefficient = - matrix[row][0] / matrix[0][0]
+    
+#+end_src
+
 * Testing
 
+** stuff
 #+begin_src python :results output :session :tangle no
 matrix = [[1,2,3],[4,5,6],[7,8,9]]
 new_matrix = add_multiple_of_row_to_other_row(matrix, -1, 0, 1)
-swapped_matrix = swap_row_with_other_row(matrix,1,2)
+swapped_matrix = swap_row_with_other_row(matrix,0,0)
 print(new_matrix)
 print(swapped_matrix)
 #+end_src
 
 #+RESULTS:
 : [[1, 2, 3], [3, 3, 3], [7, 8, 9]]
-: [[1, 2, 3], [7, 8, 9], [4, 5, 6]]
+: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+** list slicing
+#+begin_src python :results output :session :tangle no
+matrix = [[1,2,3],[4,5,6],[7,8,9]]
+print(matrix[0:2][0:1])
+#+end_src
+
+#+RESULTS:
+: [[1, 2, 3]]
+
+** get index
+#+begin_src python :results output :session :tangle no
+mylist = [1,2,3,0,0,4,0]
+print(mylist.index(5))
+#+end_src
+
+#+RESULTS:
+
+** Pureness python list functions
+#+begin_src python :results output :session :tangle no
+def pure(mylist):
+    mylist = [420]
+    return mylist
+
+static_list = [3,4,5]
+print(static_list)
+pure(static_list)
+print(static_list)
+#+end_src
+
+#+RESULTS:
+: [3, 4, 5]
+: [3, 4, 5]
