@@ -38,6 +38,31 @@ def add_multiple_of_row_to_other_row(matrix, multiple, row, other_row):
 
 #+RESULTS:
 
+** transpose
+#+begin_src python :results output :session
+def transpose(matrix):
+    """ Returns the n by m transpose of the m by n matrix 'matrix'. """
+    m,n = len(matrix), len(matrix[0])
+    return [[matrix[i][j] for i in range(m)] for j in range(n)]
+#+end_src
+
+#+RESULTS:
+
+** detach first column
+#+begin_src python :results output :session
+def detach_first_column(matrix):
+    """ Takes the matrix 'matrix' and returns a matrix with only the
+    first column, and a matrix with the rest of the matrix 'matrix'.
+    """
+    first_column_as_row_vector = transpose(matrix)[0]
+    rest_of_matrix_as_row_vectors = transpose(matrix)[1:]
+    first_column_matrix = [[x] for x in first_column_as_row_vector]
+    rest_of_matrix = transpose(rest_of_matrix_as_row_vectors)
+    return first_column_matrix, rest_of_matrix
+#+end_src
+
+#+RESULTS:
+
 ** swap rows
 #+begin_src python :results output :session
 def swap_row_with_other_row(matrix, row, other_row):
@@ -47,6 +72,20 @@ def swap_row_with_other_row(matrix, row, other_row):
     return [matrix[row] if i == other_row
             else matrix[other_row] if i == row
             else matrix[i] for i in range(len(matrix))]
+#+end_src
+
+#+RESULTS:
+
+** swap columns
+#+begin_src python :results output :session
+def swap_column_with_other_column(matrix, column, other_column):
+    """ Takes the matrix 'matrix' and returns the matrix where the columns
+    'column' and 'other_column' has been swapped. Columns are numbered so the 
+    first column is 0.
+    """
+    return transpose(swap_row_with_other_row(transpose(matrix),
+                                             column,
+                                             other_column))
 #+end_src
 
 #+RESULTS:
@@ -95,7 +134,13 @@ def gaussian_elimination(matrix):
     normalise = lambda matrix: scale_row(matrix, matrix[0][0], 0)
 
     if len(matrix) == 1:
-        return matrix
+        return normalise(matrix)
+    else:
+        matrix = normalise(matrix)
+        matrix,sucess = eliminate_column(matrix, 0)
+        if sucess == True:
+            return matrix[0] + gaussian_elimination(matrix[1:])
+        
                                                                      
 #+end_src
 
@@ -114,14 +159,24 @@ print(swapped_matrix)
 : [[1, 2, 3], [3, 3, 3], [7, 8, 9]]
 : [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
+** detach
+#+begin_src python :results output :session :tangle no
+print(detach_first_column(matrix))
+#+end_src
+
+#+RESULTS:
+: ([[1], [4], [7]], [[2, 3], [5, 6], [8, 9]])
+
 ** list slicing
 #+begin_src python :results output :session :tangle no
 matrix = [[1,2,3],[4,5,6],[7,8,9]]
 print(matrix[0:2][0:1])
+print(matrix[1:])
 #+end_src
 
 #+RESULTS:
 : [[1, 2, 3]]
+: [[4, 5, 6], [7, 8, 9]]
 
 ** get index
 #+begin_src python :results output :session :tangle no
@@ -147,11 +202,21 @@ print(static_list)
 : [3, 4, 5]
 : [3, 4, 5]
 
-** eliminate_first column
+** List comprehension
+#+begin_src python :results output :tangle no
+print ([(letter, number) for letter in ['a', 'b', 'c'] for number in range(2)])
+#+end_src
+
+#+RESULTS:
+: [('a', 0), ('a', 1), ('b', 0), ('b', 1), ('c', 0), ('c', 1)]
+
+** eliminate_first column and transpose
 #+begin_src python :results output :session :tangle no
 matrix = [[1,2,3],[4,5,6],[7,8,9]]
 print(eliminate_first_column(matrix))
+print(transpose(matrix))
 #+end_src
 
 #+RESULTS:
 : [[1, 2, 3], [0.0, -3.0, -6.0], [0.0, -6.0, -12.0]]
+: [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
