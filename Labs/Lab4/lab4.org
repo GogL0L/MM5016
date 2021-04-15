@@ -48,6 +48,15 @@ def transpose(matrix):
 
 #+RESULTS:
 
+** add columnwise
+#+begin_src python :results output :session
+def join_column_wise(matrix1, matrix2):
+    """ join two matrices with matrix1 on the left and matrix2 on the right."""
+    return transpose(transpose(matrix1) + transpose(matrix2))
+#+end_src
+
+#+RESULTS:
+
 ** detach first column
 #+begin_src python :results output :session
 def detach_first_column(matrix):
@@ -159,13 +168,14 @@ print(swapped_matrix)
 : [[1, 2, 3], [3, 3, 3], [7, 8, 9]]
 : [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-** detach
+** detach and join
 #+begin_src python :results output :session :tangle no
-print(detach_first_column(matrix))
+a1, a2 = detach_first_column(matrix)
+print(join_column_wise(a1,a2))
 #+end_src
 
 #+RESULTS:
-: ([[1], [4], [7]], [[2, 3], [5, 6], [8, 9]])
+: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 ** list slicing
 #+begin_src python :results output :session :tangle no
