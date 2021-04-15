@@ -60,18 +60,25 @@ def eliminate_first_column(matrix):
     """
     first_column = [matrix[i][0] for i in range(len(matrix))]
     try:
-        non_zero_row = first_column.index(0)
+        column_index_range = range(len(first_column))
+        non_zero_positions = filter(lambda row: first_column[row]!=0,
+                                    column_index_range)
+        first_non_zero_row = list(non_zero_positions)[0]
     except ValueError:
         return matrix
 
     # Getting the non_zero element of the column to the top.
-    matrix = swap_row_with_other_row(matrix, 0, non_zero_row)
+    matrix = swap_row_with_other_row(matrix, 0, first_non_zero_row)
 
     # Range starts from one because we don't want to change the first row.
     for row in range(1,len(matrix)):
         coefficient = - matrix[row][0] / matrix[0][0]
+        matrix = add_multiple_of_row_to_other_row(matrix, coefficient, 0, row)
+    return matrix
     
 #+end_src
+
+#+RESULTS:
 
 * Testing
 
@@ -120,3 +127,12 @@ print(static_list)
 #+RESULTS:
 : [3, 4, 5]
 : [3, 4, 5]
+
+** eliminate_first column
+#+begin_src python :results output :session :tangle no
+matrix = [[1,2,3],[4,5,6],[7,8,9]]
+print(eliminate_first_column(matrix))
+#+end_src
+
+#+RESULTS:
+: [[1, 2, 3], [0.0, -3.0, -6.0], [0.0, -6.0, -12.0]]
