@@ -1,6 +1,6 @@
 #+title: Lab 4 MM5016
 #+description: Solve linear equation AX=B
-#+PROPERTY: header-args :tangle ./lab2.py :padline 2
+#+PROPERTY: header-args :tangle ./lab4.py :padline 2
 
 * Header
 #+begin_src python :results output :session :padline 0
@@ -48,7 +48,7 @@ def transpose(matrix):
 
 #+RESULTS:
 
-** add columnwise
+** join columnwise
 #+begin_src python :results output :session
 def join_column_wise(matrix1, matrix2):
     """ join two matrices with matrix1 on the left and matrix2 on the right."""
@@ -147,11 +147,16 @@ def gaussian_elimination(matrix):
     else:
         matrix = normalise(matrix)
         matrix,sucess = eliminate_column(matrix, 0)
+        first_column, rest_of_matrix = detach_first_column(matrix)
         if sucess == True:
-            return matrix[0] + gaussian_elimination(matrix[1:])
+            first_row = matrix[0]
+            rows_under = join_column_wise(first_column[1:], rest_of_matrix[1:])
+            return first_row + rows_under
         
                                                                      
 #+end_src
+
+#+RESULTS:
 
 * Testing
 
@@ -167,6 +172,14 @@ print(swapped_matrix)
 #+RESULTS:
 : [[1, 2, 3], [3, 3, 3], [7, 8, 9]]
 : [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+** gaussian elimination
+#+begin_src python :results output :session
+print(gaussian_elimination(matrix))
+#+end_src
+
+#+RESULTS:
+: [2, 4, 6, [0.0, -3.0, -6.0], [0.0, -6.0, -12.0]]
 
 ** detach and join
 #+begin_src python :results output :session :tangle no
@@ -230,3 +243,101 @@ print(transpose(matrix))
 #+RESULTS:
 : [[1, 2, 3], [0.0, -3.0, -6.0], [0.0, -6.0, -12.0]]
 : [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+
+* Testing av matrix based approach
+
+** Med klasser
+#+begin_src python :results output :session :tangle no
+class Vector:
+    def __init__(self, vector):
+        self.elements = vector
+
+
+    def __getitem__(self, key):
+        return self.elements[key]
+
+
+    def __len__(self):
+        return len(self.elements)
+
+
+    def __add__(self, other):
+        return Vector([self[k] + other[k] for k in range(len(self))])
+
+    
+    def __mul__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            return Vector([other * element for element in self.elements])
+        elif isinstance(other, Vector):
+            return sum([self[k] * other[k] for k in range(len(self))])
+
+
+    def __rmul__(self, other):
+        return self * other
+
+    
+    def __str__(self):
+        return str(self.elements)
+
+
+myvector = Vector([1,2,3])
+print(-1 * myvector)
+print(myvector + myvector)
+#+end_src
+
+#+RESULTS:
+: [-1, -2, -3]
+: [2, 4, 6]
+
+** Utan klasser
+#+begin_src python :results output :session :tangle no
+def matrix_multiply(matrix1, matrix2):
+    m = len(matrix1)
+    n = len(matrix2)
+    p = len(matrix2[0])
+    element = lambda i,j: sum([matrix1[i][k] * matrix2[k][j]
+                               for k in range(n)])
+    row = lambda i: [element(i,j) for j in range(p)]
+    return [row(i) for i in range(m)]
+
+
+def create_identity(n):
+    """ Creates an n by n identity matrix. """
+    return [[1 if i==j else 0 for j in range(n)] for i in range(n)]
+
+
+def create_switch(row1, row2, n):
+    """ Creates an n by n matrix which switches the rows
+    row1 and row2 on a matrix if this matrix returned is multiplied
+    on the left. Rows are indexed such that the first row is row 0.
+    """
+    I = create_identity(n)
+    return [I[row2] if i==row1
+            else I[row1] if i==row2
+            else I[i] for i in range(n)]
+
+
+def add_multiple_of_row_to_other_row(multiple, row, other_row, n):
+    """ Creates an 'n' by 'n' matrix which if multiplied with on the
+    left of another matrix, then that other matrix will add
+    'multiple' times the row 'row' to the row 'other_row'.
+    rows are indexed such that the first row is row 0.
+    """
+    I = create_identity(n)
+    new_other_row = [1 if j==other_row
+                     else multiple if j==row
+                     else 0 for j in range(n)]
+    return [new_other_row if i==other_row else I[i] for i in range(n)]
+
+
+print(matrix_multiply([[1,0],[0,1]], [[3],[4]]))
+print(identity(3))
+print(create_switch(0,1,3))
+print(add_multiple_of_row_to_other_row(3,0,1,3))
+#+end_src
+
+#+RESULTS:
+: [[3], [4]]
+: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+: [[0, 1, 0], [1, 0, 0], [0, 0, 1]]
+: [[1, 0, 0], [3, 1, 0], [0, 0, 1]]
