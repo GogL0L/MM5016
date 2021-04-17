@@ -244,6 +244,14 @@ print(transpose(matrix))
 : [[1, 2, 3], [0.0, -3.0, -6.0], [0.0, -6.0, -12.0]]
 : [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 
+** List index
+#+begin_src python :results output :tangle no
+mylist = [0,1,2,3,4,5]
+print(mylist.index(3,3))
+#+end_src
+
+#+RESULTS:
+
 * Testing av matrix based approach
 
 ** Med klasser
@@ -411,15 +419,19 @@ def find_next_gaussian_elimination_task(matrix):
     diagonal_element = matrix[i][i]
     column = transpose(matrix)[i]
     non_zero_elements = map(lambda x: x!=0, column)
+    non_zero_elements_except_diagonal = [False if index==i
+                                         else non_zero_elements[index]
+                                         for index in range(n)]
     if not any(non_zero_elements):
         return (-1,-1), "failed"
     elif diagonal_element == 0:
-        x,y = non_zero_elements.index(True)
+        x,y = non_zero_elements.index(True,i), i
         return (x,y), "swap"
     elif diagonal_element != 0 and diagonal_element != 1:
-        return diagonal_element_coordinates, "normalise"
+        return (i,i), "normalise"
     else:
-        return (i,j), "eliminate"
+        x,y = non_zero_elements_except_diagonal.index(True), i
+        return (x,y), "eliminate"
 
 
 #+end_src
