@@ -402,16 +402,18 @@ def find_next_gaussian_elimination_task(matrix):
     """ Compares with the identity matrix, to see what element should be
     focused on next and what gaussian elimination task needs to be done for
     that element. This function always returns a coordinate in the form of a 
-    tuple and a string with the operation that needs to be done. First, in each 
-    column, the diagonal element (the element corresponding to the 1 in the same 
-    column of the identity  matrix), is checked to be one. If it is a zero this 
-    function searches for the closest non-zero element below, and returns the 
-    coordinate for that element and the string "swap". If it is non-zero but not 
-    1 then the diagonal coordinate is returned with the string "normalise".
-    Next it checks the rest of the column, from top to bottom, to see if the 
-    elements are zero. If not, then the coordinate with the string "eliminate"
-    is returned. If the matrix is the identity matrix, this function returns the
-    tuple (-1, -1) and the string 'finnished'.
+    tuple and a string with the operation that needs to be done. It checks
+    each column from left to right. In the left most column it first checks if
+    the diagonal element (the element corresponding to the 1 in the same column 
+    of the identity  matrix), is equal to one. If it is a zero this function 
+    searches for the closest non-zero element below, and returns the coordinate 
+    for that element and the string "swap". If it is non-zero but not 1 then the 
+    diagonal coordinate is returned with the string "normalise". Next it checks 
+    the rest of the column, from top to bottom, to see if the elements are zero.
+    If not, then the coordinate with the string "eliminate" is returned. If the 
+    matrix is the identity matrix, this function returns the tuple (-1, -1) and 
+    the string 'finnished'. If the determinant of the matrix is 0 then the 
+    tuple (-1,-1) and the string 'failed' is returned.
     """
     n = len(matrix)
     I = create_identity(n)
@@ -425,9 +427,6 @@ def find_next_gaussian_elimination_task(matrix):
         column_to_fix_index = list_of_validity_of_columns.index(False)
     except ValueError:
         return (-1,-1), "finnished"
-
-    #list_of_validity_of_elements_in_column = (
-        #transpose(matrix_of_validity_of_entries)[column_to_fix_index])
 
     i = column_to_fix_index
     diagonal_element = matrix[i][i]
@@ -453,11 +452,11 @@ def find_next_gaussian_elimination_task(matrix):
 
 *** test: find next gaussian elimination task
 #+begin_src python :results output :session :tangle no
-print(find_next_gaussian_elimination_task([[3,2],[0,0]]))
+print(find_next_gaussian_elimination_task([[1,0],[0,1]]))
 #+end_src
 
 #+RESULTS:
-: ((0, 0), 'normalise')
+: ((-1, -1), 'finnished')
 
 *** Gaussian elimination
 #+begin_src python :results output :session
