@@ -467,9 +467,48 @@ def gaussian_elimination(A, b):
     """
     n = len(b)
     I = create_identity(n)
-    if A == I:
+    mult = lambda A, B: matrix_multiply(A, B)
+    E = lambda m, i, j: add_multiple_of_row_to_other_row(m, i, j, n)
+    S = lambda i,j: switch(i,j,n)
+    M = lambda m, r: scale_row(m, r, n)
+
+    (x,y), task = find_next_gaussian_elimination_task(A)
+    if task == "finnished":
         return b
-    elif
+    elif task == "failed":
+        raise ValueError(
+            "<gaussian_elimination: determinant of A must be non-zero.>")
+    elif task == "swap":
+        A_prim = mult(S(x,y), A)
+        b_prim = mult(S(x,y), b)
+        return gaussian_elimination(A_prim, b_prim)
+    elif task == "normalise":
+        inverse = 1 / A[x][y]
+        A_prim = mult(M(inverse, x), A)
+        b_prim = mult(M(inverse, x), b)
+        return gaussian_elimination(A_prim, b_prim)
+    elif task == "eliminate":
+        inverse = - A[x][y]
+        A_prim = mult(E(inverse, y,x), A)
+        b_prim = mult(E(inverse, y,x), b)
+        return gaussian_elimination(A_prim, b_prim)
+    else:
+        print("Something went wrong. Debug:", (x,y), task)
 #+end_src
+
+#+RESULTS:
+
+*** Gaussian elimination test
+#+begin_src python :results output :session :tangle no
+matrix = [[3,4,5],[1,2,3],[6,5,-5]]
+vector = [[3],[4],[5]]
+result = gaussian_elimination(matrix, vector)
+print(result)
+print(matrix_multiply(matrix, result))
+#+end_src
+
+#+RESULTS:
+: [[-6.388888888888887], [7.277777777777776], [-1.3888888888888884]]
+: [[3.000000000000001], [3.999999999999999], [4.999999999999999]]
 
 * Testar ssh för alla repos
