@@ -1,0 +1,5 @@
+#+title: MM5016 Lab 5
+#+description: Gaussian elimination with pivot
+#+PROPERTY: header-args :tangle ./lab5.py :padline 2
+
+
