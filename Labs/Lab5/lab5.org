@@ -260,9 +260,78 @@ print(find_next_gaussian_elimination_task([[1,0],[0,1]]))
 #+RESULTS:
 : ((-1, -1), 'finnished')
 
+**** normaliser
+#+begin_src python :results output :session
+def normaliser(matrix):
+    """ Normalises a diagonal matrix."""
+    n = len(matrix)
+    return [[0 if i!=j
+             else raise ValueError("determinant 0") if matrix[i][j] ==0
+             else 1/matrix[i][j] for j in range(n)]
+            for i in range(n)]
+#+end_src
+
+#+RESULTS:
+
 **** Gaussian elimination
 #+begin_src python :results output :session
 def gaussian_elimination(A, b):
+    """ If 'A' is an n by n matrix and 'b' is an n by 1 vector,
+    then this function returns the n by 1 vector 'x' which solves
+    the equation 'Ax = b'. Observe that the vectors element
+    must be surrounded by squarebrackets, for example:
+    [[1],[2],[3]] is correct and [1,2,3] is not.
+    """
+    print("Progress:", A)
+    n = len(b)
+    I = create_identity(n)
+    matrix_of_validity_of_entries = [[True if i == j
+                                      else matrix[i][j] == I[i][j]
+                                      for j in range(n)]
+                                     for i in range(n)]
+    list_of_validity_of_columns = list(
+        map(all, transpose(matrix_of_validity_of_entries)))
+
+    if A == I:
+        return b
+    elif all(list_of_validity_of_columns):
+        normalise = normaliser(A)
+        A_prim = matrix_multiply(normalise, A)
+        b_prim = matrix_multiply(normalise, b)
+        return gaussian_elimination(A_prim, b_prim)
+
+    incorrect_column_index = list_of_validity_of_columns.index(False)
+    print("Incorrect column", incorrect_column_index)
+    incorrect_column = transpose(A)[incorrect_column_index]
+    if abs(max(incorrect_column)) >= abs(min(incorrect_column)):
+        pivot = max(incorrect_column)
+    else:
+        pivot = min(incorrect_column)
+
+    if pivot == 0:
+        raise ValueError("<gaussian_elimination: det(A) must be non-zero!>")
+
+    pivot_index = incorrect_column.index(pivot)
+    diagonal_index = incorrect_column_index
+    if diagonal_index != pivot_index:
+        swapped_pivot_matrix = switch(diagonal_index, pivot_index, n)
+        A_prim = matrix_multiply(swapped_pivot_matrix, A)
+        b_prim = matrix_multiply(swapped_pivot_matrix, b)
+        return gaussian_elimination(A_prim, b_prim)
+    else:
+        eliminate_column = gaussian_elimination_column(A,
+                                                       incorrect_column_index)
+        A_prim = matrix_multiply(eliminate_column, A)
+        b_prim = matrix_multiply(eliminate_column, b)
+        return gaussian_elimination(A_prim, b_prim)
+
+#+end_src
+
+#+RESULTS:
+
+**** Gaussian elimination old
+#+begin_src python :results output :session
+def gaussian_elimination_old(A, b):
     """ If 'A' is an n by n matrix and 'b' is an n by 1 vector,
     then this function returns the n by 1 vector 'x' which solves
     the equation 'Ax = b'. Observe that the vectors element
@@ -306,14 +375,16 @@ def gaussian_elimination(A, b):
 #+begin_src python :results output :session :tangle no
 matrix = [[-3,-8,-5],[1,4,3],[6,10,-5]]
 vector = [[1],[2],[6]]
-result = gaussian_elimination(matrix, vector)
-print(result)
-print(matrix_multiply(matrix, result))
+#result = gaussian_elimination(matrix, vector)
+print("matrix:", matrix)
+print("matrix transpose:", transpose(matrix))
+#print(result)
+#print(matrix_multiply(matrix, result))
 #+end_src
 
 #+RESULTS:
-: [[-7.0555555555555545], [3.8055555555555554], [-2.0555555555555554]]
-: [[0.9999999999999982], [2.0000000000000018], [6.000000000000005]]
+: matrix: [[-3, -8, -5], [1, 4, 3], [6, 10, -5]]
+: matrix transpose: [[-3, 1, 6], [-8, 4, 10], [-5, 3, -5]]
 
 
 
