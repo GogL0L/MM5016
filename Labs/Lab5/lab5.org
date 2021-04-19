@@ -84,6 +84,16 @@ def scale_row(multiple, row, n):
 
 #+RESULTS:
 
+**** transpose
+#+begin_src python :results output :session
+def transpose(matrix):
+    """ Transposes a square matrix. """
+    n = len(matrix)
+    return [[matrix[i][j] for i in range(n)] for j in range(n)]
+#+end_src
+
+#+RESULTS:
+
 **** test av allt ovanför
 #+begin_src python :results output :session :tangle no
 print(matrix_multiply([[1,0],[0,1]], [[3],[4]]))
@@ -91,6 +101,9 @@ print(create_identity(3))
 print(switch(0,1,3))
 print(add_multiple_of_row_to_other_row(3,0,1,3))
 print(matrix_multiply(scale_row(3,1,3), [[1,2,3],[4,5,6],[7,8,9]]))
+mat = [[1,2,3], [4,5,6], [7,8,9]]
+print(mat)
+print(transpose(mat))
 #+end_src
 
 #+RESULTS:
@@ -99,6 +112,8 @@ print(matrix_multiply(scale_row(3,1,3), [[1,2,3],[4,5,6],[7,8,9]]))
 : [[0, 1, 0], [1, 0, 0], [0, 0, 1]]
 : [[1, 0, 0], [3, 1, 0], [0, 0, 1]]
 : [[1, 2, 3], [12, 15, 18], [7, 8, 9]]
+: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+: [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 
 *** Gaussian elimination
 
@@ -177,10 +192,11 @@ def find_next_gaussian_elimination_task_column(matrix, column):
 
 **** Gaussian elimination column
 #+begin_src python :results output :session
-def gaussian_elimination_column(matrix, column):
+def gaussian_elimination_column(matrix, column_index):
     """ Performs gaussian elimination on the column 'column' in the
     matrix 'matrix'.
     """
+    
 #+end_src
 **** test: find next gaussian elimination task
 #+begin_src python :results output :session :tangle no
