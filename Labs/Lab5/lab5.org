@@ -193,9 +193,23 @@ def find_next_gaussian_elimination_task_column(matrix, column):
 **** Gaussian elimination column
 #+begin_src python :results output :session
 def gaussian_elimination_column(matrix, column_index):
-    """ Performs gaussian elimination on the column 'column' in the
-    matrix 'matrix'.
+    """ Given a matrix 'matrix' with non-zero diagonal element in the column
+    'column_index', this functions returns the matrix to eliminate all the
+    non diagonal elements in the column. Columns are numbered such that the 
+    first one is 0.
     """
+    column = transpose(matrix)[column_index]
+    pivot =  max(column)
+    pivot_index = column.index(pivot_element)
+
+    eliminate = lambda 
+
+    diagonal_index = column_index
+    if pivot == 0:
+        raise ValueError(
+            "<gaussian_elimination_column: matrix must be non-zero>")
+    elif pivot != 0 and pivot_index == diagonal_index:
+        
     
 #+end_src
 **** test: find next gaussian elimination task
