@@ -193,25 +193,50 @@ def find_next_gaussian_elimination_task_column(matrix, column):
 **** Gaussian elimination column
 #+begin_src python :results output :session
 def gaussian_elimination_column(matrix, column_index):
-    """ Given a matrix 'matrix' with non-zero diagonal element in the column
-    'column_index', this functions returns the matrix to eliminate all the
-    non diagonal elements in the column. Columns are numbered such that the 
-    first one is 0.
+    """ Given a square matrix 'matrix' with non-zero diagonal element in the 
+    column 'column_index', this functions returns the matrix to eliminate all 
+    the non diagonal elements in the column and normalises the diagonal element.
+    Columns are numbered such that the first one is 0.
     """
     column = transpose(matrix)[column_index]
-    pivot =  max(column)
-    pivot_index = column.index(pivot_element)
-
-    eliminate = lambda 
-
     diagonal_index = column_index
-    if pivot == 0:
-        raise ValueError(
-            "<gaussian_elimination_column: matrix must be non-zero>")
-    elif pivot != 0 and pivot_index == diagonal_index:
-        
-    
+    diagonal_element = column[diagonal_index]
+    pivot =  column[diagonal_index]
+
+    n = len(matrix)
+    I = create_identity(n)
+    column_of_identity = transpose(I)[column_index]
+    column_element_is_correct_except_diagonal = (
+        [ True if i == diagonal_index
+          else column[i] == column_of_identity[i]
+          for i in range(n)])
+
+    if all(column_element_is_correct):
+        return I
+   
+    index_to_fix = column_element_is_correct.index(False)
+    incorrect_element = column[index_to_fix]
+    if diagonal_element != 1:
+        inverse = 1 / diagonal_element
+        normalise = scale_row(inverse, diagonal_index, n)
+        matrix_prim = matrix_multiply(normalise_matrix, matrix)
+        rest_of_elimination = gaussian_elimination_column(matrix_prim,
+                                                          column_index)
+        return matrix_multiply(rest_of_elimination, normalise)
+    else:
+        inverse = - incorrect_element
+        eliminate_matrix = add_multiple_of_row_to_other_row(inverse,
+                                                            diagonal_index,
+                                                            index_to_fix,
+                                                            n)
+        matrix_prim = matrix_multiply(eliminate_matrix, matrix)
+        rest_of_elimination = gaussian_elimination_column(matrix_prim,
+                                                          column_index)
+        return matrix_multiply(rest_of_elimination, eliminate_matrix)
 #+end_src
+
+#+RESULTS:
+
 **** test: find next gaussian elimination task
 #+begin_src python :results output :session :tangle no
 print(find_next_gaussian_elimination_task([[1,0],[0,1]]))
