@@ -4,4 +4,50 @@
 
 * Code
 
+** Linear algebra stuff
+
+*** Dot product
+#+begin_src python :results output :session
+def dot_product(v,u):
+    """ Takes the dot product of the vectors v and u. I.e. the inner product
+    given that the coordinates are in a orthonormal basis.
+    """
+    n = len(v)
+    return sum([v[k]*u[k] for k in range(n)])
+#+end_src
+
+#+RESULTS:
+
+*** Scalar product
+#+begin_src python :results output :session
+def scalar_product(m,v):
+    """ Takes the scalar product of the scalar m and the vector v. """
+    n = len(v)
+    return [m * v[k] for k in range(n)]
+#+end_src
+
+#+RESULTS:
+
+*** Projection
+#+begin_src python :results output :session
+def projection(u,v):
+    """ Takes the projection of v on u, given that the coordinates
+    are in a orthnormal basis.
+    """
+    scalar = dot_product(u,v) / dot_product(u,u)
+    return scalar_product(scalar, u)
+    
+#+end_src
+
+#+RESULTS:
+
+*** Test of above
+#+begin_src python :results output :session :tangle no
+u,v = [3,3], [5,0]
+print(projection(v,u))
+#+end_src
+
+#+RESULTS:
+: [3.0, 0.0]
+
 * Test
