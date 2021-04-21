@@ -1,0 +1,7 @@
+#+title: Lab 6 MM5016
+#+description: QR method
+#+PROPERTY: header-args :tangle ./lab6.py :padline 2
+
+* Code
+
+* Test
