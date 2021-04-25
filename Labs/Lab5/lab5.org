@@ -4350,6 +4350,22 @@ Incorrect column list: [False, False, False]
 Matrix of validity: [[True, False, False], [False, True, False], [False, False, True]]
 #+end_example
 
+ 
+*** Gaussian elimination testing
+#+begin_src python :results output :session
+def check_column(matrix, column_index):
+    """ Checks the column 'column_index' (indexing starts from zero) in the 
+    matrix 'matrix'. A string saying "pivot" is returned if there's some 
+    element below the diagonal that has a a strictly bigger absolute value 
+    than the diagonal element. "eliminate" is returned if the no pivoting 
+    is needed, but there are other non-zero elements in the column. "normalise"
+    is returned if the only non-zero element is the diagonal, but it is not 1.
+    "zero" is returned if the whole column is zero.
+    """
+    n = len(matrix)
+    columns = transpose(matrix)
+    col
+#+end_src
 
 
 * Test
