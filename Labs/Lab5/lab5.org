@@ -4355,8 +4355,9 @@ Matrix of validity: [[True, False, False], [False, True, False], [False, False, 
 #+begin_src python :results output :session
 def check_column(matrix, column_index):
     """ Checks the column 'column_index' (indexing starts from zero) in the 
-    matrix 'matrix'. A string saying "pivot" is returned if there's some 
-    element below the diagonal that has a a strictly bigger absolute value 
+    matrix 'matrix'. A index integer of the pivot and the string saying "swap"
+    are returned if there's some element below the diagonal that has a a 
+    strictly bigger absolute value 
     than the diagonal element. "eliminate" is returned if the no pivoting 
     is needed, but there are other non-zero elements in the column. "normalise"
     is returned if the only non-zero element is the diagonal, but it is not 1.
@@ -4364,11 +4365,31 @@ def check_column(matrix, column_index):
     """
     n = len(matrix)
     columns = transpose(matrix)
-    col
+    column = columns[column_index]
+    diagonal_index = column_index
+
+    element_is_zero_list = [x == 0 for x in column]
+    if all(element_is_zero_list):
+        return -1, "zero"
+
+    max_value = max(column)
+    min_value = min(column)
+    if abs(max_value) >= abs(min_value):
+        pivot_value = max_value
+    else:
+        pivot_value = min_value
+    pivot_index = column.index(pivot_value, diagonal_index)
+    if pivot_index != diagonal_index:
+        return pivot_index, "swap"
+
+    column_is_eliminated = 
+    
 #+end_src
 
 
 * Test
+
+** stuff
 #+begin_src python :results output :session :tangle no
 id2 = np.array([[1,0],[0,1]])
 id3 = np.matrix('1 0 0; 0 1 0; 0 0 1')
@@ -4383,3 +4404,12 @@ print (id3 @ vec3)
 : [-1  3]
 : [1 2 3]
 : [[1 2 3]]
+
+** search a list index from a starting point
+#+begin_src python :results output :tangle no
+mylist = [0,1,2,3,4,5,6]
+print(mylist.index(3,3))
+#+end_src
+
+#+RESULTS:
+: 3
