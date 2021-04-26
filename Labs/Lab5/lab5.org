@@ -4361,7 +4361,8 @@ def check_column(matrix, column_index):
     than the diagonal element. "eliminate" is returned if the no pivoting 
     is needed, but there are other non-zero elements in the column. "normalise"
     is returned if the only non-zero element is the diagonal, but it is not 1.
-    "zero" is returned if the whole column is zero.
+    "zero" is returned if the whole column is zero. If the column is equal to
+    the equivalent identity matrix column the string "finnished" is returned.
     """
     n = len(matrix)
     columns = transpose(matrix)
@@ -4382,7 +4383,15 @@ def check_column(matrix, column_index):
     if pivot_index != diagonal_index:
         return pivot_index, "swap"
 
-    column_is_eliminated = 
+    non_diagonal_element_is_zero_list = [True if i == diagonal_index
+                                         else element_is_zero_list[i]
+                                         for i in range(n)]
+    column_is_eliminated = all(non_diagonal_element_is_zero_list)
+    pivot_is_normalised = pivot_value == 1
+    if column_is_eliminated and pivot_is_normalised:
+        return -1, "finnished"
+    elif column_is_eliminated and not pivot_is_normalised:
+        return pivot_index, "normalise"
     
 #+end_src
 
