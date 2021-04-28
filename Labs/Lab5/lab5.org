@@ -4396,6 +4396,8 @@ def check_column(matrix, column_index):
     
 #+end_src
 
+#+RESULTS:
+
 **** Gaussian elimination column no normalisation
 #+begin_src python :results output :session
 def gaussian_elimination_column(matrix, column_index):
@@ -4412,6 +4414,7 @@ def gaussian_elimination_column(matrix, column_index):
                                                  else column[i] == 0
                                                  for i in range(n) ]
     if all(column_element_is_correct_except_diagonal):
+        I = create_identity(n)
         return I
     else:
         index_to_fix = column_element_is_correct_except_diagonal.index(False)
@@ -4429,6 +4432,95 @@ def gaussian_elimination_column(matrix, column_index):
 
 #+RESULTS:
 
+**** Gaussian elimination column test
+#+begin_src python :results output :session :tangle no
+matrix = [[1,2,3], [4,5,6], [7,8,9]]
+stuff = gaussian_elimination_column(matrix, 2)
+print(stuff)
+print(matrix_multiply(stuff, matrix))
+
+#+end_src
+
+#+RESULTS:
+: [[1.0, 0.0, -0.3333333333333333], [0.0, 1.0, -0.6666666666666666], [0.0, 0.0, 1.0]]
+: [[-1.333333333333333, -0.6666666666666665, 0.0], [-0.6666666666666661, -0.33333333333333304, 0.0], [7.0, 8.0, 9.0]]
+
+**** Get pivot index
+#+begin_src python :results output :session
+def get_pivot_index(matrix, column_index):
+    """ Returns the element with the greatest absolute value in the under the
+    diagonal in the column 'column_index' in the matrix 'matrix'. Indexing starts
+    from zero. If the whole column is zero, the index value -1 is returned.
+    """
+    column = transpose(matrix)[column_index]
+    diagonal_index = column_index
+    under_diagonal = column[diagonal_index:]
+    max_element, min_element = max(under_diagonal), min(under_diagonal)
+    if abs(max_element) >= abs(min_element):
+        pivot_element = max_element
+    else:
+        pivot_element = min_element
+
+    if pivot_element == 0:
+        return -1
+    else:
+        return diagonal_index + under_diagonal.index(pivot_element)
+#+end_src
+
+#+RESULTS:
+
+**** Test av get pivot index
+#+begin_src python :results output :session :tangle no
+matrix = [[9,10,9], [4,9,6], [7,8,9]]
+print(get_pivot_index(matrix, 1))
+#+end_src
+
+#+RESULTS:
+: 1
+
+**** check column with no normalisation
+#+begin_src python :results output :session
+def check_column(matrix, column_index):
+    """ Checks the column 'column_index' (indexing starts from zero) in the 
+    matrix 'matrix'. An index integer of the pivot and the string saying "swap"
+    are returned if there's some element below the diagonal that has a a 
+    strictly bigger absolute value 
+    than the diagonal element. "eliminate" is returned if the no pivoting 
+    is needed, but there are other non-zero elements in the column. "zero" is 
+    returned if the whole column is zero. If the diagonal element is zero and
+    the rest of the column is zero, "finnished" is returned.
+    """
+    n = len(matrix)
+    columns = transpose(matrix)
+    column = columns[column_index]
+    diagonal_index = column_index
+    pivot_index = get_pivot_index(matrix, column_index)
+    element_is_zero_list = [x == 0 for x in column]
+    non_diagonal_element_is_zero_list = [True if i == diagonal_index
+                                         else element_is_zero_list[i]
+                                         for i in range(n)]
+    column_is_eliminated = all(non_diagonal_element_is_zero_list)
+    if pivot_index == -1:
+        return "zero"
+    elif pivot_index != diagonal_index:
+        return "pivot"
+    elif column_is_eliminated :
+        return "finnished"
+    else:
+        return "eliminate"
+    
+#+end_src
+
+#+RESULTS:
+
+**** Test av check column
+#+begin_src python :results output :session :tangle no
+matrix = [[6,2,3], [4,5,6], [7,8,9]]
+print(check_column(matrix, 0))
+#+end_src
+
+#+RESULTS:
+: pivot
 
 * Test
 
