@@ -4352,6 +4352,7 @@ Matrix of validity: [[True, False, False], [False, True, False], [False, False, 
 
  
 *** Gaussian elimination testing
+**** check column
 #+begin_src python :results output :session
 def check_column(matrix, column_index):
     """ Checks the column 'column_index' (indexing starts from zero) in the 
@@ -4394,6 +4395,39 @@ def check_column(matrix, column_index):
         return pivot_index, "normalise"
     
 #+end_src
+
+**** Gaussian elimination column no normalisation
+#+begin_src python :results output :session
+def gaussian_elimination_column(matrix, column_index):
+    """ Given a square matrix 'matrix' with non-zero diagonal element in the 
+    column 'column_index', this functions returns the matrix to eliminate all 
+    the non diagonal elements in the column. Columns are numbered such that the
+    first one is 0.
+    """
+    column = transpose(matrix)[column_index]
+    diagonal_index = column_index
+    diagonal_element = column[diagonal_index]
+    n = len(matrix)
+    column_element_is_correct_except_diagonal = [True if i==diagonal_index
+                                                 else column[i] == 0
+                                                 for i in range(n) ]
+    if all(column_element_is_correct_except_diagonal):
+        return I
+    else:
+        index_to_fix = column_element_is_correct_except_diagonal.index(False)
+        incorrect_element = column[index_to_fix]
+        inverse = - incorrect_element / diagonal_element
+        eliminate = add_multiple_of_row_to_other_row(inverse,
+                                                        diagonal_index,
+                                                        index_to_fix,
+                                                        n)
+        matrix_prim = matrix_multiply(eliminate, matrix)
+        rest_of_elimination = gaussian_elimination_column(matrix_prim,
+                                                            column_index)
+        return matrix_multiply(rest_of_elimination, eliminate)
+#+end_src
+
+#+RESULTS:
 
 
 * Test
