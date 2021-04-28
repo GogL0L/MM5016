@@ -4471,12 +4471,12 @@ def get_pivot_index(matrix, column_index):
 
 **** Test av get pivot index
 #+begin_src python :results output :session :tangle no
-matrix = [[9,10,9], [4,9,6], [7,8,9]]
-print(get_pivot_index(matrix, 1))
+matrix = [[1,10,9], [0,0,6], [3,0,9]]
+print(get_pivot_index(matrix, 0))
 #+end_src
 
 #+RESULTS:
-: 1
+: 2
 
 **** check column with no normalisation
 #+begin_src python :results output :session
@@ -4503,8 +4503,8 @@ def check_column(matrix, column_index):
     if pivot_index == -1:
         return "zero"
     elif pivot_index != diagonal_index:
-        return "pivot"
-    elif column_is_eliminated :
+        return "swap"
+    elif column_is_eliminated:
         return "finnished"
     else:
         return "eliminate"
