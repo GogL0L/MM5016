@@ -124,9 +124,9 @@ def normaliser(matrix):
 
 #+RESULTS:
 
-*** Gaussian elimination column
+*** eliminate column
 #+begin_src python :results output :session
-def gaussian_elimination_column(matrix, column_index):
+def eliminate_column(matrix, column_index):
     """ Given a square matrix 'matrix' with non-zero diagonal element in the 
     column 'column_index', this functions returns the matrix to eliminate all 
     the non diagonal elements in the column. Columns are numbered such that the
@@ -151,8 +151,7 @@ def gaussian_elimination_column(matrix, column_index):
                                                         index_to_fix,
                                                         n)
         matrix_prim = matrix_multiply(eliminate, matrix)
-        rest_of_elimination = gaussian_elimination_column(matrix_prim,
-                                                            column_index)
+        rest_of_elimination = eliminate_column(matrix_prim, column_index)
         return matrix_multiply(rest_of_elimination, eliminate)
 #+end_src
 
@@ -161,7 +160,7 @@ def gaussian_elimination_column(matrix, column_index):
 **** Gaussian elimination column test
 #+begin_src python :results output :session :tangle no
 matrix = [[1,2,3], [4,5,6], [7,8,9]]
-stuff = gaussian_elimination_column(matrix, 2)
+stuff = eliminate_column(matrix, 2)
 print(stuff)
 print(matrix_multiply(stuff, matrix))
 
