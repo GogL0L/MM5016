@@ -114,15 +114,22 @@ print(transpose(mat))
 *** normaliser
 #+begin_src python :results output :session
 def normaliser(matrix):
-    """ Normalises a diagonal matrix."""
+    """ Normalises a non-zero diagonal matrix."""
     n = len(matrix)
     return [[0 if i!=j
-             else raise ValueError("determinant 0") if matrix[i][j] ==0
              else 1/matrix[i][j] for j in range(n)]
             for i in range(n)]
 #+end_src
 
 #+RESULTS:
+**** test normaliser
+#+begin_src python :results output :session :tangle no
+matrix = [[1,2],[3,4]]
+print(normaliser(matrix))
+#+end_src
+
+#+RESULTS:
+: [[1.0, 0], [0, 0.25]]
 
 *** eliminate column
 #+begin_src python :results output :session
@@ -289,26 +296,40 @@ def gaussian_elimination(A, b, left_most_column_to_check=0):
     n = len(b)
     if l == n:
         M = normaliser(A)
-        b_prim = matrix_multiplication(M, b)
+        b_prim = matrix_multiply(M, b)
         return b_prim
 
-    column_status = transpose(A)[l]
+    column_status = check_column(A,l)
     if column_status == "finnished":
         return gaussian_elimination(A, b, l+1)
     elif column_status == "zero":
         raise ValueError("<gaussian_elimination:Can't have a zero determinant>")
     elif column_status == "swap":
-        M = swap_pivot(A)
-        A_prim, b_prim = matrix_multiplication(M, A), matrix_multiplication(M, b)
+        M = swap_pivot(A, l)
+        A_prim, b_prim = matrix_multiply(M, A), matrix_multiply(M, b)
         return gaussian_elimination(A_prim, b_prim, l)
     elif column_status == "eliminate":
         M = eliminate_column(A, l)
-        A_prim, b_prim = matrix_multiplication(M, A), matrix_multiplication(M, b)
+        A_prim, b_prim = matrix_multiply(M, A), matrix_multiply(M, b)
         return gaussian_elimination(A_prim, b_prim, l+1)
+    else:
+        return "something went wrong"
 
 #+end_src
 
-*** test gaussian elimination
+#+RESULTS:
+
+**** test gaussian elimination
+#+begin_src python :results output :session :tangle no
+A = [[1,-2,1],[2,1,-3],[4,-7,1]]
+b = [[0], [5], [-1]]
+result = gaussian_elimination(A,b)
+print(result)
+#+end_src
+
+#+RESULTS:
+: [[3.0], [2.0], [1.0]]
+
 * Test
 
 ** stuff
