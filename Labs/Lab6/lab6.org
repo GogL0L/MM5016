@@ -3,10 +3,11 @@
 #+PROPERTY: header-args :tangle ./lab6.py :padline 2
 
 * Head
-#+begin_src python :results output :session
+#+begin_src python :results output :session :padline 0
 ## Description
 """
-The answer to task 2 of lab 6 is the function qr_decompose.
+The answer to task 2 of lab 6 is the function qr_decompose together with
+the main function.
 """
 
 
@@ -18,6 +19,20 @@ from math import sqrt
 * Code
 
 ** Linear algebra stuff
+
+*** matrix multiply
+#+begin_src python :results output :session
+def matrix_multiply(matrix1, matrix2):
+    m = len(matrix1)
+    n = len(matrix2)
+    p = len(matrix2[0])
+    element = lambda i,j: sum([matrix1[i][k] * matrix2[k][j]
+                               for k in range(n)])
+    row = lambda i: [element(i,j) for j in range(p)]
+    return [row(i) for i in range(m)]
+#+end_src
+
+#+RESULTS:
 
 *** Transpose
 #+begin_src python :results output :session
@@ -242,11 +257,25 @@ def main():
     print("Original matrix A:", matrix_multiply(Q, R))
     print("Result of Q:", Q)
     print("Result of R:", R)
-    print("Result of QQ^t:", Qt)
+    print("Result of QQ^t:", matrix_multiply(Q,Qt))
     print("Result of QR:", matrix_multiply(Q, R))
+
+
+if __name__ == "__main__":
+    main()
 #+end_src
 
+#+RESULTS:
+: Original matrix A: [[0.0, 1.0, 1.0], [1.0, 1.0, 2.0], [0.0, 0.0, 3.0]]
+: Result of Q: [[0.0, 1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 1.0]]
+: Result of R: [[1.0, 1.0, 2.0], [0.0, 1.0, 1.0], [0.0, 0.0, 3.0]]
+: Result of QQ^t: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+: Result of QR: [[0.0, 1.0, 1.0], [1.0, 1.0, 2.0], [0.0, 0.0, 3.0]]
+
 * Test
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 ** Test av list comprehension
 #+begin_src python :results output :session :tangle no
 stuff = [1,2,3,4,5]
