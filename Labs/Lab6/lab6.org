@@ -232,6 +232,20 @@ print("QR is equal to:", matrix_multiply(Q, R))
 : QQ^t is equal to: [[0.9999999999999897, -1.534883331544279e-14, 1.4516166046973922e-14], [-1.534883331544279e-14, 1.0000000000000153, -2.4980018054066022e-15], [1.4516166046973922e-14, -2.4980018054066022e-15, 0.9999999999999949]]
 : QR is equal to: [[3.000000000000009, 2.000000000000019, 3.000000000000008], [3.999999999999998, 5.000000000000027, 6.000000000000024], [6.999999999999997, 7.999999999999976, 8.999999999999982]]
 
+** Main
+#+begin_src python :results output :session
+def main():
+    """ Solution for task 2 of lab assignment 6. """
+    A = [[0,1,1], [1,1,2], [0,0,3]]
+    Q, R = qr_decompose(A)
+    Qt = transpose(Q)
+    print("Original matrix A:", matrix_multiply(Q, R))
+    print("Result of Q:", Q)
+    print("Result of R:", R)
+    print("Result of QQ^t:", Qt)
+    print("Result of QR:", matrix_multiply(Q, R))
+#+end_src
+
 * Test
 ** Test av list comprehension
 #+begin_src python :results output :session :tangle no
