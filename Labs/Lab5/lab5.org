@@ -11,13 +11,8 @@ import numpy as np
 
 
 * Code
-
-** Med numpy
-
-** Utan numpy
-
-*** matrix operations
-**** matrix multiply
+** matrix operations
+*** matrix multiply
 #+begin_src python :results output :session
 def matrix_multiply(matrix1, matrix2):
     m = len(matrix1)
@@ -31,7 +26,7 @@ def matrix_multiply(matrix1, matrix2):
 
 #+RESULTS:
 
-**** create identity 
+*** create identity 
 #+begin_src python :results output :session
 def create_identity(n):
     """ Creates an n by n identity matrix. """
@@ -40,7 +35,7 @@ def create_identity(n):
 
 #+RESULTS:
 
-**** create switch
+*** create switch
 #+begin_src python :results output :session
 def switch(row1, row2, n):
     """ Creates an n by n matrix which switches the rows
@@ -55,7 +50,7 @@ def switch(row1, row2, n):
 
 #+RESULTS:
 
-**** add multiple
+*** add multiple
 #+begin_src python :results output :session
 def add_multiple_of_row_to_other_row(multiple, row, other_row, n):
     """ Creates an 'n' by 'n' matrix which if multiplied with on the
@@ -72,7 +67,7 @@ def add_multiple_of_row_to_other_row(multiple, row, other_row, n):
 
 #+RESULTS:
 
-**** scale row
+*** scale row
 #+begin_src python :results output :session
 def scale_row(multiple, row, n):
     """ Create an 'n' by 'n' matrix which if multiplied with on the
@@ -84,7 +79,7 @@ def scale_row(multiple, row, n):
 
 #+RESULTS:
 
-**** transpose
+*** transpose
 #+begin_src python :results output :session
 def transpose(matrix):
     """ Transposes a square matrix. """
@@ -94,7 +89,7 @@ def transpose(matrix):
 
 #+RESULTS:
 
-**** test av allt ovanför
+*** test av allt ovanför
 #+begin_src python :results output :session :tangle no
 print(matrix_multiply([[1,0],[0,1]], [[3],[4]]))
 print(create_identity(3))
@@ -115,9 +110,205 @@ print(transpose(mat))
 : [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 : [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 
-*** Gaussian elimination
+** Gaussian elimination
+*** normaliser
+#+begin_src python :results output :session
+def normaliser(matrix):
+    """ Normalises a diagonal matrix."""
+    n = len(matrix)
+    return [[0 if i!=j
+             else raise ValueError("determinant 0") if matrix[i][j] ==0
+             else 1/matrix[i][j] for j in range(n)]
+            for i in range(n)]
+#+end_src
 
-**** find next gaussian elimination task
+#+RESULTS:
+
+*** Gaussian elimination column
+#+begin_src python :results output :session
+def gaussian_elimination_column(matrix, column_index):
+    """ Given a square matrix 'matrix' with non-zero diagonal element in the 
+    column 'column_index', this functions returns the matrix to eliminate all 
+    the non diagonal elements in the column. Columns are numbered such that the
+    first one is 0.
+    """
+    column = transpose(matrix)[column_index]
+    diagonal_index = column_index
+    diagonal_element = column[diagonal_index]
+    n = len(matrix)
+    column_element_is_correct_except_diagonal = [True if i==diagonal_index
+                                                 else column[i] == 0
+                                                 for i in range(n) ]
+    if all(column_element_is_correct_except_diagonal):
+        I = create_identity(n)
+        return I
+    else:
+        index_to_fix = column_element_is_correct_except_diagonal.index(False)
+        incorrect_element = column[index_to_fix]
+        inverse = - incorrect_element / diagonal_element
+        eliminate = add_multiple_of_row_to_other_row(inverse,
+                                                        diagonal_index,
+                                                        index_to_fix,
+                                                        n)
+        matrix_prim = matrix_multiply(eliminate, matrix)
+        rest_of_elimination = gaussian_elimination_column(matrix_prim,
+                                                            column_index)
+        return matrix_multiply(rest_of_elimination, eliminate)
+#+end_src
+
+#+RESULTS:
+
+**** Gaussian elimination column test
+#+begin_src python :results output :session :tangle no
+matrix = [[1,2,3], [4,5,6], [7,8,9]]
+stuff = gaussian_elimination_column(matrix, 2)
+print(stuff)
+print(matrix_multiply(stuff, matrix))
+
+#+end_src
+
+#+RESULTS:
+: [[1.0, 0.0, -0.3333333333333333], [0.0, 1.0, -0.6666666666666666], [0.0, 0.0, 1.0]]
+: [[-1.333333333333333, -0.6666666666666665, 0.0], [-0.6666666666666661, -0.33333333333333304, 0.0], [7.0, 8.0, 9.0]]
+
+*** Get pivot index
+#+begin_src python :results output :session
+def get_pivot_index(matrix, column_index):
+    """ Returns the element with the greatest absolute value in the under the
+    diagonal in the column 'column_index' in the matrix 'matrix'. Indexing starts
+    from zero. If the whole column is zero, the index value -1 is returned.
+    """
+    column = transpose(matrix)[column_index]
+    diagonal_index = column_index
+    under_diagonal = column[diagonal_index:]
+    max_element, min_element = max(under_diagonal), min(under_diagonal)
+    if abs(max_element) >= abs(min_element):
+        pivot_element = max_element
+    else:
+        pivot_element = min_element
+
+    if pivot_element == 0:
+        return -1
+    else:
+        return diagonal_index + under_diagonal.index(pivot_element)
+#+end_src
+
+#+RESULTS:
+
+**** Test av get pivot index
+#+begin_src python :results output :session :tangle no
+matrix = [[1,10,9], [0,0,6], [3,0,9]]
+print(get_pivot_index(matrix, 0))
+#+end_src
+
+#+RESULTS:
+: 2
+
+*** swap pivot
+#+begin_src python :results output :session
+def swap_pivot(matrix, column_index):
+    """ Given a matrix 'matrix', with a non-zero pivot below the diagonal
+    in the column 'column_index', this function returns the matrix
+    to be multiplied with on the left in order to put the the pivot on
+    the diagonal. 
+    """
+    n = len(matrix)
+    column = transpose(matrix)[column_index]
+    diagonal_index = column_index
+    pivot_index = get_pivot_index(matrix, column_index)
+    return switch(diagonal_index, pivot_index, n)
+#+end_src
+
+#+RESULTS:
+
+**** Test av swap pivot
+#+begin_src python :results output :session :tangle no
+matrix = [[1,2,3], [4,5,6], [0,8,9]]
+swap_matrix = swap_pivot(matrix,0)
+product = matrix_multiply(swap_matrix, matrix)
+print(product)
+#+end_src
+
+#+RESULTS:
+: [[4, 5, 6], [1, 2, 3], [0, 8, 9]]
+
+*** check column
+#+begin_src python :results output :session
+def check_column(matrix, column_index):
+    """ Checks the column 'column_index' (indexing starts from zero) in the 
+    matrix 'matrix'. An index integer of the pivot and the string saying "swap"
+    are returned if there's some element below the diagonal that has a a 
+    strictly bigger absolute value 
+    than the diagonal element. "eliminate" is returned if the no pivoting 
+    is needed, but there are other non-zero elements in the column. "zero" is 
+    returned if the whole column is zero. If the diagonal element is zero and
+    the rest of the column is zero, "finnished" is returned.
+    """
+    n = len(matrix)
+    columns = transpose(matrix)
+    column = columns[column_index]
+    diagonal_index = column_index
+    pivot_index = get_pivot_index(matrix, column_index)
+    element_is_zero_list = [x == 0 for x in column]
+    non_diagonal_element_is_zero_list = [True if i == diagonal_index
+                                         else element_is_zero_list[i]
+                                         for i in range(n)]
+    column_is_eliminated = all(non_diagonal_element_is_zero_list)
+    if pivot_index == -1:
+        return "zero"
+    elif pivot_index != diagonal_index:
+        return "swap"
+    elif column_is_eliminated:
+        return "finnished"
+    else:
+        return "eliminate"
+    
+#+end_src
+
+#+RESULTS:
+
+**** Test av check column
+#+begin_src python :results output :session :tangle no
+matrix = [[6,2,3], [4,5,6], [7,8,9]]
+print(check_column(matrix, 0))
+#+end_src
+
+#+RESULTS:
+: swap
+* Test
+
+** stuff
+#+begin_src python :results output :session :tangle no
+id2 = np.array([[1,0],[0,1]])
+id3 = np.matrix('1 0 0; 0 1 0; 0 0 1')
+vec = np.array([-1,3])
+vec3 = np.transpose(np.array([1,2,3]))
+print (id2 @ vec)
+print(vec3)
+print (id3 @ vec3)
+#+end_src
+
+#+RESULTS:
+: [-1  3]
+: [1 2 3]
+: [[1 2 3]]
+
+** search a list index from a starting point
+#+begin_src python :results output :tangle no
+mylist = [0,1,2,3,4,5,6]
+print(mylist.index(3,3))
+#+end_src
+
+#+RESULTS:
+: 3
+
+* Archive
+** Gaussian elimination old
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+
+*** find next gaussian elimination task
 #+begin_src python :results output :session
 def find_next_gaussian_elimination_task(matrix):
     """ Compares with the identity matrix, to see what element should be
@@ -171,7 +362,7 @@ def find_next_gaussian_elimination_task(matrix):
 
 #+RESULTS:
 
-**** Gaussian elimination column task
+*** Gaussian elimination column task
 #+begin_src python :results output :session
 def find_next_gaussian_elimination_task_column(matrix, column):
     """ Compares with the corresponding column in the identity matrix, to see 
@@ -192,7 +383,7 @@ def find_next_gaussian_elimination_task_column(matrix, column):
 
 #+RESULTS:
 
-**** Gaussian elimination column
+*** Gaussian elimination column
 #+begin_src python :results output :session
 def gaussian_elimination_column(matrix, column_index):
     """ Given a square matrix 'matrix' with non-zero diagonal element in the 
@@ -241,7 +432,7 @@ def gaussian_elimination_column(matrix, column_index):
 
 #+RESULTS:
 
-**** Gaussian elimination column test
+*** Gaussian elimination column test
 #+begin_src python :results output :session :tangle no
 matrix = [[1,2,3], [4,5,6], [7,8,9]]
 stuff = gaussian_elimination_column(matrix, 0)
@@ -254,7 +445,7 @@ print(matrix_multiply(stuff, matrix))
 : [[1, 0, 0], [-4, 1, 0], [-7, 0, 1]]
 : [[1, 2, 3], [0, -3, -6], [0, -6, -12]]
 
-**** test: find next gaussian elimination task
+*** test: find next gaussian elimination task
 #+begin_src python :results output :session :tangle no
 print(find_next_gaussian_elimination_task([[1,0],[0,1]]))
 #+end_src
@@ -262,20 +453,7 @@ print(find_next_gaussian_elimination_task([[1,0],[0,1]]))
 #+RESULTS:
 : ((-1, -1), 'finnished')
 
-**** normaliser
-#+begin_src python :results output :session
-def normaliser(matrix):
-    """ Normalises a diagonal matrix."""
-    n = len(matrix)
-    return [[0 if i!=j
-             else raise ValueError("determinant 0") if matrix[i][j] ==0
-             else 1/matrix[i][j] for j in range(n)]
-            for i in range(n)]
-#+end_src
-
-#+RESULTS:
-
-**** Gaussian elimination
+*** Gaussian elimination
 #+begin_src python :results output :session
 def gaussian_elimination(A, b):
     """ If 'A' is an n by n matrix and 'b' is an n by 1 vector,
@@ -333,7 +511,7 @@ def gaussian_elimination(A, b):
 
 #+RESULTS:
 
-**** Gaussian elimination old
+*** Gaussian elimination old
 #+begin_src python :results output :session
 def gaussian_elimination_old(A, b):
     """ If 'A' is an n by n matrix and 'b' is an n by 1 vector,
@@ -375,7 +553,7 @@ def gaussian_elimination_old(A, b):
 
 #+RESULTS:
 
-**** Gaussian elimination test
+*** Gaussian elimination test
 #+begin_src python :results output :session :tangle no
 matrix = [[-3,-8,-5],[1,4,3],[6,10,-5]]
 vector = [[1],[2],[6]]
@@ -4351,8 +4529,8 @@ Matrix of validity: [[True, False, False], [False, True, False], [False, False, 
 #+end_example
 
  
-*** Gaussian elimination testing
-**** check column
+
+** check column
 #+begin_src python :results output :session
 def check_column(matrix, column_index):
     """ Checks the column 'column_index' (indexing starts from zero) in the 
@@ -4398,153 +4576,3 @@ def check_column(matrix, column_index):
 
 #+RESULTS:
 
-**** Gaussian elimination column no normalisation
-#+begin_src python :results output :session
-def gaussian_elimination_column(matrix, column_index):
-    """ Given a square matrix 'matrix' with non-zero diagonal element in the 
-    column 'column_index', this functions returns the matrix to eliminate all 
-    the non diagonal elements in the column. Columns are numbered such that the
-    first one is 0.
-    """
-    column = transpose(matrix)[column_index]
-    diagonal_index = column_index
-    diagonal_element = column[diagonal_index]
-    n = len(matrix)
-    column_element_is_correct_except_diagonal = [True if i==diagonal_index
-                                                 else column[i] == 0
-                                                 for i in range(n) ]
-    if all(column_element_is_correct_except_diagonal):
-        I = create_identity(n)
-        return I
-    else:
-        index_to_fix = column_element_is_correct_except_diagonal.index(False)
-        incorrect_element = column[index_to_fix]
-        inverse = - incorrect_element / diagonal_element
-        eliminate = add_multiple_of_row_to_other_row(inverse,
-                                                        diagonal_index,
-                                                        index_to_fix,
-                                                        n)
-        matrix_prim = matrix_multiply(eliminate, matrix)
-        rest_of_elimination = gaussian_elimination_column(matrix_prim,
-                                                            column_index)
-        return matrix_multiply(rest_of_elimination, eliminate)
-#+end_src
-
-#+RESULTS:
-
-**** Gaussian elimination column test
-#+begin_src python :results output :session :tangle no
-matrix = [[1,2,3], [4,5,6], [7,8,9]]
-stuff = gaussian_elimination_column(matrix, 2)
-print(stuff)
-print(matrix_multiply(stuff, matrix))
-
-#+end_src
-
-#+RESULTS:
-: [[1.0, 0.0, -0.3333333333333333], [0.0, 1.0, -0.6666666666666666], [0.0, 0.0, 1.0]]
-: [[-1.333333333333333, -0.6666666666666665, 0.0], [-0.6666666666666661, -0.33333333333333304, 0.0], [7.0, 8.0, 9.0]]
-
-**** Get pivot index
-#+begin_src python :results output :session
-def get_pivot_index(matrix, column_index):
-    """ Returns the element with the greatest absolute value in the under the
-    diagonal in the column 'column_index' in the matrix 'matrix'. Indexing starts
-    from zero. If the whole column is zero, the index value -1 is returned.
-    """
-    column = transpose(matrix)[column_index]
-    diagonal_index = column_index
-    under_diagonal = column[diagonal_index:]
-    max_element, min_element = max(under_diagonal), min(under_diagonal)
-    if abs(max_element) >= abs(min_element):
-        pivot_element = max_element
-    else:
-        pivot_element = min_element
-
-    if pivot_element == 0:
-        return -1
-    else:
-        return diagonal_index + under_diagonal.index(pivot_element)
-#+end_src
-
-#+RESULTS:
-
-**** Test av get pivot index
-#+begin_src python :results output :session :tangle no
-matrix = [[1,10,9], [0,0,6], [3,0,9]]
-print(get_pivot_index(matrix, 0))
-#+end_src
-
-#+RESULTS:
-: 2
-
-**** check column with no normalisation
-#+begin_src python :results output :session
-def check_column(matrix, column_index):
-    """ Checks the column 'column_index' (indexing starts from zero) in the 
-    matrix 'matrix'. An index integer of the pivot and the string saying "swap"
-    are returned if there's some element below the diagonal that has a a 
-    strictly bigger absolute value 
-    than the diagonal element. "eliminate" is returned if the no pivoting 
-    is needed, but there are other non-zero elements in the column. "zero" is 
-    returned if the whole column is zero. If the diagonal element is zero and
-    the rest of the column is zero, "finnished" is returned.
-    """
-    n = len(matrix)
-    columns = transpose(matrix)
-    column = columns[column_index]
-    diagonal_index = column_index
-    pivot_index = get_pivot_index(matrix, column_index)
-    element_is_zero_list = [x == 0 for x in column]
-    non_diagonal_element_is_zero_list = [True if i == diagonal_index
-                                         else element_is_zero_list[i]
-                                         for i in range(n)]
-    column_is_eliminated = all(non_diagonal_element_is_zero_list)
-    if pivot_index == -1:
-        return "zero"
-    elif pivot_index != diagonal_index:
-        return "swap"
-    elif column_is_eliminated:
-        return "finnished"
-    else:
-        return "eliminate"
-    
-#+end_src
-
-#+RESULTS:
-
-**** Test av check column
-#+begin_src python :results output :session :tangle no
-matrix = [[6,2,3], [4,5,6], [7,8,9]]
-print(check_column(matrix, 0))
-#+end_src
-
-#+RESULTS:
-: pivot
-
-* Test
-
-** stuff
-#+begin_src python :results output :session :tangle no
-id2 = np.array([[1,0],[0,1]])
-id3 = np.matrix('1 0 0; 0 1 0; 0 0 1')
-vec = np.array([-1,3])
-vec3 = np.transpose(np.array([1,2,3]))
-print (id2 @ vec)
-print(vec3)
-print (id3 @ vec3)
-#+end_src
-
-#+RESULTS:
-: [-1  3]
-: [1 2 3]
-: [[1 2 3]]
-
-** search a list index from a starting point
-#+begin_src python :results output :tangle no
-mylist = [0,1,2,3,4,5,6]
-print(mylist.index(3,3))
-#+end_src
-
-#+RESULTS:
-: 3
