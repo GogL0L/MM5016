@@ -274,6 +274,41 @@ print(check_column(matrix, 0))
 
 #+RESULTS:
 : swap
+
+*** Gaussian elimination
+#+begin_src python :results output :session
+def gaussian_elimination(A, b, left_most_column_to_check=0):
+    """ If 'A' is an n by n matrix and 'b' is an n by 1 vector,
+    then this function returns the n by 1 vector 'x' which solves
+    the equation 'Ax = b'. Observe that the vector's elements
+    must be surrounded by squarebrackets, for example:
+    [[1],[2],[3]] is correct and [1,2,3] is not. An exception is
+    raised if the determinant of A is zero.
+    """
+    l = left_most_column_to_check
+    n = len(b)
+    if l == n:
+        M = normaliser(A)
+        b_prim = matrix_multiplication(M, b)
+        return b_prim
+
+    column_status = transpose(A)[l]
+    if column_status == "finnished":
+        return gaussian_elimination(A, b, l+1)
+    elif column_status == "zero":
+        raise ValueError("<gaussian_elimination:Can't have a zero determinant>")
+    elif column_status == "swap":
+        M = swap_pivot(A)
+        A_prim, b_prim = matrix_multiplication(M, A), matrix_multiplication(M, b)
+        return gaussian_elimination(A_prim, b_prim, l)
+    elif column_status == "eliminate":
+        M = eliminate_column(A, l)
+        A_prim, b_prim = matrix_multiplication(M, A), matrix_multiplication(M, b)
+        return gaussian_elimination(A_prim, b_prim, l+1)
+
+#+end_src
+
+*** test gaussian elimination
 * Test
 
 ** stuff
