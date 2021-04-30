@@ -27,11 +27,7 @@ A=
 
 #+LATEX: \end{exercise}
 
-** *** sol:  :ignore:
-#+LATEX: \begin{solution}[]  \label{sol:}
-
-#+LATEX: \end{solution}
-: 1 :ignore:
+** sol:  :ignore:
 #+LATEX: \begin{solution}[1]  \label{sol:1}
 To QR decompose \( A \) we will interpret the columns of \( A \)
 as three column vectors \( A = ( a_1 , a_2, a_3) \) expressed in an orthonormal
@@ -56,7 +52,11 @@ So we will start by simply letting \( v_1 = a_1 \) as the set
 
 We will get \( v_2 \) by removing the \( v_1 \) parallel component of \( a_2 \):
 \begin{align*}
-v_2 = a_2 - \text{proj} _{v_1} (a_2).
+v_2  &  = a_2 - \text{proj} _{v_1} (a_2) \\
+& = a_2 - \frac{\left< v_1, a_2 \right> }{|v_1| ^2} v_1 \\
+& = 
+
+.
 \end{align*}
 
 
