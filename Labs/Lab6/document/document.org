@@ -132,7 +132,47 @@ A =
 \end{align*}
 
 
-To control that \( Q \) is orthonormal it means that  \( \left< q_i, q_j \right> = \delta _{ij} \). 
+To control that \( Q \) is orthonormal we will verify that \( \left< q_i, q_j \right> = \delta _{ij} \),
+where  w\( \delta _{ij} \) is the kronecker delta function.
+If we define the matrix \( M _{ij} = \left< q_i , q_j \right>  \), then the statement that Q is orthonormal
+is equivalent to saying that \( M = I \), where \( I \) is the \( 3 \times 3 \) identity matrix.
+
+Let us denote the i:th component of a vector \( v_k \) in the basis \( \beta \), as
+\( v _{k}^{i}  \). Let us consider the matrix \( Q^{t} Q \). It is defined as
+\begin{align*}
+(Q^{t} Q) _{ij}  &  = \sum_{ k = 0 }^{ n } (Q^{t}) _{ik} Q _{kj} \\
+& = \sum_{ k = 0 }^{ n } Q _{ki} Q _{kj} \\
+& = \sum_{ k = 0 }^{ n } q _{i}^{k} q _{j}^{k} \\
+& = \left< q_i , q_j \right> 
+.
+\end{align*}
+
+We can now see that \( M = Q^{t} Q \), which means that the statement that
+\( M = I \) is equivalent to that \( Q^{t} Q = I \), which is equivalent to
+\begin{align*}
+\left( \begin{array}{c c c}
+0  &  1  &  0 \\
+1  &  0  &  0 \\
+0  &  0  &  1
+\end{array} \right)
+\left( \begin{array}{c c c}
+0  &  1  &  0 \\
+1  &  0  &  0 \\
+0  &  0  &  1
+\end{array} \right)
+=
+\left( \begin{array}{c c c}
+1  &  0  &  0 \\
+0  &  1  &  0 \\
+0  &  0  &  1
+\end{array} \right)
+.
+\end{align*}
+
+And because the last statement is true, that means that our original
+statement that \( \gamma \) is an orthonormal basis is true.
+
+
 
 #+LATEX: \end{solution}
 
