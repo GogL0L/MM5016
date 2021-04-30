@@ -41,9 +41,9 @@ By the Gram-Schmidt method we will have an orthogonal basis and add our
 new vector by removing all components that are unorthogonal relative to
 the given orthogonal basis. We will get these components by projecting
 our new vector on the vectors in the orthogonal basis. Then we can add
-an arbitrary ammoun of new vectors by using this defintion recursively.
+an arbitrary ammount of new vectors by using this defintion recursively.
 When we're done we will normalise all our vectors in the basis and thus
-it will be orthonormal.
+it will be our orthonormal basis \( \gamma \).
 
 So let \( v_k \) denote the orthogonal basis vectors we are looking for
 that we will in the end normalise to get the orthonormal basis.
@@ -54,10 +54,30 @@ We will get \( v_2 \) by removing the \( v_1 \) parallel component of \( a_2 \):
 \begin{align*}
 v_2  &  = a_2 - \text{proj} _{v_1} (a_2) \\
 & = a_2 - \frac{\left< v_1, a_2 \right> }{|v_1| ^2} v_1 \\
-& = 
-
+& = a_2 - v_1 \\
+& = a_2 - a_1 \\
+& = (1,1,0)^{t} - (0,1,0)^{t} \\
+& = (1,0,0)^{t} 
 .
 \end{align*}
+
+From this we can also conclude that \( a_2 = v_1 + v_2 \) which we will
+use when determinening \( r_2 \).
+
+
+We will do the same process with \( a_3 \) to obtain \( v_3 \), but this
+time we need to remove both the \( v_1 \) and \( v_2 \) parallel components:
+\begin{align*}
+v_3  &  = a_3 - \text{proj} _{v_1}(a_3) - \text{proj} _{v_2}(a_3) \\
+& = a_3 - \frac{\left< v_1, a_3 \right> }{| v_1 | ^2} v_1
+- \frac{\left< v_2, a_3 \right> }{| v_2 | ^2} v_2 \\
+& = a_3 - 2v_1 - v_2 \\
+& = (1,2,3)^{t} - 2(0,1,0)^{t} - (1,0,0)^{t} \\
+& = (0,0,3)^{t} 
+.
+\end{align*}
+From this we can also conclude that \( a_3 = 2v_1 + v_2 + v_3 \), which we will
+use when determining \( r_3 \). 
 
 
 #+LATEX: \end{solution}
