@@ -1,0 +1,11 @@
+#+title: Lab 7
+#+description: 
+#+PROPERTY: header-args :tangle ./lab7.py :padline 2
+
+* Header
+#+begin_src python :results output :session
+## Description
+"""
+Init.
+"""
+#+end_src
