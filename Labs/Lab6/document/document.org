@@ -77,7 +77,26 @@ v_3  &  = a_3 - \text{proj} _{v_1}(a_3) - \text{proj} _{v_2}(a_3) \\
 .
 \end{align*}
 From this we can also conclude that \( a_3 = 2v_1 + v_2 + v_3 \), which we will
-use when determining \( r_3 \). 
+use when determining \( r_3 \).
+
+So now we have an orthogonal basis
+\begin{align*}
+\{ v_1, v_2, v_3 \} = \{
+\left( \begin{array}{c}
+0 \\ 1 \\ 0
+\end{array} \right)
+\left( \begin{array}{c}
+1 \\ 0 \\ 0
+\end{array} \right)
+\left( \begin{array}{c}
+0 \\ 0 \\ 3
+\end{array} \right)
+ \} 
+.
+\end{align*}
+
+As each vector is has a single coordinate we can easily see
+that we can normalise it my dividing by 
 
 
 #+LATEX: \end{solution}
