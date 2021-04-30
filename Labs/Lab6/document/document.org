@@ -1,0 +1,40 @@
+#+TITLE: MM5016 Lab Assignment 6 (QR method)
+#+DATE: \today
+#+AUTHOR: John Möller
+#+OPTIONS: num:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: se
+#+LaTeX_CLASS: notesse
+#+LATEX_HEADER: \input{/home/john/texstuff/org/env.tex}
+#+LATEX_HEADER: \input{/home/john/texstuff/org/bold.tex}
+#+STARTUP: latexpreview
+
+* Task 1
+** exe: 1 :ignore:
+#+LATEX: \begin{exercise}[1]  \label{exe:1}
+Find a QR decomposition for the matrix based on the Gram-Schmidt method.
+\begin{align*}
+A=
+\left( \begin{array}{c c c}
+0  &  1  &  1 \\
+1  &  1  &  2 \\
+0  &  0  &  3
+\end{array} \right)
+.
+\end{align*}
+
+#+LATEX: \end{exercise}
+
+** sol: 1 :ignore:
+#+LATEX: \begin{solution}[1]  \label{sol:1}
+To QR decompose \( A \) we will interpret the columns of \( A \)
+as three column vectors \( A = ( a_1 , a_2, a_3) \) expressed in an orthonormal
+basis \( \beta \). By the Gram-Schmidt method we will find an orthonormal
+basis  
+\( \gamma \) such that if \( r_1, r_2 , r_3 \) are the respective vectors \( a_1, a_2 , a_3 \)
+in the basis \( \gamma \), then the matrix \( R = (r_1, r_2, r_3) \) we be an upper
+triangular matrix.
+
+#+LATEX: \end{solution}
