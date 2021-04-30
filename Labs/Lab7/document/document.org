@@ -24,3 +24,41 @@ Solve the below linear equation using Gaussian elimination.
 
 #+LATEX: \end{exercise}
 
+** sol:  :ignore:
+#+LATEX: \begin{solution}[]  \label{sol:}
+Let us first reformulate the equation as an augmented matrix:
+\begin{align*}
+\left( \begin{array}{c c c | c}
+5  &  -2  &  3  &  -1 \\
+-3  &  9  &  1  &  2 \\
+2  &  -1  &  -7  &  3
+\end{array} \right)
+.
+\end{align*}
+
+Let us first normalise the first row, that yields:
+
+\begin{align*}
+\left( \begin{array}{c c c | c}
+1  &  -\frac{2}{5}  &  \frac{3}{5}  &  -\frac{1}{5} \\
+-3  &  9  &  1  &  2 \\
+2  &  -1  &  -7  &  3
+\end{array} \right)
+.
+\end{align*}
+
+Let us now eliminate the second row of the first column by adding
+3 times the first row:
+\begin{align*}
+\left( \begin{array}{c c c | c}
+1  &  -\frac{2}{5}  &  \frac{3}{5}  &  -\frac{1}{5} \\
+0  &  \frac{39}{5}  &  \frac{14}{5}  &  \frac{7}{5} \\
+2  &  -1  &  -7  &  3
+\end{array} \right)
+.
+\end{align*}
+
+Let us now eliminate the third row of the first column by adding
+-2 times the first row
+#+LATEX: \end{solution}
+
