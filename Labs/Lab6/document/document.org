@@ -171,8 +171,5 @@ We can now see that \( M = Q^{t} Q \), which means that the statement that
 
 And because the last statement is true, that means that our original
 statement that \( \gamma \) is an orthonormal basis is true.
-
-
-
 #+LATEX: \end{solution}
 
