@@ -1,0 +1,26 @@
+#+TITLE: Lab assignment 7 (Iterative method and Gradient descent method)
+#+DATE: \today
+#+AUTHOR: John Möller
+#+OPTIONS: num:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: se
+#+LaTeX_CLASS: notesse
+#+LATEX_HEADER: \input{/home/john/texstuff/org/env.tex}
+#+LATEX_HEADER: \input{/home/john/texstuff/org/bold.tex}
+#+STARTUP: latexpreview
+
+* Task 1
+** exe: Task1 :ignore:
+#+LATEX: \begin{exercise}[Task1]  \label{exe:Task1}
+Solve the below linear equation using Gaussian elimination.
+\begin{align*}
+5x_1 - 2x_2 + 3x_3 = -1 \\
+-3x_1 + 9x_2 + x_3 = 2 \\
+2x_1 - x_2 - 7x_3 = 3
+.
+\end{align*}
+
+#+LATEX: \end{exercise}
+
