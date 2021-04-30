@@ -27,7 +27,11 @@ A=
 
 #+LATEX: \end{exercise}
 
-** sol: 1 :ignore:
+** *** sol:  :ignore:
+#+LATEX: \begin{solution}[]  \label{sol:}
+
+#+LATEX: \end{solution}
+: 1 :ignore:
 #+LATEX: \begin{solution}[1]  \label{sol:1}
 To QR decompose \( A \) we will interpret the columns of \( A \)
 as three column vectors \( A = ( a_1 , a_2, a_3) \) expressed in an orthonormal
@@ -36,5 +40,24 @@ basis
 \( \gamma \) such that if \( r_1, r_2 , r_3 \) are the respective vectors \( a_1, a_2 , a_3 \)
 in the basis \( \gamma \), then the matrix \( R = (r_1, r_2, r_3) \) we be an upper
 triangular matrix.
+
+By the Gram-Schmidt method we will have an orthogonal basis and add our
+new vector by removing all components that are unorthogonal relative to
+the given orthogonal basis. We will get these components by projecting
+our new vector on the vectors in the orthogonal basis. Then we can add
+an arbitrary ammoun of new vectors by using this defintion recursively.
+When we're done we will normalise all our vectors in the basis and thus
+it will be orthonormal.
+
+So let \( v_k \) denote the orthogonal basis vectors we are looking for
+that we will in the end normalise to get the orthonormal basis.
+So we will start by simply letting \( v_1 = a_1 \) as the set
+\( \{ v_1 \}  \) is orthogonal by definition.
+
+We will get \( v_2 \) by removing the \( v_1 \) parallel component of \( a_2 \):
+\begin{align*}
+v_2 = a_2 - \text{proj} _{v_1} (a_2).
+\end{align*}
+
 
 #+LATEX: \end{solution}
