@@ -9,3 +9,162 @@
 Init.
 """
 #+end_src
+
+* Linear algebra functions
+
+** matrix multiply
+#+begin_src python :results output :session
+def matrix_multiply(matrix1, matrix2):
+    m = len(matrix1)
+    n = len(matrix2)
+    p = len(matrix2[0])
+    element = lambda i,j: sum([matrix1[i][k] * matrix2[k][j]
+                               for k in range(n)])
+    row = lambda i: [element(i,j) for j in range(p)]
+    return [row(i) for i in range(m)]
+#+end_src
+
+#+RESULTS:
+
+** Transpose
+#+begin_src python :results output :session
+def transpose(matrix):
+    """ Transposes a square matrix. """
+    n = len(matrix)
+    return [[matrix[i][j] for i in range(n)] for j in range(n)]
+#+end_src
+
+#+RESULTS:
+
+** Dot product
+#+begin_src python :results output :session
+def dot_product(v,u):
+    """ Takes the dot product of the vectors v and u. I.e. the inner product
+    given that the coordinates are in a orthonormal basis.
+    """
+    n = len(v)
+    return sum([v[k]*u[k] for k in range(n)])
+#+end_src
+
+#+RESULTS:
+
+** vector add
+#+begin_src python :results output :session
+def vector_add(v,u):
+    """ Add vectors componentwise. """
+    n = len(v)
+    return [v[k] + u[k] for k in range(n)]
+#+end_src
+
+#+RESULTS:
+
+** vector sub
+#+begin_src python :results output :session
+def vector_sub(v,u):
+    """ Add vectors componentwise. """
+    n = len(v)
+    if n == 0:
+        return []
+    return [v[k] - u[k] for k in range(n)]
+#+end_src
+
+#+RESULTS:
+
+** vector sum
+#+begin_src python :results output :session
+def vector_sum(list_of_vectors, size=1):
+    """ Returns the sum of the list. """
+    n = size
+    zero = [0 for i in range(n)]
+    if list_of_vectors == []:
+        return zero
+    else:
+        n = len(list_of_vectors[0])
+        zero = [0 for i in range(n)]
+        return vector_add(list_of_vectors[0],
+                          vector_sum(list_of_vectors[1:], size=n))
+#+end_src
+
+#+RESULTS:
+
+*** test vector sum
+#+begin_src python :results output :session :tangle no
+print(vector_sum([[2,2],[3,4],[1,1]]))
+#+end_src
+
+#+RESULTS:
+: [6, 7]
+
+** Scalar product
+#+begin_src python :results output :session
+def scalar_product(m,v):
+    """ Takes the scalar product of the scalar m and the vector v. """
+    n = len(v)
+    return [m * v[k] for k in range(n)]
+#+end_src
+
+#+RESULTS:
+
+** Euclidean norm
+#+begin_src python :results output :session
+def norm(v):
+    """ Returns the euclidean norm given the basis is orthonormal. """
+    return sqrt(dot_product(v,v))
+#+end_src
+
+#+RESULTS:
+
+*** test av euclidean norm
+#+begin_src python :results output :session :tangle no
+v = [1,1,1,1]
+print(norm(v))
+#+end_src
+
+#+RESULTS:
+: 2.0
+
+** Normalise
+#+begin_src python :results output :session
+def normalise(v):
+    """ Normalises the vector 'v' using the euclidean norm. """
+    return scalar_product(1 / norm(v), v)
+#+end_src
+
+#+RESULTS:
+
+*** Test of normalise
+#+begin_src python :results output :session
+v = [0,1,1]
+print(normalise(v))
+#+end_src
+
+#+RESULTS:
+: [0.0, 0.7071067811865475, 0.7071067811865475]
+: 0.7071067811865475
+
+** Projection
+#+begin_src python :results output :session
+def projection(u,v):
+    """ Takes the projection of v on u, given that the coordinates
+    are in a orthnormal basis.
+    """
+    scalar = dot_product(u,v) / dot_product(u,u)
+    return scalar_product(scalar, u)
+    
+#+end_src
+
+#+RESULTS:
+
+** Test of above
+#+begin_src python :results output :session :tangle no
+u,v = [3,3], [5,0]
+print(projection(v,u))
+#+end_src
+
+#+RESULTS:
+: [3.0, 0.0]
+
+
+* Jacobi method
+
+* Gradient Descent method
