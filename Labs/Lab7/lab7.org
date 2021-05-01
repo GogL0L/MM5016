@@ -263,10 +263,20 @@ def euclidean_distance(v,u):
     """ Given the n by 1 vectors 'v' and 'u', this function will return
     the euclidean distance between them.
     """
-    uv = vector_sub(
+    uv = matrix_sub(v,u)
+    return norm(uv)
 #+end_src
 
 #+RESULTS:
+
+**** test
+#+begin_src python :results output :session :tangle no
+u, v = [[0], [3], [0]], [[0], [0], [4]]
+print(euclidean_distance(v,u))
+#+end_src
+
+#+RESULTS:
+: 5.0
 
 * Jacobi method
 #+begin_src python :results output :session
