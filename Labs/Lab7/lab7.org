@@ -10,9 +10,11 @@ Init.
 """
 #+end_src
 
-* Linear algebra functions
+* Linear algebra
 
-** matrix multiply
+** Linear algebra operation
+
+*** matrix multiply
 #+begin_src python :results output :session
 def matrix_multiply(matrix1, matrix2):
     m = len(matrix1)
@@ -26,7 +28,7 @@ def matrix_multiply(matrix1, matrix2):
 
 #+RESULTS:
 
-** Transpose
+*** Transpose
 #+begin_src python :results output :session
 def transpose(matrix):
     """ Transposes a square matrix. """
@@ -36,7 +38,7 @@ def transpose(matrix):
 
 #+RESULTS:
 
-** Dot product
+*** Dot product
 #+begin_src python :results output :session
 def dot_product(v,u):
     """ Takes the dot product of the vectors v and u. I.e. the inner product
@@ -48,7 +50,7 @@ def dot_product(v,u):
 
 #+RESULTS:
 
-** vector add
+*** vector add
 #+begin_src python :results output :session
 def vector_add(v,u):
     """ Add vectors componentwise. """
@@ -58,7 +60,7 @@ def vector_add(v,u):
 
 #+RESULTS:
 
-** vector sub
+*** vector sub
 #+begin_src python :results output :session
 def vector_sub(v,u):
     """ Add vectors componentwise. """
@@ -70,7 +72,7 @@ def vector_sub(v,u):
 
 #+RESULTS:
 
-** vector sum
+*** vector sum
 #+begin_src python :results output :session
 def vector_sum(list_of_vectors, size=1):
     """ Returns the sum of the list. """
@@ -87,7 +89,7 @@ def vector_sum(list_of_vectors, size=1):
 
 #+RESULTS:
 
-*** test vector sum
+**** test vector sum
 #+begin_src python :results output :session :tangle no
 print(vector_sum([[2,2],[3,4],[1,1]]))
 #+end_src
@@ -95,7 +97,7 @@ print(vector_sum([[2,2],[3,4],[1,1]]))
 #+RESULTS:
 : [6, 7]
 
-** Scalar product
+*** Scalar product
 #+begin_src python :results output :session
 def scalar_product(m,v):
     """ Takes the scalar product of the scalar m and the vector v. """
@@ -105,7 +107,7 @@ def scalar_product(m,v):
 
 #+RESULTS:
 
-** Euclidean norm
+*** Euclidean norm
 #+begin_src python :results output :session
 def norm(v):
     """ Returns the euclidean norm given the basis is orthonormal. """
@@ -114,7 +116,7 @@ def norm(v):
 
 #+RESULTS:
 
-*** test av euclidean norm
+**** test av euclidean norm
 #+begin_src python :results output :session :tangle no
 v = [1,1,1,1]
 print(norm(v))
@@ -123,7 +125,7 @@ print(norm(v))
 #+RESULTS:
 : 2.0
 
-** Normalise
+*** Normalise
 #+begin_src python :results output :session
 def normalise(v):
     """ Normalises the vector 'v' using the euclidean norm. """
@@ -132,7 +134,7 @@ def normalise(v):
 
 #+RESULTS:
 
-*** Test of normalise
+**** Test of normalise
 #+begin_src python :results output :session
 v = [0,1,1]
 print(normalise(v))
@@ -142,7 +144,7 @@ print(normalise(v))
 : [0.0, 0.7071067811865475, 0.7071067811865475]
 : 0.7071067811865475
 
-** Projection
+*** Projection
 #+begin_src python :results output :session
 def projection(u,v):
     """ Takes the projection of v on u, given that the coordinates
@@ -155,7 +157,7 @@ def projection(u,v):
 
 #+RESULTS:
 
-** Test of above
+*** Test of above
 #+begin_src python :results output :session :tangle no
 u,v = [3,3], [5,0]
 print(projection(v,u))
@@ -164,6 +166,47 @@ print(projection(v,u))
 #+RESULTS:
 : [3.0, 0.0]
 
+** Related to jacobi method
+
+*** simple decompose matrix
+#+begin_src python :results output :session
+def additive_decomposition(A):
+    """ Decomposes an n by n matrix 'A' into an lower triangular
+    matrix 'L', diagonal matrix 'U' and an upper triangular
+    matrix 'U' such that 'A = D + L + U'. This function
+    returns the 3 tuple '(D, L, U)'.
+    """
+    n = len(A)
+    D = [[A[i][j] if i==j else 0 for j in range(n)] for i in range(n)]
+    L = [[A[i][j] if i<j else 0 for j in range(n)] for i in range(n)]
+    U = [[A[i][j] if i>j else 0 for j in range(n)] for i in range(n)]
+    return D,L,U
+#+end_src
+
+#+RESULTS:
+
+**** Test additive decomposition
+#+begin_src python :results output :session :tangle no
+A = [[1,2,3], [4,5,6], [7,8,9]]
+D,L,U = additive_decomposition(A)
+print("D:",D)
+print("L:",L)
+print("U:",U)
+#+end_src
+
+#+RESULTS:
+: D: [[1, 0, 0], [0, 5, 0], [0, 0, 9]]
+: L: [[0, 2, 3], [0, 0, 6], [0, 0, 0]]
+: U: [[0, 0, 0], [4, 0, 0], [7, 8, 0]]
+
+*** Diagonal inverse
+#+begin_src python :results output :session
+def diagonal_inverse(D):
+    """ Given a diagonal matrix 'D' with non-zero diagonals this function 
+    returns the inverse matrix.
+    """
+    D_inverse = [[D[i][j] for 
+#+end_src
 
 * Jacobi method
 
