@@ -99,4 +99,32 @@ to make it more readable:
 Now we can simply add the second row to the third row in order to eliminate
 the third row of the second column:
 
+\begin{align*}
+\left( \begin{array}{c c c | c}
+1  &  -\frac{2}{5}  &  \frac{3}{5}  &  -\frac{1}{5} \\
+0  &  1  &  \frac{14}{39}  &  \frac{7}{39} \\
+0  &  0 & \frac{14 - 41 \cdot 39}{39} & \frac{7 + 17 \cdot 39}{39}
+\end{array} \right)
+.
+\end{align*}
 #+LATEX: \end{solution}
+
+From the third row we get that:
+\begin{align*}
+ &  \frac{14 -41 \cdot39}{39} x_3 = \frac{7 + 17 \cdot39}{39} \\
+\implies &  (14 - 41 \cdot39) x_3 = 7 + 17 \cdot 39 \\
+\implies & x_3  &  = \frac{7 + 17 \cdot39}{14 - 41 \cdot39} \\
+&  &  = \frac{7 + 663}{14 - 1599} \\
+ &   &  = \frac{670}{- 1585} = - \frac{134}{317} 
+.
+\end{align*}
+
+From the second row of the augmented matrix we get that:
+\begin{align*}
+ &  x_2 + \frac{14x_3}{39} = \frac{7}{39} \\
+\implies & x_2 = \frac{7 - 14x_3}{39} \\
+\implies & 39x_2 = 7 - 14x_3 \\
+\implies & 39x_2 = 7 - 14 \cdot  \frac{7 + 17 \cdot39}{14 - 41 \cdot39} \\
+\implies & x_2 = \frac{7}{39} - 14 \cdot \frac{7 + 17 \cdot39}{14 - 41 \cdot39}
+.
+\end{align*}
