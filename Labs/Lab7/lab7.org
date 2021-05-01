@@ -80,7 +80,7 @@ print(dot_product(v,u))
 #+RESULTS:
 : 13
 
-*** vector add
+*** matrix add
 #+begin_src python :results output :session
 def matrix_add(A,B):
     """ Add matrices componentwise. """
@@ -100,6 +100,29 @@ print(matrix_add(A,B))
 
 #+RESULTS:
 : [[3, 6], [8, 10]]
+
+*** Scalar product
+#+begin_src python :results output :session
+def scalar_product(m,A):
+    """ Takes the scalar product of the scalar m and the matrix A. """
+    n = len(A)
+    m = len(A[0])
+    return [[m * A[i][j] for j in range(m)] for i in range(n)]
+#+end_src
+
+#+RESULTS:
+
+**** Test av scalar product
+#+begin_src python :results output :session :tangle no
+A = [[1,2], [3,4]]
+v = [[2], [3]]
+print ("2 times A:", scalar_product(2, A))
+print ("3 times v:", scalar_product(3, v))
+#+end_src
+
+#+RESULTS:
+: 2 times A: [[2, 4], [6, 8]]
+: 3 times v: [[2], [3]]
 
 *** vector sub
 #+begin_src python :results output :session
@@ -137,16 +160,6 @@ print(vector_sum([[2,2],[3,4],[1,1]]))
 
 #+RESULTS:
 : [6, 7]
-
-*** Scalar product
-#+begin_src python :results output :session
-def scalar_product(m,v):
-    """ Takes the scalar product of the scalar m and the vector v. """
-    n = len(v)
-    return [m * v[k] for k in range(n)]
-#+end_src
-
-#+RESULTS:
 
 *** Euclidean norm
 #+begin_src python :results output :session
