@@ -11,6 +11,8 @@ X = [[x1], [x2] ,[x3], ... , [xn]]. An m by n matrix 'A' will be symbolised by a
 m consisting of lists of size n. The solution to task 2 in the lab will be the function
 'jacobi_method'.
 """
+
+from math import sqrt
 #+end_src
 
 #+RESULTS:
@@ -55,7 +57,6 @@ print("Vector tranposed:", transpose(vector))
 #+RESULTS:
 : Matrix tranposed: [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 : Vector tranposed: [[1, 2, 3]]
-
 
 *** Dot product
 #+begin_src python :results output :session
@@ -146,37 +147,39 @@ print(matrix_sub(A,B))
 
 *** Euclidean norm
 #+begin_src python :results output :session
-def norm(v):
+def norm(A):
     """ Returns the euclidean norm given the basis is orthonormal. """
-    return sqrt(dot_product(v,v))
+    return sqrt(dot_product(A,A))
 #+end_src
 
 #+RESULTS:
 
 **** test av euclidean norm
 #+begin_src python :results output :session :tangle no
-v = [1,1,1,1]
-print(norm(v))
+A = [[3], [0], [4]]
+print(norm(A))
 #+end_src
 
 #+RESULTS:
+: 5.0
 
 *** Normalise
 #+begin_src python :results output :session
 def normalise(v):
     """ Normalises the vector 'v' using the euclidean norm. """
-    return scalar_product(1 / norm(v), v)
+    return scale(1 / norm(v), v)
 #+end_src
 
 #+RESULTS:
 
 **** Test of normalise
 #+begin_src python :results output :session
-v = [0,1,1]
+v = [[ 0 ],[ 1 ],[ 1 ]]
 print(normalise(v))
 #+end_src
 
 #+RESULTS:
+: [[0.0], [0.7071067811865475], [0.7071067811865475]]
 
 *** Projection
 #+begin_src python :results output :session
@@ -185,7 +188,7 @@ def projection(u,v):
     are in a orthnormal basis.
     """
     scalar = dot_product(u,v) / dot_product(u,u)
-    return scalar_product(scalar, u)
+    return scale(scalar, u)
     
 #+end_src
 
@@ -193,12 +196,12 @@ def projection(u,v):
 
 *** Test of above
 #+begin_src python :results output :session :tangle no
-u,v = [3,3], [5,0]
+u,v = [[ 3 ],[ 3 ]], [[ 5 ],[ 0 ]]
 print(projection(v,u))
 #+end_src
 
 #+RESULTS:
-: [3.0, 0.0]
+: [[3.0], [0.0]]
 
 ** Related to jacobi method
 
