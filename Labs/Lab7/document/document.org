@@ -59,6 +59,44 @@ Let us now eliminate the second row of the first column by adding
 \end{align*}
 
 Let us now eliminate the third row of the first column by adding
--2 times the first row
-#+LATEX: \end{solution}
+-2 times the first row:
 
+\begin{align*}
+\left( \begin{array}{c c c | c}
+1  &  -\frac{2}{5}  &  \frac{3}{5}  &  -\frac{1}{5} \\
+0  &  \frac{39}{5}  &  \frac{14}{5}  &  \frac{7}{5} \\
+0  &  -\frac{1}{5}  &  -\frac{41}{5}  &  \frac{17}{5}
+\end{array} \right)
+.
+\end{align*}
+
+Let us now normalise the second row of the second column by
+multiplying with \( \frac{5}{39} \):
+
+\begin{align*}
+\left( \begin{array}{c c c | c}
+1  &  -\frac{2}{5}  &  \frac{3}{5}  &  -\frac{1}{5} \\
+0  &  1  &  \frac{14}{39}  &  \frac{7}{39} \\
+0  &  -\frac{1}{5}  &  -\frac{41}{5}  &  \frac{17}{5}
+\end{array} \right)
+.
+\end{align*}
+
+In the normal algorithm we would now add a \( \frac{1}{5} \) times the second row
+to the third row, in order to eliminate the third row in the second
+column. But we will instead first scale the third row by \( 5 \), in order
+to make it more readable:
+
+\begin{align*}
+\left( \begin{array}{c c c | c}
+1  &  -\frac{2}{5}  &  \frac{3}{5}  &  -\frac{1}{5} \\
+0  &  1  &  \frac{14}{39}  &  \frac{7}{39} \\
+0  &  -1 &  -41 &  17
+\end{array} \right)
+.
+\end{align*}
+
+Now we can simply add the second row to the third row in order to eliminate
+the third row of the second column:
+
+#+LATEX: \end{solution}
