@@ -1,19 +1,26 @@
-#+TITLE: Lab assignment 7 (Iterative method and Gradient descent method)
-#+DATE: \today
-#+AUTHOR: John Möller
-#+OPTIONS: num:t
-#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
-#+EXCLUDE_TAGS: noexport
-#+KEYWORDS:
-#+LANGUAGE: se
-#+LaTeX_CLASS: notesse
-#+LATEX_HEADER: \input{/home/john/texstuff/org/env.tex}
-#+LATEX_HEADER: \input{/home/john/texstuff/org/bold.tex}
-#+STARTUP: latexpreview
+% Created 2021-05-01 Sat 12:49
+% Intended LaTeX compiler: pdflatex
+\documentclass[10pt]{article}
+     \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
+     \input{/home/john/skola/test/test3/bold.tex}
+     \usepackage{minted}
+\author{John Möller}
+\date{\today}
+\title{Lab assignment 7 (Iterative method and Gradient descent method)}
+\hypersetup{
+ pdfauthor={John Möller},
+ pdftitle={Lab assignment 7 (Iterative method and Gradient descent method)},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.2 (Org mode 9.4.4)}, 
+ pdflang={Samin}}
+\begin{document}
 
-* Task 1
-** exe: Task1 :ignore:
-#+LATEX: \begin{exercise}[Task1]  \label{exe:Task1}
+\maketitle
+
+\section{Task 1}
+\label{sec:org26d39f9}
+\begin{exercise}[Task1]  \label{exe:Task1}
 Solve the below linear equation using Gaussian elimination.
 \begin{align*}
 5x_1 - 2x_2 + 3x_3 = -1 \\
@@ -22,10 +29,8 @@ Solve the below linear equation using Gaussian elimination.
 .
 \end{align*}
 
-#+LATEX: \end{exercise}
-
-** sol:  :ignore:
-#+LATEX: \begin{solution}[]  \label{sol:}
+\end{exercise}
+\begin{solution}[]  \label{sol:}
 Let us first reformulate the equation as an augmented matrix:
 \begin{align*}
 \left( \begin{array}{c c c | c}
@@ -71,7 +76,7 @@ Let us now eliminate the third row of the first column by adding
 \end{align*}
 
 Let us now normalise the second row of the second column by
-multiplying with \( \frac{5}{39} \):
+multiplying with \(\frac{5}{39}\):
 
 \begin{align*}
 \left( \begin{array}{c c c | c}
@@ -82,9 +87,9 @@ multiplying with \( \frac{5}{39} \):
 .
 \end{align*}
 
-In the normal algorithm we would now add a \( \frac{1}{5} \) times the second row
+In the normal algorithm we would now add a \(\frac{1}{5}\) times the second row
 to the third row, in order to eliminate the third row in the second
-column. But we will instead first scale the third row by \( 5 \), in order
+column. But we will instead first scale the third row by \(5\), in order
 to make it more readable:
 
 \begin{align*}
@@ -95,8 +100,6 @@ to make it more readable:
 \end{array} \right)
 .
 \end{align*}
-
-** augmented matrix :ignore:
 Now we can simply add the second row to the third row in order to eliminate
 the third row of the second column:
 
@@ -108,8 +111,6 @@ the third row of the second column:
 \end{array} \right)
 .
 \end{align*}
-
-** x3 :ignore:
 From the third row we get that:
 \begin{align*} &  \frac{14 -41 \cdot39}{39} x_3 = \frac{7 + 17 \cdot39}{39} \\
 \implies &  (14 - 41 \cdot39) x_3 = 7 + 17 \cdot 39 \\
@@ -118,8 +119,6 @@ From the third row we get that:
  &    = \frac{670}{- 1585} = - \frac{134}{317} 
 .
 \end{align*}
-
-** x2 :ignore:
 From the second row of the augmented matrix we get that:
 \begin{align*}
  &  x_2 + \frac{14x_3}{39} = \frac{7}{39} \\
@@ -136,8 +135,6 @@ From the second row of the augmented matrix we get that:
 \implies & x_2 = \frac{7 \cdot 3 \cdot 5}{317} = \frac{105}{317} 
 .
 \end{align*}
-
-** x1                                                               :ignore:
 From the first row we get that:
 \begin{align*}
  &  x_1 - \frac{2x_2}{5} + \frac{3x_3}{5} = -\frac{1}{5} \\
@@ -149,8 +146,6 @@ From the first row we get that:
 \implies & x_1 = \frac{59}{317}
 .
 \end{align*}
-
-** conclusion :ignore:
 So to summarise the solution is:
 \begin{align*}
  &  x_1 = \frac{59}{317} \\
@@ -160,4 +155,5 @@ So to summarise the solution is:
 \end{align*}
 
 
-#+LATEX: \end{solution}
+\end{solution}
+\end{document}
