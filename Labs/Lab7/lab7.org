@@ -3,10 +3,13 @@
 #+PROPERTY: header-args :tangle ./lab7.py :padline 2
 
 * Header
-#+begin_src python :results output :session
+#+begin_src python :results output :session :padline 0
 ## Description
 """
-Init.
+The column vector 'X' will be symbolised as a list of size 1 lists, that is
+X = [[x1], [x2] ,[x3], ... , [xn]]. An m by n matrix 'A' will be symbolised by a list of size
+m consisting of lists of size n. The solution to task 2 in the lab will be the function
+'jacobi_method'.
 """
 #+end_src
 
@@ -202,12 +205,33 @@ print("U:",U)
 *** Diagonal inverse
 #+begin_src python :results output :session
 def diagonal_inverse(D):
-    """ Given a diagonal matrix 'D' with non-zero diagonals this function 
+    """ Given a diagonal n by n matrix 'D' with non-zero diagonals this function 
     returns the inverse matrix.
     """
-    D_inverse = [[D[i][j] for 
+    n = len(D)
+    return [[1 / D[i][j] if i==j else 0 for j in range(n)] for i in range(n)]
+#+end_src
+
+#+RESULTS:
+
+**** diagonal inverse test
+#+begin_src python :results output :session :tangle no
+D = [[1,0,0], [0, 4, 0], [0,0,10]]
+print(diagonal_inverse(D))
+#+end_src
+
+#+RESULTS:
+: [[1.0, 0, 0], [0, 0.25, 0], [0, 0, 0.1]]
+
+*** Euclidean distance
+#+begin_src python :results output :session
+
 #+end_src
 
 * Jacobi method
+#+begin_src python :results output :session
+def jacobi_method(A, b):
+    """ Given a matrix A and 
+#+end_src
 
 * Gradient Descent method
