@@ -103,11 +103,11 @@ print(matrix_add(A,B))
 
 *** Scale
 #+begin_src python :results output :session
-def scale(m,A):
+def scale(l,A):
     """ Scales the matrix 'A' with the scalar m. """
     n = len(A)
     m = len(A[0])
-    return [[m * A[i][j] for j in range(m)] for i in range(n)]
+    return [[l * A[i][j] for j in range(m)] for i in range(n)]
 #+end_src
 
 #+RESULTS:
@@ -116,26 +116,33 @@ def scale(m,A):
 #+begin_src python :results output :session :tangle no
 A = [[1,2], [3,4]]
 v = [[2], [3]]
-print ("2 times A:", scale(2, A))
+print ("2 times A:", scale(-2, A))
 print ("3 times v:", scale(3, v))
 #+end_src
 
 #+RESULTS:
-: 2 times A: [[2, 4], [6, 8]]
-: 3 times v: [[2], [3]]
+: 2 times A: [[-2, -4], [-6, -8]]
+: 3 times v: [[6], [9]]
 
 *** vector sub
 #+begin_src python :results output :session
-def vector_sub(v,u):
+def matrix_sub(A,B):
     """ Add vectors componentwise. """
-    negative_u = scalar_product(
-    n = len(v)
-    if n == 0:
-        return []
-    return [v[k] - u[k] for k in range(n)]
+    negative_B = scale(-1, B)
+    return matrix_add(A, negative_B)
 #+end_src
 
 #+RESULTS:
+
+**** Test
+#+begin_src python :results output :session :tangle no
+A = [[1,2], [3,4]]
+B = [[0,2], [4,1]]
+print(matrix_sub(A,B))
+#+end_src
+
+#+RESULTS:
+: [[1, 6], [11, 6]]
 
 *** vector sum
 #+begin_src python :results output :session
