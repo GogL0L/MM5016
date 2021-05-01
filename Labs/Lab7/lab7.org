@@ -82,13 +82,24 @@ print(dot_product(v,u))
 
 *** vector add
 #+begin_src python :results output :session
-def vector_add(v,u):
-    """ Add vectors componentwise. """
-    n = len(v)
-    return [v[k] + u[k] for k in range(n)]
+def matrix_add(A,B):
+    """ Add matrices componentwise. """
+    n = len(A)
+    m = len(A[0])
+    return [[A[i][j] + B[i][j] for j in range(m)] for i in range(n)]
 #+end_src
 
 #+RESULTS:
+
+**** test av matrix add
+#+begin_src python :results output :session :tangle no
+A = [[1,2], [3,4]]
+B = [[2,4], [5,6]]
+print(matrix_add(A,B))
+#+end_src
+
+#+RESULTS:
+: [[3, 6], [8, 10]]
 
 *** vector sub
 #+begin_src python :results output :session
