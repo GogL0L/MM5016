@@ -278,10 +278,36 @@ print(euclidean_distance(v,u))
 #+RESULTS:
 : 5.0
 
+*** get zero matrix
+#+begin_src python :results output :session
+def zero_matrix(A):
+    """ Returns the zero matrix of the same size. """
+    n = len(A)
+    m = len(A[0])
+    return [[0 for j in range(m)] for i in range(n)]
+#+end_src
+
+#+RESULTS:
+
+**** test
+#+begin_src python :results output :session :tangle no
+A = [[1,2], [3,4]]
+v = [[1], [5]]
+print("2x2 zero matrix:", zero_matrix(A))
+print("2x1 zero matrix:", zero_matrix(v))
+#+end_src
+
+#+RESULTS:
+: 2x2 zero matrix: [[0, 0], [0, 0]]
+: 2x1 zero matrix: [[0], [0]]
+
 * Jacobi method
 #+begin_src python :results output :session
-def jacobi_method(A, b):
-    """ Given a matrix A and 
+def jacobi_method(A, b, initital_guess = tolerance=0.2, iteration=0, max_iterations=100):
+    """ Given an n by n matrix A and an n by 1 vector b, this function 
+    returns the solution x to the equation Ax = b, with the accuracy
+    specified by the tolerance.
+    """
 #+end_src
 
 #+RESULTS:
