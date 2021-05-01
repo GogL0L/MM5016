@@ -14,7 +14,7 @@
 * Task 1
 ** exe: Task1 :ignore:
 #+LATEX: \begin{exercise}[Task1]  \label{exe:Task1}
-Solve the below linear equation using Gaussian elimination.
+Solve the below linear equations using Gaussian elimination.
 \begin{align*}
 5x_1 - 2x_2 + 3x_3 = -1 \\
 -3x_1 + 9x_2 + x_3 = 2 \\
