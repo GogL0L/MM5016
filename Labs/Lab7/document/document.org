@@ -110,12 +110,11 @@ the third row of the second column:
 #+LATEX: \end{solution}
 
 From the third row we get that:
-\begin{align*}
- &  \frac{14 -41 \cdot39}{39} x_3 = \frac{7 + 17 \cdot39}{39} \\
+\begin{align*} &  \frac{14 -41 \cdot39}{39} x_3 = \frac{7 + 17 \cdot39}{39} \\
 \implies &  (14 - 41 \cdot39) x_3 = 7 + 17 \cdot 39 \\
-\implies & x_3  &  = \frac{7 + 17 \cdot39}{14 - 41 \cdot39} \\
-&  &  = \frac{7 + 663}{14 - 1599} \\
- &   &  = \frac{670}{- 1585} = - \frac{134}{317} 
+\implies & x_3   = \frac{7 + 17 \cdot39}{14 - 41 \cdot39} \\
+&    = \frac{7 + 663}{14 - 1599} \\
+ &    = \frac{670}{- 1585} = - \frac{134}{317} 
 .
 \end{align*}
 
@@ -124,7 +123,14 @@ From the second row of the augmented matrix we get that:
  &  x_2 + \frac{14x_3}{39} = \frac{7}{39} \\
 \implies & x_2 = \frac{7 - 14x_3}{39} \\
 \implies & 39x_2 = 7 - 14x_3 \\
-\implies & 39x_2 = 7 - 14 \cdot  \frac{7 + 17 \cdot39}{14 - 41 \cdot39} \\
-\implies & x_2 = \frac{7}{39} - 14 \cdot \frac{7 + 17 \cdot39}{14 - 41 \cdot39}
+\implies & 39x_2 = 7 + \frac{14 \cdot 134}{317} \\
+\implies & 39x_2 = \frac{7 \cdot317 + 14 \cdot 134}{317}  \\
+\implies & 39x_2 = \frac{2219  + 1876}{317}  \\
+\implies & 39x_2 = \frac{4095}{317}  \\
+\implies & 39x_2 = \frac{819 \cdot 5}{317}  &  \text{ we observe that 819 is divisible by 3 }  \\
+\implies & 39x_2 = \frac{273 \cdot 3 \cdot 5}{317} &   \text{ 273 is also divisible by 3 } \\
+\implies & 39x_2 = \frac{91 \cdot 9 \cdot 5}{317}  &  \text{ 39 is also divisible by 3 } \\
+\implies & 13x_2 = \frac{91 \cdot 3 \cdot 5}{317} \\
+\implies & x_2 = \frac{7 \cdot 3 \cdot 5}{317} = \frac{105}{317} 
 .
 \end{align*}
