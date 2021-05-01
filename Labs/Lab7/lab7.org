@@ -124,7 +124,7 @@ print ("3 times v:", scale(3, v))
 : 2 times A: [[-2, -4], [-6, -8]]
 : 3 times v: [[6], [9]]
 
-*** vector sub
+*** matrix sub
 #+begin_src python :results output :session
 def matrix_sub(A,B):
     """ Add vectors componentwise. """
@@ -143,31 +143,6 @@ print(matrix_sub(A,B))
 
 #+RESULTS:
 : [[1, 0], [-1, 3]]
-
-*** vector sum
-#+begin_src python :results output :session
-def vector_sum(list_of_vectors, size=1):
-    """ Returns the sum of the list. """
-    n = size
-    zero = [0 for i in range(n)]
-    if list_of_vectors == []:
-        return zero
-    else:
-        n = len(list_of_vectors[0])
-        zero = [0 for i in range(n)]
-        return vector_add(list_of_vectors[0],
-                          vector_sum(list_of_vectors[1:], size=n))
-#+end_src
-
-#+RESULTS:
-
-**** test vector sum
-#+begin_src python :results output :session :tangle no
-print(vector_sum([[2,2],[3,4],[1,1]]))
-#+end_src
-
-#+RESULTS:
-: [6, 7]
 
 *** Euclidean norm
 #+begin_src python :results output :session
