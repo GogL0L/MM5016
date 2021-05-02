@@ -303,11 +303,29 @@ print("2x1 zero matrix:", zero_matrix(v))
 
 * Jacobi method
 #+begin_src python :results output :session
-def jacobi_method(A, b, initital_guess = tolerance=0.2, iteration=0, max_iterations=100):
+def jacobi_method(A, b,
+                  approximate_solution = zero_matrix(b) ,
+                  tolerance=0.001, iteration=0, max_iterations=100):
     """ Given an n by n matrix A and an n by 1 vector b, this function 
     returns the solution x to the equation Ax = b, with the accuracy
-    specified by the tolerance.
+    specified by the tolerance. If the tolerance is not met within
+    'max_iterations' ammount of iterations, an exception will be raised.
     """
+    if iteration > max_iterations:
+        raise RecursionError("<jacobi_method: max iterations exceded!">)
+
+    b_approximate = matrix_multiply(A, approximate_solution)
+    distance = euclidean_distance(b, b_approximate)
+    if distance <= tolerance:
+        return approximate_solution
+    else:
+        x = approximate_solution
+        D, L, U = additive_decomposition(A)
+        D_inverse = diagonal_inverse(D)
+        x_new = D
+        
+
+    
 #+end_src
 
 #+RESULTS:
