@@ -11,4 +11,21 @@
 #+LATEX_HEADER: \input{/home/john/texstuff/org/bold.tex}
 #+STARTUP: latexpreview
 
-* Init
+* Problems
+
+** exe: 1
+#+LATEX: \begin{exercise}[1]  \label{exe:1}
+The two quantities \( x \) and \( y \) have a relative error
+of \( \epsilon_x \) respectively \( \epsilon_y \). Calculate the error in the following cases:
+1. \( x -2y \)
+2. \( 4x -5y \)
+3. \( 3xy \)
+4. \( x^{3} / y^{5}  \)
+5. \( \sqrt{x} \)
+6. \( \sqrt{x^{3} } \)
+7. 
+
+
+
+
+#+LATEX: \end{exercise}
