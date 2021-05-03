@@ -1,4 +1,4 @@
-% Created 2021-05-03 Mon 08:27
+% Created 2021-05-03 Mon 08:42
 % Intended LaTeX compiler: pdflatex
 \documentclass[10pt]{article}
      \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
@@ -18,7 +18,7 @@
 \maketitle
 
 \section{Problems}
-\label{sec:org4b758be}
+\label{sec:org9bc3bff}
 
 \begin{exercise}[1]  \label{exe:1}
 The two quantities \(x\) and \(y\) have a relative error
@@ -167,4 +167,38 @@ we get:
 
 
 \end{solution}
+\begin{exercise}[3]  \label{exe:3}
+Suppose
+\begin{align*}
+F = \frac{P \pi a^{4} }{8lw} 
+.
+\end{align*}
+Write down an expression for the maximum percentage error in \(F\). Suppose
+further that \(\frac{\delta P}{P} = 0.5\%\), \(\frac{\delta a}{a} = 0.5 \%\), \(\frac{\delta l}{l} = 0.1\%\), and \(\frac{\delta w}{w} = 1\%\), calculate the
+percent error in the result.
+\end{exercise}
+\begin{solution}[3]  \label{sol:3}
+\begin{align*}
+\epsilon _{F}  &  = \epsilon _{\frac{P \pi a^{4}}{8 l w}} = \epsilon _{\frac{P a^{4}}{ l w} }
+= \epsilon _{P a^{4}} - \epsilon _{l w} = (\epsilon _{P} + \epsilon _{a^{4}}) - (\epsilon _{l} + \epsilon _{w}) \\
+& = \epsilon _{P} + 4 \epsilon _{a} - \epsilon _{l} - \epsilon _{w} \\
+& = 0.5 \% + 4 \cdot 0.5\% - 0.1 \% - 0.1 \% \\
+& = 2.3 \%
+.
+\end{align*}
+
+\end{solution}
+\begin{exercise}[4]  \label{exe:4}
+Solve the system
+\begin{align*}
+5x_1 + 7x_2 = b_1 \\
+7x_1 + 10x_2 = b_2
+,
+\end{align*}
+using Gaussian elimination method to obtain the solution \(x_1\)
+when \(b _{T} = (b_1, b_2) = (0.7, 1)\). Also solve the above system
+with \(b_A = (b_1, b_2) = (0.69, 1.01)\) using the same method to
+obtain the solution \(x_2\). Show that
+
+\end{exercise}
 \end{document}
