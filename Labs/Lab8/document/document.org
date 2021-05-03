@@ -13,7 +13,7 @@
 
 * Problems
 
-** exe: 1
+** exe: 1 :ignore:
 #+LATEX: \begin{exercise}[1]  \label{exe:1}
 The two quantities \( x \) and \( y \) have a relative error
 of \( \epsilon_x \) respectively \( \epsilon_y \). Calculate the error in the following cases:
@@ -23,9 +23,92 @@ of \( \epsilon_x \) respectively \( \epsilon_y \). Calculate the error in the fo
 4. \( x^{3} / y^{5}  \)
 5. \( \sqrt{x} \)
 6. \( \sqrt{x^{3} } \)
-7. 
-
-
-
-
+7. \( \sqrt{2xy} \)
+8. \( 2 \sqrt{\frac{x}{3y}} \)
+9. \( 2 \sqrt{\frac{x^{3} }{3y}} \)
+10. \( \frac{x}{y} + \frac{y}{x} \)
+11. \( x^2 + y^2 \)
 #+LATEX: \end{exercise}
+
+** lem: error of scaled approximate value :ignore:
+#+LATEX: \begin{lemma}[error of scaled approximate value] \label{lem:error_of_scaled_approximate_value}
+Let \( x \) be a value and \( \tilde{x}  \) and approximation with relative error \( \epsilon _x \), and
+\( \lambda \) a scalar. Then the relative error of \( \lambda \tilde{x}  \) is
+\( \epsilon _{\lambda x } = \epsilon _{x} \). This is because \( \lambda \tilde{x} = \lambda x(1+ \epsilon _{\lambda x} ) \).
+#+LATEX: \end{lemma}
+
+** lem: error of exponent :ignore:
+#+LATEX: \begin{lemma}[error of exponent] \label{lem:error_of_exponent}
+Let \( x \) be a value and \( \tilde{x}  \) and approximation with relative
+error \( \epsilon _{x} \), and \( a \) an integer. Then the relative error of
+\( \tilde{x} ^{a}  \) is \( \epsilon _{x^{a} } = a \epsilon _{x} \). This is because
+\( \epsilon _{x^{a} } = \epsilon _{x x^{a-1} } = \epsilon _{x} + \epsilon _{x^{a-1} } \) .
+#+LATEX: \end{lemma}
+
+
+
+** sol: 1 :ignore:
+#+LATEX: \begin{solution}[1]  \label{sol:1}
+(1)
+\begin{align*}
+\epsilon _{x - 2y} &   = \frac{x}{x - (2y) } \epsilon _{x} -
+\frac{(2y) }{x - (2y) } \epsilon _{2y} \\
+& = \frac{x}{x - 2 y } \epsilon _{x} -
+\frac{2 y }{x - 2 y  } \epsilon _{y}
+.
+\end{align*}
+
+(2)
+\begin{align*}
+\epsilon _{4x - 5y}  &  =
+\frac{4x}{4x - 5y} \epsilon _{4x} - \frac{5y}{4x - 5y} \epsilon _{5y} \\
+& = 
+\frac{4x}{4x - 5y} \epsilon _{x} - \frac{5y}{4x - 5y} \epsilon _{y}
+.
+\end{align*}
+
+(3)
+\begin{align*}
+\epsilon _{3xy} = \epsilon _{xy} = \epsilon _{x} + \epsilon _{y}
+.
+\end{align*}
+
+(4)
+\begin{align*}
+\epsilon _{\frac{x^{3} }{y^{5} } } = \epsilon _{x^{3} } - \epsilon _{y^{5}} = 3 \epsilon _{x} - 5 \epsilon _{y}
+.
+\end{align*}
+
+(5)
+\begin{align*}
+ &  \epsilon _{x} = \epsilon _{\sqrt{x}^{2}} = 2 \cdot\epsilon _{\sqrt{x}} \\
+\implies & \epsilon _{\sqrt{x}} = \epsilon _{x} / 2
+.
+\end{align*}
+
+(6)
+\begin{align*}
+\epsilon _{\sqrt{x^{3}}} = \frac{\epsilon _{x^{3}}}{2} = \frac{3}{2} \epsilon _{x}
+.
+\end{align*}
+(7)
+\begin{align*}
+\epsilon _{\sqrt{2xy}}  &  = \epsilon _{\sqrt{2} \cdot  \sqrt{x} \cdot \sqrt{y}} \\
+& = \epsilon _{\sqrt{x} \cdot  \sqrt{y}} = \epsilon _{\sqrt{x}} + \epsilon _{\sqrt{y}} \\
+& = \frac{\epsilon _{x}}{2} + \frac{\epsilon _{y}}{2} 
+.
+\end{align*}
+
+(7)
+\begin{align*}
+\epsilon _{2 \sqrt{ \frac{x^{3}}{3y}}}  &  = \epsilon _{\sqrt{ \frac{x^{3}}{3y}}}
+= \frac{\epsilon _{\frac{x^{3}}{3y}}}{2} = \frac{\epsilon _{x^{3}} - \epsilon _{3y}}{2}
+= \frac{3 \epsilon _{x} - \epsilon _{y}}{2} 
+.
+\end{align*}
+
+
+
+#+LATEX: \end{solution}
+
+
