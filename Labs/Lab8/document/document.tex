@@ -1,14 +1,13 @@
-% Created 2021-05-02 Sun 19:06
+% Created 2021-05-03 Mon 07:40
 % Intended LaTeX compiler: pdflatex
 \documentclass[10pt]{article}
      \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
      \input{/home/john/skola/test/test3/bold.tex}
      \usepackage{minted}
-\author{John Möller}
 \date{\today}
 \title{MM5016 Laboration 8 Error analysis}
 \hypersetup{
- pdfauthor={John Möller},
+ pdfauthor={},
  pdftitle={MM5016 Laboration 8 Error analysis},
  pdfkeywords={},
  pdfsubject={},
@@ -18,6 +17,123 @@
 
 \maketitle
 
-\section{Init}
-\label{sec:org57aca46}
+\section{Problems}
+\label{sec:org1147ec5}
+
+\begin{exercise}[1]  \label{exe:1}
+The two quantities \(x\) and \(y\) have a relative error
+of \(\epsilon_x\) respectively \(\epsilon_y\). Calculate the error in the following cases:
+\begin{enumerate}
+\item \(x -2y\)
+\item \(4x -5y\)
+\item \(3xy\)
+\item \(x^{3} / y^{5}\)
+\item \(\sqrt{x}\)
+\item \(\sqrt{x^{3} }\)
+\item \(\sqrt{2xy}\)
+\item \(2 \sqrt{\frac{x}{3y}}\)
+\item \(2 \sqrt{\frac{x^{3} }{3y}}\)
+\item \(\frac{x}{y} + \frac{y}{x}\)
+\item \(x^2 + y^2\)
+\end{enumerate}
+\end{exercise}
+\begin{lemma}[error of scaled approximate value] \label{lem:error_of_scaled_approximate_value}
+Let \(x\) be a value and \(\tilde{x}\) and approximation with relative error \(\epsilon _x\), and
+\(\lambda\) a scalar. Then the relative error of \(\lambda \tilde{x}\) is
+\(\epsilon _{\lambda x } = \epsilon _{x}\). This is because \(\lambda \tilde{x} = \lambda x(1+ \epsilon _{\lambda x} )\).
+\end{lemma}
+\begin{lemma}[error of exponent] \label{lem:error_of_exponent}
+Let \(x\) be a value and \(\tilde{x}\) and approximation with relative
+error \(\epsilon _{x}\), and \(a\) an integer. Then the relative error of
+\(\tilde{x} ^{a}\) is \(\epsilon _{x^{a} } = a \epsilon _{x}\). This is because
+\(\epsilon _{x^{a} } = \epsilon _{x x^{a-1} } = \epsilon _{x} + \epsilon _{x^{a-1} }\) .
+\end{lemma}
+\begin{solution}[1]  \label{sol:1}
+(1)
+\begin{align*}
+\epsilon _{x - 2y} &   = \frac{x}{x - (2y) } \epsilon _{x} -
+\frac{(2y) }{x - (2y) } \epsilon _{2y} \\
+& = \frac{x}{x - 2 y } \epsilon _{x} -
+\frac{2 y }{x - 2 y  } \epsilon _{y}
+.
+\end{align*}
+
+(2)
+\begin{align*}
+\epsilon _{4x - 5y}  &  =
+\frac{4x}{4x - 5y} \epsilon _{4x} - \frac{5y}{4x - 5y} \epsilon _{5y} \\
+& = 
+\frac{4x}{4x - 5y} \epsilon _{x} - \frac{5y}{4x - 5y} \epsilon _{y}
+.
+\end{align*}
+
+(3)
+\begin{align*}
+\epsilon _{3xy} = \epsilon _{xy} = \epsilon _{x} + \epsilon _{y}
+.
+\end{align*}
+
+(4)
+\begin{align*}
+\epsilon _{\frac{x^{3} }{y^{5} } } = \epsilon _{x^{3} } - \epsilon _{y^{5}} = 3 \epsilon _{x} - 5 \epsilon _{y}
+.
+\end{align*}
+
+(5)
+\begin{align*}
+ &  \epsilon _{x} = \epsilon _{\sqrt{x}^{2}} = 2 \cdot\epsilon _{\sqrt{x}} \\
+\implies & \epsilon _{\sqrt{x}} = \epsilon _{x} / 2
+.
+\end{align*}
+
+(6)
+\begin{align*}
+\epsilon _{\sqrt{x^{3}}} = \frac{\epsilon _{x^{3}}}{2} = \frac{3}{2} \epsilon _{x}
+.
+\end{align*}
+(7)
+\begin{align*}
+\epsilon _{\sqrt{2xy}}  &  = \epsilon _{\sqrt{2} \cdot  \sqrt{x} \cdot \sqrt{y}} \\
+& = \epsilon _{\sqrt{x} \cdot  \sqrt{y}} = \epsilon _{\sqrt{x}} + \epsilon _{\sqrt{y}} \\
+& = \frac{\epsilon _{x}}{2} + \frac{\epsilon _{y}}{2} 
+.
+\end{align*}
+
+(7)
+\begin{align*}
+\epsilon _{2 \sqrt{ \frac{x^{3}}{3y}}}  &  = \epsilon _{\sqrt{ \frac{x^{3}}{3y}}}
+= \frac{\epsilon _{\frac{x^{3}}{3y}}}{2} = \frac{\epsilon _{x^{3}} - \epsilon _{3y}}{2}
+= \frac{3 \epsilon _{x} - \epsilon _{y}}{2} 
+.
+\end{align*}
+(8)
+\begin{align*}
+\epsilon _{\frac{x}{y} + \frac{y}{x}}  &
+= \frac{\frac{x}{y}}{\frac{x}{y} + \frac{y}{x}} \epsilon _{\frac{x}{y}}
++ \frac{\frac{y}{z}}{\frac{x}{y} + \frac{y}{x}} \epsilon _{\frac{y}{z}}
+= \frac{x}{x + \frac{y ^2}{x}} \epsilon _{\frac{x}{y}}
++ \frac{y}{\frac{x}{yz} + \frac{y}{xz}} \epsilon _{\frac{y}{z}} \\
+& = 
+\frac{x}{x + \frac{y ^2}{x}} \epsilon _{\frac{x}{y}}
++ \frac{y}{\frac{x^2 + y ^2}{xyz}} \epsilon _{\frac{y}{z}} \\
+& = 
+\frac{x}{x + \frac{y ^2}{x}} \epsilon _{\frac{x}{y}}
++ \frac{x y ^2 z}{x^2 + y ^2} \epsilon _{\frac{y}{z}} \\
+& = 
+\frac{x ^2}{x ^2 + y ^2} \epsilon _{\frac{x}{y}}
++ \frac{x y ^2 z}{x^2 + y ^2} \epsilon _{\frac{y}{z}} \\
+& =
+\frac{x}{x ^2 + y ^2} (\epsilon _{\frac{x}{y}} + y ^2 z \epsilon _{\frac{y}{z}}) \\
+& =
+\frac{x}{x ^2 + y ^2} (\epsilon _{x} - \epsilon _{y} + y ^2 z (\epsilon _{y} - \epsilon _{z}))
+.
+\end{align*}
+
+(8)
+\begin{align*}
+\epsilon _{x^2 + y^2}  &   = \frac{x ^2}{x^2 + y ^2} \epsilon _{x ^2} + \frac{y ^2}{x ^2 + y^2} \epsilon _{y ^2} \\
+& = \frac{x ^2}{x^2 + y ^2} 2\epsilon _{x} + \frac{y ^2}{x ^2 + y^2} 2\epsilon _{y}
+.
+\end{align*}
+\end{solution}
 \end{document}
