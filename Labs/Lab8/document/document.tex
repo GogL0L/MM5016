@@ -1,4 +1,4 @@
-% Created 2021-05-03 Mon 07:40
+% Created 2021-05-03 Mon 08:27
 % Intended LaTeX compiler: pdflatex
 \documentclass[10pt]{article}
      \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
@@ -18,7 +18,7 @@
 \maketitle
 
 \section{Problems}
-\label{sec:org1147ec5}
+\label{sec:org4b758be}
 
 \begin{exercise}[1]  \label{exe:1}
 The two quantities \(x\) and \(y\) have a relative error
@@ -135,5 +135,36 @@ error \(\epsilon _{x}\), and \(a\) an integer. Then the relative error of
 & = \frac{x ^2}{x^2 + y ^2} 2\epsilon _{x} + \frac{y ^2}{x ^2 + y^2} 2\epsilon _{y}
 .
 \end{align*}
+\end{solution}
+\begin{exercise}[2]  \label{exe:2}
+The radius of a sphere is \(R = (22.2 \pm 0.1)cm\). The radius
+of the base of a cylinder is \(r= (12.0 \pm 1.2)cm\), and its
+height is \(h=(24.4 \pm 1.1)cm\). What is the total volum
+occupied by the sphere and by the cylinder (including the error)?
+\end{exercise}
+\begin{solution}[2]  \label{sol:2}
+Let the subscript \(t\) denote the true value.
+\begin{align*}
+V _{total}  &  = \frac{4 \pi}{3} (R + \delta R)^{3} + \pi (r+ \delta r) ^2 h \\
+& = \frac{4 \pi}{3} (R^{3} + 3 R^2 \delta R + 3 R \delta R ^2 + \delta R^{3})
++ \pi (r ^2 + 2 \delta r+ \delta ^2) (h + \delta h) \\
+& = \frac{4 \pi}{3} (R^{3} + 3 R^2 \delta R + 3 R \delta R ^2)
++ \pi (r ^2 + 2 \delta r) (h + \delta h) \\
+& = \frac{4 \pi}{3} (R^{3} + 3 R^2 \delta R + 3 R \delta R ^2)
++ \pi (r ^2 h + r ^2 \delta h + 2 \delta h r + 2 \delta r \delta h) \\
+& = \frac{4 \pi}{3} (R^{3} + 3 R^2 \delta R)
++ \pi (r ^2 h + r ^2 \delta h + 2r \delta h )
+.
+\end{align*}
+
+To calculate the minimum volume we let the absolute be so much negative
+as possible and the reverse for the maximum, if we plug in these values
+we get:
+\begin{align*}
+55668.1 \leq V _{total} \leq 58068
+.
+\end{align*}
+
+
 \end{solution}
 \end{document}
