@@ -306,44 +306,6 @@ print("2x1 zero matrix:", zero_matrix(v))
 
 #+begin_src python :results output :session
 ## Iterate function
-def iterate(function, root_approximates, tolerance, metric, next_values_function,
-            iteration=0, max_iterations=100, debug=False):
-    """ Approximates a root x for the equation function(x) = 0,
-    by applying the next_values_function on the list root_approximates 
-    until tolerance is met on the last element of the list, in that
-    case that last element is returned. If debug is True, then a tuple of
-    that mentioned value and the iteration is returned. An error is raised 
-    if iteration exceeds max_iterations.
-    """
-    # The root_approximates list will usually be (always, in the context of
-    # this asignment) updated by calculating a new value based on all
-    # the values in the root_approximates list, and then appending that new value,
-    # and deleting the first element in root_approximates.
-    # So the last element in root_approximates will be the most recent estimate of
-    # the root. In the case of Newton's method, the root_approximates list
-    # will just be a single value surrounded by a list.
-    newest_root_approximate = root_approximates[-1]
-    satisfies_tolerance = metric(function(newest_root_approximate)) <= tolerance
-    if iteration > max_iterations:
-        raise RecursionError("<iterate: maximum ammount of iterations reached>")
-    elif satisfies_tolerance and debug:
-        return newest_root_approximate, iteration
-    elif satisfies_tolerance and not debug:
-        return newest_root_approximate
-    else:
-        next_values = next_values_function(root_approximates)
-        return iterate(function, next_values, tolerance, next_values_function,
-                       iteration+1, max_iterations, debug)
-
-
-#+end_src
-
-#+RESULTS:
-
-* Iterate method
-
-#+begin_src python :results output :session
-## Iterate function
 def iterate(function, root_approximate, output,
             tolerance, distance_metric, next_value_function,
             iteration=0, max_iterations=100, debug=False):
@@ -380,8 +342,14 @@ def iterate(function, root_approximate, output,
 
 ** Jacobi next value function
 #+begin_src python :results output :session
-def jacobi_next_value_function(D, D_inverse, L, U, X, b):
-    """ Given the 
+def jacobi_next_value_function(D, D_inverse, L, U, b):
+    """ This returns the function that generates the next vector
+    approximation based on the formula: X_k-1 = D^(-1) (L+U)X^(k-1) + D^(-1)b,
+    from the jacobi method.
+    """
+    L_plus_U = matrix_add(L, U)
+    first_coefficient = matrix_multiply(D_inverse, L_plus_U)
+    constant = D_inverse
 #+end_src
 
 ** Jacobi method
