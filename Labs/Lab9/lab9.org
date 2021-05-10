@@ -1,0 +1,163 @@
+#+title: Lab Assignment 9 (interpolation and ODE basic)
+#+description: 
+#+PROPERTY: header-args :tangle ./lab9.py :padline 2
+
+* Header
+#+begin_src python :results output :session
+import matplotlib.pyplot as plt
+import numpy as np
+#+end_src
+
+#+RESULTS:
+
+* Plot function
+#+begin_src python :results output :session
+def plot_function(function, interval):
+    """ Plots the function oven the given interval, where the interval
+    is represented by a tuple.
+    """
+    x_min, x_max = interval
+    x = np.linspace(x_min , x_max ,100)
+
+    y = np.array(map(function, x))
+
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1)
+    ax.spines['left'].set_position('center')
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.xaxis.set_ticks_position('bottom')
+    ax.yaxis.set_ticks_position('left')
+    plt.plot(x,y, 'r')
+    plt.show()
+#+end_src
+
+#+RESULTS:
+
+* Assignment 1
+
+** Linear interpolation
+
+#+begin_src python :results output :session
+def linear_interpolation(data_set):
+    """ Takes a list of data points in form of tuple coordinates, that is:
+    [(x0, y0), (x1, y1) ...] and returns an apporixmated function given by
+    linear interpolation.
+    """
+    if len(data_set) <= 1:
+        raise ValueError("<linear_interpolation: not enough data points>")
+        
+    data_set_sorted = sorted(data_set)
+    if len(data_set_sorted) == 2:
+        (x0, y0), (x1, y1) = data_set_sorted
+        k = (y1 - y0) / (x1 - x0)
+        m = y0
+        interpolated_function = lambda x: k * (x - x0) + m
+        return interpolated_function
+    else:
+        head = data_set_sorted[:2]
+        head_interval_end = head[1][0] 
+        tail = data_set_sorted[1:]
+        head_function = linear_interpolation(head)
+        tail_function = linear_interpolation(tail)
+        complete_function = lambda x:( head_function(x) if x <= head_interval_end
+                                       else tail_function(x))
+        return complete_function
+        
+#+end_src
+
+#+RESULTS:
+
+*** Linear interpolation test
+#+begin_src python :results output :session
+data = [(0,0), (1,1), (2,4)]
+fun = linear_interpolation(data)
+print(fun(1.3))
+
+plot_function(fun, (0,5))
+#+end_src
+
+#+RESULTS:
+: 1.9000000000000001
+
+** product
+#+begin_src python :results output :session
+def product(factors):
+    """ Returns factor[0] * factor[1] ..."""
+    if len(factors) == 0:
+        return 1
+    else:
+        return factors[0] * product(factors[1:])
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session
+print(product([1,2,3]))
+#+end_src
+
+#+RESULTS:
+: 6
+
+** Lagrange polynomial
+#+begin_src python :results output :session
+def langrange_polynomial_coefficients(data_set):
+    """ Takes a list of data points in form of tuple coordinates, that is:
+    [(x0, y0), (x1, y1) ...] and returns the list [a0, a1, a2...], so that
+    the lagrange polynomial is a0 + a1x + a2x^2 ...
+    """
+    prod = lambda factors: 
+    l = lambda j, x: 
+    
+    
+#+end_src
+
+** Lagrange interpolating polynomial
+#+begin_src python :results output :session
+def lagrange_interpolation(data_set)
+    """ Takes a list of data points in form of tuple coordinates, that is:
+    [(x0, y0), (x1, y1) ...] and returns an apporixmated function given by
+    lagrange interpolation.
+    """
+    l = lambda j, x: product
+    lagrange_function = lambda x : 
+
+#+end_src
+
+
+* Assignment 2
+
+* Test
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+
+** List slicing
+#+begin_src python :results output :session
+print([1,2,3,4][:2])
+print([1,2,3,4][2:])
+#+end_src
+
+#+RESULTS:
+: [1, 2]
+: [3, 4]
+
+** Lambda function if
+#+begin_src python :results output :session
+fun = lambda x: 2 if x<=2 else 3
+print(fun(3))
+#+end_src
+
+#+RESULTS:
+: 3
+
+** Sorting
+#+begin_src python :results output :session
+print(sorted([(5,3),(2,7),(3,1)]))
+#+end_src
+
+#+RESULTS:
+: [(2, 7), (3, 1), (5, 3)]
+
