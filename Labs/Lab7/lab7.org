@@ -342,44 +342,71 @@ def iterate(function, root_approximate, output,
 
 ** Jacobi next value function
 #+begin_src python :results output :session
-def jacobi_next_value_function(D, D_inverse, L, U, b):
-    """ This returns the function that generates the next vector
-    approximation based on the formula: X_k-1 = D^(-1) (L+U)X^(k-1) + D^(-1)b,
-    from the jacobi method.
+def jacobi_next_value(X, D, L, U, b):
+    """ This returns the the next vector approximation based on the formula: 
+    X_k = D^(-1) (L+U)X^(k-1) + D^(-1)b, from the jacobi method.
+    X_new = D^(-1)(b - (L+U)X)
     """
-    L_plus_U = matrix_add(L, U)
-    first_coefficient = matrix_multiply(D_inverse, L_plus_U)
-    constant = D_inverse
+    #Making functions a bit shorter
+    add = lambda a,b: matrix_add(a,b)
+    sub = lambda a,b: matrix_sub(a,b)
+    mult = lambda a,b: matrix_multiply(a,b)
+
+    second_factor = sub(b, mult(add(L,U),X))
+    return mult(diagonal_inverse(D), second_factor)
 #+end_src
+
+#+RESULTS:
 
 ** Jacobi method
 #+begin_src python :results output :session
 def jacobi_method(A, b,
                   approximate_solution = zero_matrix(b) ,
-                  tolerance=0.001, iteration=0, max_iterations=100):
+                  tolerance=0.01, iteration=0, max_iterations=100,
+                  debug = False):
     """ Given an n by n matrix A and an n by 1 vector b, this function 
     returns the solution x to the equation Ax = b, with the accuracy
     specified by the tolerance. If the tolerance is not met within
     'max_iterations' ammount of iterations, an exception will be raised.
     """
+    if debug:
+        print("Approximate solution:", approximate_solution)
     if iteration > max_iterations:
-        raise RecursionError("<jacobi_method: max iterations exceded!">)
+        raise RecursionError("<jacobi_method: max iterations exceded!>")
 
     b_approximate = matrix_multiply(A, approximate_solution)
     distance = euclidean_distance(b, b_approximate)
+    if debug:
+        print("Distance:", distance)
     if distance <= tolerance:
         return approximate_solution
     else:
-        x = approximate_solution
+        X = approximate_solution
         D, L, U = additive_decomposition(A)
-        D_inverse = diagonal_inverse(D)
-        x_new = D
-        
+        X_new = jacobi_next_value(X, D, L, U, b)
+        return jacobi_method(A, b,
+                             X_new,
+                             tolerance, iteration + 1, max_iterations,
+                             debug)
+#+end_src
 
-    
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+A = [[5, -2, 3], [-3, 9, 1], [2, -1, -7]]
+b = [[-1], [2], [3]]
+result = jacobi_method(A,b, debug= False)
+print("result:", result)
+print("b:", b)
+print("b_aprox:", matrix_multiply(A,result))
 #+end_src
 
 #+RESULTS:
+: result: [[0.18632557879118725], [0.33116049382716045], [-0.42264908597183726]]
+: b: [[-1], [2], [3]]
+: b_aprox: [[-0.9986403516138964], [1.9988186220990454], [3.0000342655580745]]
 
 * Gradient Descent method
 
@@ -392,4 +419,5 @@ print(transpose(vector))
 #+end_src
 
 #+RESULTS:
+: [[1, 2, 3]]
 

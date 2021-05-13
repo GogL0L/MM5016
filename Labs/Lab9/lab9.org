@@ -108,24 +108,36 @@ def langrange_polynomial_coefficients(data_set):
     [(x0, y0), (x1, y1) ...] and returns the list [a0, a1, a2...], so that
     the lagrange polynomial is a0 + a1x + a2x^2 ...
     """
-    prod = lambda factors: 
-    l = lambda j, x: 
+    l = lambda j, x: product([
     
     
 #+end_src
 
 ** Lagrange interpolating polynomial
 #+begin_src python :results output :session
-def lagrange_interpolation(data_set)
+def lagrange_interpolation(data_set):
     """ Takes a list of data points in form of tuple coordinates, that is:
     [(x0, y0), (x1, y1) ...] and returns an apporixmated function given by
     lagrange interpolation.
     """
-    l = lambda j, x: product
-    lagrange_function = lambda x : 
+    data_set_sorted = sorted(data_set)
+    x_points = [P[0] for P in data_set_sorted]
+    y_points = [P[1] for P in data_set_sorted]
+    l = lambda j, x: product([ (x-xm) / (x_points[j] - xm)
+                               for xm in x_points if xm != x_points[j]])
+
+    k = len(data_set)
+    lagrange_function = lambda x : sum([y_points[j] * l(j,x) for j in range(k+1)])
+    return lagrange_function
 
 #+end_src
 
+#+RESULTS:
+
+** test
+#+begin_src python :results output :session
+print(lagrange_interpolation([(1,1), (2,2)])(5)
+#+end_src
 
 * Assignment 2
 
