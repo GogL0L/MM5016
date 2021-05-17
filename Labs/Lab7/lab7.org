@@ -422,8 +422,11 @@ problem3()
 #+begin_src python :results output :session
 def gradient_descent(function, gradient_function, vector_approximation,
                      tolerance = 0.01, learning_step_size = 1,
-                     iteration=0, max_iterations=100):
+                     iteration=0, max_iterations=100,
+                     debug=False):
     """Finds a local minimum of "function" using the gradient descent method."""
+    if debug:
+        print(f"Iteration {iteration} vector: {vector_aproximation}")
     gradient = gradient_function(vector_approximation)
     if iteration >= max_iterations:
         raise RecursionError("<gradient_descent: max_iterations exceeded!>")
