@@ -437,7 +437,8 @@ def gradient_descent(function, gradient_function, vector_approximation,
         new_approximation = matrix_sub(vector_approximation, scaled_gradient)
         return gradient_descent(function, gradient_function, new_approximation,
                                 tolerance, learning_step_size, 
-                                iteration+1)
+                                iteration+1, max_iterations,
+                                debug)
 #+end_src
 
 #+RESULTS:
@@ -454,7 +455,7 @@ def problem3():
     gradient = lambda X: gradient_tupled(X[0][0], X[1][0])
     start_vector = [[ -1.4 ], [ 2 ]]
 
-    result = gradient_descent(f, gradient, start_vector)
+    result = gradient_descent(f, gradient, start_vector, debug=True)
     print(result)
 problem3()
 #+end_src
