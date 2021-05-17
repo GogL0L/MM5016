@@ -445,9 +445,9 @@ def gradient_descent(function, gradient_function, vector_approximation,
 
 #+RESULTS:
 
-** Problem 3
+** Problem 4
 #+begin_src python :results output :session
-def problem3():
+def problem4():
     """ Solution to problem 3. """
     a,b = 1,5
     f_tupled = lambda x1, x2: (a-x1) ** 2 + b * (x2 - x1 ** 2) **2
@@ -464,23 +464,27 @@ def problem3():
     print("Real minimum vector:", [[1], [1]])
     print("Minimum value found by gradient descent:", value)
     print("Real minimum value:", f([[1], [1]]))
-problem3()
 #+end_src
 
 #+RESULTS:
-: Minimum vector found by gradient descent: [[0.9889522799586198], [0.9771296639430699]]
-: Real minimum vector: [[1], [1]]
-: Minimum value found by gradient descent: 0.00012607469751395886
-: Real minimum value: 0
 
-* Test
+* Main
+#+begin_src python :results output :session
+def main():
+    """ Be asked to present the solution to problem 3 or 4. """
+    print("At any point type 'exit' to exit.")
+    while True:
+    problem = input("To which problem do you want to display a solution?",
+                    "(3 or 4)")
+    if problem == "exit":
+        break
+    elif problem == "3":
+        problem3()
+    elif problem == "4":
+        problem4()
+    else:
+        print("Invalid input, try again.")
 
-** Transpose av vector
-#+begin_src python :results output :session :tangle no
-vector = [[1], [2], [3]]
-print(transpose(vector))
+if __name__ = "__main__":
+    main()
 #+end_src
-
-#+RESULTS:
-: [[1, 2, 3]]
-
