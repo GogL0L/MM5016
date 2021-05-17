@@ -301,43 +301,6 @@ print("2x1 zero matrix:", zero_matrix(v))
 : 2x2 zero matrix: [[0, 0], [0, 0]]
 : 2x1 zero matrix: [[0], [0]]
 
-
-* Iterate method
-
-#+begin_src python :results output :session
-## Iterate function
-def iterate(function, root_approximate, output,
-            tolerance, distance_metric, next_value_function,
-            iteration=0, max_iterations=100, debug=False):
-    """ Approximates a root x for the equation function(x) = output,
-    by applying the next_value_function until tolerance is met by having
-    distance_metric(function(root_approximate), output) <= tolerance. If debug 
-    is True, then a tuple of that mentioned value and the iteration is returned. 
-    An error is raised if iteration exceeds max_iterations.
-    """
-    # The root_approximates list will usually be (always, in the context of
-    # this asignment) updated by calculating a new value based on all
-    # the values in the root_approximates list, and then appending that new value,
-    # and deleting the first element in root_approximates.
-    # So the last element in root_approximates will be the most recent estimate of
-    # the root. In the case of Newton's method, the root_approximates list
-    # will just be a single value surrounded by a list.
-    satisfies_tolerance = (
-        distance_metric(function(root_approximate), output) <= tolerance)
-    if iteration > max_iterations:
-        raise RecursionError("<iterate: maximum ammount of iterations reached>")
-    elif satisfies_tolerance and debug:
-        return root_approximate, iteration
-    elif satisfies_tolerance and not debug:
-        return newest_root_approximate
-    else:
-        next_value = next_value_function(root_approximate)
-        return iterate(function, next_values, tolerance, next_values_function,
-                       iteration+1, max_iterations, debug)
-#+end_src
-
-#+RESULTS:
-
 * Jacobi related
 
 ** Jacobi next value function
@@ -405,7 +368,6 @@ def problem3():
     print("x from gaussian elimination:", x_from_gaussian_elimination)
     print("b from approximation:", matrix_multiply(A,result))
     print("b:", b)
-problem3()
 #+end_src
 
 #+RESULTS:
@@ -415,9 +377,7 @@ problem3()
 : b from approximation: [[-0.9986403516138964], [1.9988186220990454], [3.0000342655580745]]
 : b: [[-1], [2], [3]]
 
-* Gradien Descent 
-
-
+* Gradient Descent 
 ** Gradient Descent method
 #+begin_src python :results output :session
 def gradient_descent(function, gradient_function, vector_approximation,
@@ -474,17 +434,18 @@ def main():
     """ Be asked to present the solution to problem 3 or 4. """
     print("At any point type 'exit' to exit.")
     while True:
-    problem = input("To which problem do you want to display a solution?",
-                    "(3 or 4)")
-    if problem == "exit":
-        break
-    elif problem == "3":
-        problem3()
-    elif problem == "4":
-        problem4()
-    else:
-        print("Invalid input, try again.")
+        problem = input("To which problem do you want to display a solution? ")
+        if problem == "exit":
+            break
+        elif problem == "3":
+            problem3()
+        elif problem == "4":
+            problem4()
+        else:
+            print("Invalid input, try again.")
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     main()
 #+end_src
+
+#+RESULTS:
