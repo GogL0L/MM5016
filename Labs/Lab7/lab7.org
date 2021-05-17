@@ -360,8 +360,7 @@ def jacobi_next_value(X, D, L, U, b):
 
 ** Jacobi method
 #+begin_src python :results output :session
-def jacobi_method(A, b,
-                  approximate_solution = zero_matrix(b) ,
+def jacobi_method(A, b, approximate_solution,
                   tolerance=0.01, iteration=0, max_iterations=100,
                   debug = False):
     """ Given an n by n matrix A and an n by 1 vector b, this function 
@@ -393,24 +392,31 @@ def jacobi_method(A, b,
 
 #+RESULTS:
 
-*** test
-#+begin_src python :results output :session :tangle no
-A = [[5, -2, 3], [-3, 9, 1], [2, -1, -7]]
-b = [[-1], [2], [3]]
-result = jacobi_method(A,b, debug= False)
-print("result:", result)
-print("b:", b)
-print("b_aprox:", matrix_multiply(A,result))
+** Problem 3
+#+begin_src python :results output :session
+def problem3():
+    """ The solution to task 2. """
+    A = [[5, -2, 3], [-3, 9, 1], [2, -1, -7]]
+    b = [[-1], [2], [3]]
+    result = jacobi_method(A,b, zero_matrix(b), debug= False)
+    print("A:", A)
+    print("x from jacobi_method:", result)
+    x_from_gaussian_elimination = [[ 59/317 ], [ 105/317 ], [ -134/317 ]]
+    print("x from gaussian elimination:", x_from_gaussian_elimination)
+    print("b from approximation:", matrix_multiply(A,result))
+    print("b:", b)
+problem3()
 #+end_src
 
 #+RESULTS:
-: result: [[0.18632557879118725], [0.33116049382716045], [-0.42264908597183726]]
+: A: [[5, -2, 3], [-3, 9, 1], [2, -1, -7]]
+: x from jacobi_method: [[0.18632557879118725], [0.33116049382716045], [-0.42264908597183726]]
+: x from gaussian elimination: [[0.1861198738170347], [0.3312302839116719], [-0.4227129337539432]]
+: b from approximation: [[-0.9986403516138964], [1.9988186220990454], [3.0000342655580745]]
 : b: [[-1], [2], [3]]
-: b_aprox: [[-0.9986403516138964], [1.9988186220990454], [3.0000342655580745]]
 
 * Gradien Descent 
 
-** 
 
 ** Gradient Descent method
 #+begin_src python :results output :session
@@ -428,6 +434,10 @@ def gradient_descent(function, gradient_function, tolerance, learning_step_size,
                                 learning_step_size, new_approximation,
                                 iteration+1)
 #+end_src
+
+#+RESULTS:
+
+** Problem 3
 
 * Test
 
