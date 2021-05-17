@@ -425,13 +425,15 @@ def gradient_descent(function, gradient_function, vector_approximation,
                      iteration=0, max_iterations=100):
     """Finds a local minimum of "function" using the gradient descent method."""
     gradient = gradient_function(vector_approximation)
+    if iteration >= max_iterations:
+        raise RecursionError("<gradient_descent: max_iterations exceeded!>")
     if norm(gradient) <= tolerance:
         return function(vector_approximation), vector_approximation
     else:
         scaled_gradient = scale(learning_step_size, gradient)
         new_approximation = matrix_sub(vector_approximation, scaled_gradient)
-        return gradient_descent(function, gradient, tolerance,
-                                learning_step_size, new_approximation,
+        return gradient_descent(function, gradient_function, new_approximation,
+                                tolerance, learning_step_size, 
                                 iteration+1)
 #+end_src
 
@@ -444,14 +446,17 @@ def problem3():
     a,b = 1,5
     f_tupled = lambda x1, x2: (a-x1) ** 2 + b * (x2 - x1 ** 2) **2
     gradient_tupled = lambda x1, x2: [[-4 * b * x1 * (x2 - x1 ** 2) - 2 * (a-x1)],
-                                       [2 * b * (x2 - x1 ** 1) ]]
-    f = lambda X: f_tupled(X[0], X[1])
-    gradient = lambda X: gradient_tupled(X[0], X[1])
+                                       [2 * b * (x2 - x1 ** 2) ]]
+    f = lambda X: f_tupled(X[0][0], X[1][0])
+    gradient = lambda X: gradient_tupled(X[0][0], X[1][0])
     start_vector = [[ -1.4 ], [ 2 ]]
+
     result = gradient_descent(f, gradient, start_vector)
     print(result)
 problem3()
 #+end_src
+
+#+RESULTS:
 
 * Test
 
