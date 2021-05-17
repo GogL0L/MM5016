@@ -307,8 +307,7 @@ print("2x1 zero matrix:", zero_matrix(v))
 #+begin_src python :results output :session
 def jacobi_next_value(X, D, L, U, b):
     """ This returns the the next vector approximation based on the formula: 
-    X_k = D^(-1) (L+U)X^(k-1) + D^(-1)b, from the jacobi method.
-    X_new = D^(-1)(b - (L+U)X)
+    , from the jacobi method. X_new = D^(-1)(b - (L+U)X)
     """
     #Making functions a bit shorter
     add = lambda a,b: matrix_add(a,b)
