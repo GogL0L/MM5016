@@ -420,8 +420,8 @@ problem3()
 
 ** Gradient Descent method
 #+begin_src python :results output :session
-def gradient_descent(function, gradient_function, tolerance, learning_step_size,
-                     vector_approximation = [[0],[0]],
+def gradient_descent(function, gradient_function, vector_approximation,
+                     tolerance = 0.01, learning_step_size = 1,
                      iteration=0, max_iterations=100):
     """Finds a local minimum of "function" using the gradient descent method."""
     gradient = gradient_function(vector_approximation)
@@ -438,6 +438,20 @@ def gradient_descent(function, gradient_function, tolerance, learning_step_size,
 #+RESULTS:
 
 ** Problem 3
+#+begin_src python :results output :session
+def problem3():
+    """ Solution to problem 3. """
+    a,b = 1,5
+    f_tupled = lambda x1, x2: (a-x1) ** 2 + b * (x2 - x1 ** 2) **2
+    gradient_tupled = lambda x1, x2: [[-4 * b * x1 * (x2 - x1 ** 2) - 2 * (a-x1)],
+                                       [2 * b * (x2 - x1 ** 1) ]]
+    f = lambda X: f_tupled(X[0], X[1])
+    gradient = lambda X: gradient_tupled(X[0], X[1])
+    start_vector = [[ -1.4 ], [ 2 ]]
+    result = gradient_descent(f, gradient, start_vector)
+    print(result)
+problem3()
+#+end_src
 
 * Test
 
