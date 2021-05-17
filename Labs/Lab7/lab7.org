@@ -421,8 +421,8 @@ problem3()
 ** Gradient Descent method
 #+begin_src python :results output :session
 def gradient_descent(function, gradient_function, vector_approximation,
-                     tolerance = 0.1, learning_step_size = 1,
-                     iteration=0, max_iterations=100,
+                     tolerance = 0.01, learning_step_size = 1,
+                     iteration=0, max_iterations=600,
                      debug=False):
     """Finds a local minimum of "function" using the gradient descent method."""
     gradient = gradient_function(vector_approximation)
@@ -458,8 +458,8 @@ def problem3():
     start_vector = [[ -1.4 ], [ 2 ]]
 
     value, vector = gradient_descent(f, gradient, start_vector,
-                              learning_step_size = 0.05,
-                              debug=True)
+                              learning_step_size = 0.02,
+                              debug=False)
     print("Minimum vector found by gradient descent:", vector)
     print("Real minimum vector:", [[1], [1]])
     print("Minimum value found by gradient descent:", value)
@@ -468,177 +468,10 @@ problem3()
 #+end_src
 
 #+RESULTS:
-#+begin_example
-Iteration 0 vector: [[-1.4], [2]]
-Iteration 0 value: 5.768
-Iteration 0 norm of gradient: 3.7016752964029607
-Iteration 1 vector: [[-1.2160000000000002], [1.98]]
-Iteration 1 value: 6.1673850316799985
-Iteration 1 norm of gradient: 9.239200672455684
-Iteration 2 vector: [[-1.6040343039999998], [1.7293280000000002]]
-Iteration 2 value: 10.339282992804138
-Iteration 2 norm of gradient: 33.35567138218367
-Iteration 3 vector: [[0.009529334835109537], [2.1511270242043823]]
-Iteration 3 value: 24.115816150882612
-Iteration 3 norm of gradient: 21.642829854141393
-Iteration 4 vector: [[0.1290743456961379], [1.075608916213391]]
-Iteration 4 value: 6.365373553835921
-Iteration 4 norm of gradient: 11.496410879968332
-Iteration 5 vector: [[0.35285002551204203], [0.5461345514651386]]
-Iteration 5 value: 1.3076683230258053
-Iteration 5 norm of gradient: 6.000674596985157
-Iteration 6 vector: [[0.5663376770752072], [0.3353188459844936]]
-Iteration 6 value: 0.1891259625297792
-Iteration 6 norm of gradient: 1.0427185374968149
-Iteration 7 vector: [[0.6179613853964441], [0.32802860522971766]]
-Iteration 7 value: 0.16045136012260652
-Iteration 7 norm of gradient: 0.5474226307453629
-Iteration 8 vector: [[0.6228894669613458], [0.35495243953540506]]
-Iteration 8 value: 0.14767018168500873
-Iteration 8 norm of gradient: 0.47597468750859884
-Iteration 9 vector: [[0.6400209695240731], [0.3714718637933973]]
-Iteration 9 value: 0.13686391397484052
-Iteration 9 norm of gradient: 0.446317711004008
-Iteration 10 vector: [[0.6515988867921759], [0.3905493526119659]]
-Iteration 10 value: 0.12717413799020189
-Iteration 10 norm of gradient: 0.424237562291781
-Iteration 11 vector: [[0.6642639433597811], [0.4075652309403844]]
-Iteration 11 value: 0.11839086827243799
-Iteration 11 norm of gradient: 0.4045021876627013
-Iteration 12 vector: [[0.675464238996687], [0.4244059086941354]]
-Iteration 12 value: 0.11039430813477741
-Iteration 12 norm of gradient: 0.3864119893998094
-Iteration 13 vector: [[0.6864069610365133], [0.4403289234287544]]
-Iteration 13 value: 0.10309167992232733
-Iteration 13 norm of gradient: 0.36964983555098985
-Iteration 14 vector: [[0.696607363504483], [0.45574171979406797]]
-Iteration 14 value: 0.09640427313247561
-Iteration 14 norm of gradient: 0.3540714263384611
-Iteration 15 vector: [[0.7063827087533551], [0.47050176934136745]]
-Iteration 15 value: 0.09026517404087207
-Iteration 15 norm of gradient: 0.33954206864530606
-Iteration 16 vector: [[0.7156303584470387], [0.48473915028354736]]
-Iteration 16 value: 0.08461651254179338
-Iteration 16 norm of gradient: 0.3259587680866838
-Iteration 17 vector: [[0.7244678819117762], [0.4984329801072922]]
-Iteration 17 value: 0.07940822344623652
-Iteration 17 norm of gradient: 0.3132280654485354
-Iteration 18 vector: [[0.7328801221044299], [0.5116433460145138]]
-Iteration 18 value: 0.0745966151658913
-Iteration 18 norm of gradient: 0.3012711250136694
-Iteration 19 vector: [[0.7409257064194535], [0.5243783096951589]]
-Iteration 19 value: 0.07014346768214665
-Iteration 19 norm of gradient: 0.2900177460765779
-Iteration 20 vector: [[0.7486118516304141], [0.5366746060641625]]
-Iteration 20 value: 0.06601514961594214
-Iteration 20 norm of gradient: 0.27940687017252247
-Iteration 21 vector: [[0.7559748044338994], [0.5485471552328398]]
-Iteration 21 value: 0.062181980631418415
-Iteration 21 norm of gradient: 0.2693841874040088
-Iteration 22 vector: [[0.7630271354698801], [0.5600225300858561]]
-Iteration 22 value: 0.058617648479966256
-Iteration 22 norm of gradient: 0.2599017397075938
-Iteration 23 vector: [[0.7697944678793158], [0.5711164697746134]]
-Iteration 23 value: 0.05529875884213231
-Iteration 23 norm of gradient: 0.2509166892158209
-Iteration 24 vector: [[0.7762898024480139], [0.5818499962761061]]
-Iteration 24 value: 0.052204434512782436
-Iteration 24 norm of gradient: 0.24239082835026393
-Iteration 25 vector: [[0.7825327330874754], [0.5922379268304413]]
-Iteration 25 value: 0.049315993945818905
-Iteration 25 norm of gradient: 0.23428984042061654
-Iteration 26 vector: [[0.7885352521370087], [0.6022977025918976]]
-Iteration 26 value: 0.046616667622552434
-Iteration 26 norm of gradient: 0.22658288143452923
-Iteration 27 vector: [[0.79431306346209], [0.6120427732273368]]
-Iteration 27 value: 0.04409136506318429
-Iteration 27 norm of gradient: 0.2192420942226922
-Iteration 28 vector: [[0.7998768103700807], [0.6214880080069335]]
-Iteration 28 value: 0.041726469526504224
-Iteration 28 norm of gradient: 0.21224227961189562
-Iteration 29 vector: [[0.8052394625305844], [0.6306454598873739]]
-Iteration 29 value: 0.03950966655321008
-Iteration 29 norm of gradient: 0.2055605593124498
-Iteration 30 vector: [[0.8104103308300478], [0.6395280259519591]]
-Iteration 30 value: 0.03742979253466727
-Iteration 30 norm of gradient: 0.19917612274316207
-Iteration 31 vector: [[0.8154003534495087], [0.6481464651340133]]
-Iteration 31 value: 0.035476706698380704
-Iteration 31 norm of gradient: 0.19306998482526885
-Iteration 32 vector: [[0.8202176335960597], [0.6565121007697985]]
-Iteration 32 value: 0.03364117757657599
-Iteration 32 norm of gradient: 0.18722479124253033
-Iteration 33 vector: [[0.824871544940376], [0.6646345336158592]]
-Iteration 33 value: 0.03191478613769927
-Iteration 33 norm of gradient: 0.18162464020030347
-Iteration 34 vector: [[0.8293691283485296], [0.6725237996340909]]
-Iteration 34 value: 0.030289839435867733
-Iteration 34 norm of gradient: 0.17625493157543287
-Iteration 35 vector: [[0.8337185246854127], [0.6801884753458454]]
-Iteration 35 value: 0.02875929640639624
-Iteration 35 norm of gradient: 0.1711022334801567
-Iteration 36 vector: [[0.8379258477149314], [0.6876375268747332]]
-Iteration 36 value: 0.027316701335369176
-Iteration 36 norm of gradient: 0.16615416413728948
-Iteration 37 vector: [[0.8419982537393996], [0.6948786265717598]]
-Iteration 37 value: 0.025956126379154135
-Iteration 37 norm of gradient: 0.16139929077404372
-Iteration 38 vector: [[0.8459410445997119], [0.7019198429359791]]
-Iteration 38 value: 0.02467211969987895
-Iteration 38 norm of gradient: 0.15682703588948435
-Iteration 39 vector: [[0.8497605864468651], [0.7087680469372154]]
-Iteration 39 value: 0.023459660488019004
-Iteration 39 norm of gradient: 0.15242760008152986
-Iteration 40 vector: [[0.8534614617494227], [0.7154305506078678]]
-Iteration 40 value: 0.022314118092049848
-Iteration 40 norm of gradient: 0.14819188650123388
-Iteration 41 vector: [[0.8570494058808563], [0.7219135086496645]]
-Iteration 41 value: 0.021231216503618422
-Iteration 41 norm of gradient: 0.14411144184613411
-Iteration 42 vector: [[0.8605283514031828], [0.7282235963851966]]
-Iteration 42 value: 0.020207001824804813
-Iteration 42 norm of gradient: 0.14017839432465062
-Iteration 43 vector: [[0.863903540651811], [0.7343663199769381]]
-Iteration 43 value: 0.019237813998166903
-Iteration 43 norm of gradient: 0.1363854088291028
-Iteration 44 vector: [[0.8671783019867821], [0.7403478237638367]]
-Iteration 44 value: 0.01832026066173656
-Iteration 44 norm of gradient: 0.13272563479785174
-Iteration 45 vector: [[0.8703575118571942], [0.7461730156002577]]
-Iteration 45 value: 0.01745119448821591
-Iteration 45 norm of gradient: 0.1291926728500144
-Iteration 46 vector: [[0.8734439141280281], [0.7518476070232518]]
-Iteration 46 value: 0.016627691976781572
-Iteration 46 norm of gradient: 0.12578052963926456
-Iteration 47 vector: [[0.8764421467429951], [0.757375939075271]]
-Iteration 47 value: 0.01584703518347149
-Iteration 47 norm of gradient: 0.12248359419904507
-Iteration 48 vector: [[0.8793543577621683], [0.7627633878313704]]
-Iteration 48 value: 0.01510669435523391
-Iteration 48 norm of gradient: 0.11929659729823429
-Iteration 49 vector: [[0.8821850868386769], [0.768013737173343]]
-Iteration 49 value: 0.014404313138085444
-Iteration 49 norm of gradient: 0.11621459655620159
-Iteration 50 vector: [[0.8849358344439716], [0.7731321323069534]]
-Iteration 50 value: 0.01373769421541796
-Iteration 50 norm of gradient: 0.11323293796646915
-Iteration 51 vector: [[0.8876112119099852], [0.7781217816950009]]
-Iteration 51 value: 0.013104787306483592
-Iteration 51 norm of gradient: 0.11034724961499826
-Iteration 52 vector: [[0.8902119633085084], [0.7829877226016567]]
-Iteration 52 value: 0.01250367715611767
-Iteration 52 norm of gradient: 0.10755340292286952
-Iteration 53 vector: [[0.8927429963828586], [0.7877325311096228]]
-Iteration 53 value: 0.011932573807661589
-Iteration 53 norm of gradient: 0.10484751566066888
-Iteration 54 vector: [[0.8952041048148116], [0.7923612943501337]]
-Iteration 54 value: 0.01138980242368283
-Iteration 54 norm of gradient: 0.10222591001563658
-Iteration 55 vector: [[0.8976008114917791], [0.796875841813711]]
-Iteration 55 value: 0.010873795452067738
-Iteration 55 norm of gradient: 0.09968512669317485
-(0.010873795452067738, [[0.8976008114917791], [0.796875841813711]])
-#+end_example
+: Minimum vector found by gradient descent: [[0.9889522799586198], [0.9771296639430699]]
+: Real minimum vector: [[1], [1]]
+: Minimum value found by gradient descent: 0.00012607469751395886
+: Real minimum value: 0
 
 * Test
 
