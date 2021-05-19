@@ -125,6 +125,32 @@ print(lagrange_interpolation([(0,0), (2,4), (-1, 1)])(9))
 : 81.0
 
 * Assignment 2
+
+** Euler's method
+#+begin_src python :results output :session
+def euler_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y),
+    and that 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y in the equation dy/dx = derivative(x,y).
+    """
+    y_next = lambda x,y: y + stepsize * derivative(x,y)
+
+    
+    def y(x):
+        x0, y0 = initial_value
+        while x0 < x:
+            y0 = y_next(x0,y0)
+            x0 += stepsize
+        return y0
+    return y
+        
+#+end_src
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = euler_method(lambda x,y: y, (0,1), 0.1)
+#+end_src
 * Plot function
 #+begin_src python :results output :session
 def plot_function(function, interval):
