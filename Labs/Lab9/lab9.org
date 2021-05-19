@@ -120,18 +120,6 @@ print(product([1,2,3]))
 #+RESULTS:
 : 6
 
-** Lagrange polynomial
-#+begin_src python :results output :session :tangle no
-def langrange_polynomial_coefficients(data_set):
-    """ Takes a list of data points in form of tuple coordinates, that is:
-    [(x0, y0), (x1, y1) ...] and returns the list [a0, a1, a2...], so that
-    the lagrange polynomial is a0 + a1x + a2x^2 ...
-    """
-    l = lambda j, x: product([
-#+end_src
-
-#+RESULTS:
-
 ** Lagrange interpolating polynomial
 #+begin_src python :results output :session
 def lagrange_interpolation(data_set):
@@ -154,7 +142,7 @@ def lagrange_interpolation(data_set):
 #+RESULTS:
 
 ** test
-#+begin_src python :results output :session
+#+begin_src python :results output :session :tangle no
 print(lagrange_interpolation([(0,0), (2,4), (-1, 1)])(9))
 #+end_src
 
