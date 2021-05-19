@@ -92,6 +92,25 @@ def product(factors):
 #+end_src
 
 #+RESULTS:
+#+begin_example
+    return gca().plot(
+  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/axes/_axes.py", line 1743, in plot
+    lines = [*self._get_lines(*args, data=data, **kwargs)]
+  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 273, in __call__
+    yield from self._plot_args(this, kwargs)
+  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 396, in _plot_args
+    self.axes.yaxis.update_units(y)
+  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/axis.py", line 1460, in update_units
+    converter = munits.registry.get_converter(data)
+  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/units.py", line 217, in get_converter
+    return self.get_converter(first)
+  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/units.py", line 210, in get_converter
+    first = cbook.safe_first_element(x)
+  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/cbook/__init__.py", line 1669, in safe_first_element
+    raise RuntimeError("matplotlib does not support generators "
+RuntimeError: matplotlib does not support generators as input
+>>>
+#+end_example
 
 *** test
 #+begin_src python :results output :session
@@ -102,16 +121,16 @@ print(product([1,2,3]))
 : 6
 
 ** Lagrange polynomial
-#+begin_src python :results output :session
+#+begin_src python :results output :session :tangle no
 def langrange_polynomial_coefficients(data_set):
     """ Takes a list of data points in form of tuple coordinates, that is:
     [(x0, y0), (x1, y1) ...] and returns the list [a0, a1, a2...], so that
     the lagrange polynomial is a0 + a1x + a2x^2 ...
     """
     l = lambda j, x: product([
-    
-    
 #+end_src
+
+#+RESULTS:
 
 ** Lagrange interpolating polynomial
 #+begin_src python :results output :session
@@ -127,7 +146,7 @@ def lagrange_interpolation(data_set):
                                for xm in x_points if xm != x_points[j]])
 
     k = len(data_set)
-    lagrange_function = lambda x : sum([y_points[j] * l(j,x) for j in range(k+1)])
+    lagrange_function = lambda x : sum([y_points[j] * l(j,x) for j in range(k)])
     return lagrange_function
 
 #+end_src
@@ -136,8 +155,11 @@ def lagrange_interpolation(data_set):
 
 ** test
 #+begin_src python :results output :session
-print(lagrange_interpolation([(1,1), (2,2)])(5)
+print(lagrange_interpolation([(0,0), (2,4), (-1, 1)])(9))
 #+end_src
+
+#+RESULTS:
+: 81.0
 
 * Assignment 2
 
