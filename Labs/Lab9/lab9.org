@@ -139,18 +139,30 @@ def euler_method(derivative, initial_value, stepsize):
     
     def y(x):
         x0, y0 = initial_value
+        if x < x0:
+            stepsize *= -1
+            value_not_reached = x0 > x
+        else:
+            value_not_reached = x0 < x
+            
         while x0 < x:
             y0 = y_next(x0,y0)
             x0 += stepsize
         return y0
     return y
-        
 #+end_src
+
+#+RESULTS:
 
 *** test
 #+begin_src python :results output :session :tangle no
 f = euler_method(lambda x,y: y, (0,1), 0.1)
+print(f(1))
 #+end_src
+
+#+RESULTS:
+: 2.8531167061100002
+
 * Plot function
 #+begin_src python :results output :session
 def plot_function(function, interval):
