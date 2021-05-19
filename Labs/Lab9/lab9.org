@@ -67,25 +67,6 @@ def product(factors):
 #+end_src
 
 #+RESULTS:
-#+begin_example
-    return gca().plot(
-  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/axes/_axes.py", line 1743, in plot
-    lines = [*self._get_lines(*args, data=data, **kwargs)]
-  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 273, in __call__
-    yield from self._plot_args(this, kwargs)
-  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 396, in _plot_args
-    self.axes.yaxis.update_units(y)
-  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/axis.py", line 1460, in update_units
-    converter = munits.registry.get_converter(data)
-  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/units.py", line 217, in get_converter
-    return self.get_converter(first)
-  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/units.py", line 210, in get_converter
-    first = cbook.safe_first_element(x)
-  File "/home/john/.local/lib/python3.9/site-packages/matplotlib/cbook/__init__.py", line 1669, in safe_first_element
-    raise RuntimeError("matplotlib does not support generators "
-RuntimeError: matplotlib does not support generators as input
->>>
-#+end_example
 
 *** test
 #+begin_src python :results output :session
@@ -135,20 +116,24 @@ def euler_method(derivative, initial_value, stepsize):
     approximates y in the equation dy/dx = derivative(x,y).
     """
     y_next = lambda x,y: y + stepsize * derivative(x,y)
-
+    stepsize = stepsize
     
     def y(x):
         x0, y0 = initial_value
+        stepsize = stepsize
         if x < x0:
             stepsize *= -1
             value_not_reached = x0 > x
         else:
+            stepsize *= 1
             value_not_reached = x0 < x
             
-        while x0 < x:
+        while value_not_reached:
             y0 = y_next(x0,y0)
             x0 += stepsize
         return y0
+
+    
     return y
 #+end_src
 
@@ -156,12 +141,11 @@ def euler_method(derivative, initial_value, stepsize):
 
 *** test
 #+begin_src python :results output :session :tangle no
-f = euler_method(lambda x,y: y, (0,1), 0.1)
+f = euler_method(lambda x,y: y, (0,1), 0.2)
 print(f(1))
 #+end_src
 
 #+RESULTS:
-: 2.8531167061100002
 
 * Plot function
 #+begin_src python :results output :session
