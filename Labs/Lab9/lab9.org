@@ -10,31 +10,6 @@ import numpy as np
 
 #+RESULTS:
 
-* Plot function
-#+begin_src python :results output :session
-def plot_function(function, interval):
-    """ Plots the function oven the given interval, where the interval
-    is represented by a tuple.
-    """
-    x_min, x_max = interval
-    x = np.linspace(x_min , x_max ,100)
-
-    y = np.array(map(function, x))
-
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    ax.spines['left'].set_position('center')
-    ax.spines['bottom'].set_position('zero')
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-    ax.xaxis.set_ticks_position('bottom')
-    ax.yaxis.set_ticks_position('left')
-    plt.plot(x,y, 'r')
-    plt.show()
-#+end_src
-
-#+RESULTS:
-
 * Assignment 1
 
 ** Linear interpolation
@@ -141,7 +116,7 @@ def lagrange_interpolation(data_set):
 
 #+RESULTS:
 
-** test
+*** test
 #+begin_src python :results output :session :tangle no
 print(lagrange_interpolation([(0,0), (2,4), (-1, 1)])(9))
 #+end_src
@@ -150,6 +125,27 @@ print(lagrange_interpolation([(0,0), (2,4), (-1, 1)])(9))
 : 81.0
 
 * Assignment 2
+* Plot function
+#+begin_src python :results output :session
+def plot_function(function, interval):
+    """ Plots the function oven the given interval, where the interval
+    is represented by a tuple.
+    """
+    x_min, x_max = interval
+    x = np.linspace(x_min , x_max ,100)
+    y = np.array(list(map(function, x)))
+    plt.plot(x,y)
+    plt.show()
+#+end_src
+
+#+RESULTS:
+** test
+#+begin_src python :results output :session :tangle no
+f = lagrange_interpolation([(0,0), (1,1), (3, 9)])
+plot_function(f, (0,5))
+#+end_src
+
+#+RESULTS:
 
 * Test
 :PROPERTIES:
