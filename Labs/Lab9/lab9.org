@@ -122,15 +122,17 @@ def euler_method(derivative, initial_value, stepsize):
         x0, y0 = initial_value
         stepsize = stepsize
         if x < x0:
-            stepsize *= -1
+            step = - stepsize
             value_not_reached = x0 > x
         else:
-            stepsize *= 1
+            step = stepsize
             value_not_reached = x0 < x
-            
-        while value_not_reached:
+
+        iteration = 1
+        while value_not_reached and iteration < 100:
             y0 = y_next(x0,y0)
-            x0 += stepsize
+            x0 += step
+            iteration += 1
         return y0
 
     
