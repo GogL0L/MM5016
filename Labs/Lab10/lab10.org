@@ -13,6 +13,12 @@ import numpy as np
 
 * Lab 9 methods
 
+** Header
+#+begin_src python :results output :session
+## Lab 9 copied methods
+#+end_src
+
+
 ** Linear interpolation
 
 #+begin_src python :results output :session
@@ -218,11 +224,9 @@ def heun_method(derivative, initial_value, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
-    approximates y in the equation dy/dx = derivative(x,y).
+    approximates y using heun's method in the equation 
+    dy/dx = derivative(x,y).
     """
-    step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
-    y_next_bar = lambda x, y, goal: (y + stepsize * derivative(x,y) if x < goal
-                                     else y - stepsize * derivative(x,y) )
 
 
     def y(x):
@@ -313,9 +317,111 @@ problem_1d()
 : y(1.978) approximated: -0.5042298822557729
 
 
+** Runge-Kutta
+
+#+begin_src python :results output :session
+def runge_kutta_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using runge kutta method in the equation 
+    dy/dx = derivative(x,y).
+    """
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x:
+            k1 = derivative(xk,yk)
+            k2 = derivative(xk + stepsize / 2, yk + stepsize * k1 / 2)
+            k3 = derivative(xk + stepsize / 2, yk + stepsize * k2 / 2)
+            k4 = derivative(xk + stepsize, yk + stepsize * k3)
+            x_next = xk + stepsize 
+            y_next = yk + (1/6) * stepsize * (k1 + 2 * k2 + 2 * k3 + k4)
+            xk, yk = x_next, y_next
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = runge_kutta_method(lambda x,y: y, (0,1), 0.01)
+print(f(1))
+print("yello")
+#+end_src
+
+#+RESULTS:
+: 2.718281828234403
+: yello
+
+
 ** e
+
+#+begin_src python :results output :session
+## Problem 1e
+problem_1e_function = runge_kutta_method(problem_1_derivative,
+                                         problem_1_initial_value, 0.05)
+problem_1e_y = list(map(problem_1e_function, problem_1_x_values))
+problem_1e_data_set = list(zip(problem_1_x_values, problem_1e_y))
+problem_1e_compare = [(problem_1_analytic_function(t) -
+                       problem_1c_function(t))
+                      for t in problem_1_x_values]
+def problem_1e():
+    print("Problem 1e compared values:", problem_1e_compare)
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+problem_1e()
+#+end_src
+
+#+RESULTS:
+: Problem 1e compared values: [0.0, -0.04112130234761635, -0.035496555767742355, -0.030681482453422948, -0.02653664985702764, -0.02295083841517853, -0.0198345164088215, -0.017115002183238914, -0.014732834112419435, -0.012639016555417992, -0.01079290899265517, -0.009160592771588538, -0.007713596250483845, -0.00642789151926515, -0.005283098788347984, -0.004261850931373878, -0.003349282526444175, -0.002532616404819832, -0.0018008271066698445, -0.0011443653991198288]
+
+
 
 ** f
 
+#+begin_src python :results output :session
+## Problem 1f
+def problem_1f():
+    f_interpolated = linear_interpolation(problem_1e_data_set)
+    f_analytic = problem_1_analytic_function 
+    print("y(1.052) analytic:", f_analytic(1.052))
+    print("y(1.052) approximated:", f_interpolated(1.052))
+
+    print("y(1.555) analytic:", f_analytic(1.555))
+    print("y(1.555) approximated:", f_interpolated(1.555))
+
+    print("y(1.978) analytic:", f_analytic(1.978))
+    print("y(1.978) approximated:", f_interpolated(1.978))
+
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+problem_1f()
+#+end_src
+
+#+RESULTS:
+: y(1.052) analytic: -0.9505703422053231
+: y(1.052) approximated: -0.910181758813877
+: y(1.555) analytic: -0.6430868167202572
+: y(1.555) approximated: -0.6341732015242038
+: y(1.978) analytic: -0.5055611729019212
+: y(1.978) approximated: -0.5053587292691988
+
+
+** problem 1 visualise
 
 * Assignment 2
