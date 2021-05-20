@@ -461,6 +461,7 @@ problem_1_display()
 
 #+RESULTS:
 
+
 * Assignment 2
 
 ** Problem 2 header
@@ -651,6 +652,45 @@ problem_2_display()
 
 #+RESULTS:
 
+
+
+* Main
+#+begin_src python :results output :session
+def main():
+    while True:
+        print("At any point, type 'exit', to exit")
+        message =(
+""" 
+To display solutions to '1a', '1b', '1c', '1d', '1e' or '1f'
+simply type in the string. To display a graph of all subroutines in task 1,
+type 'display 1'. To display the graph for task 2, type 'display 2'. 
+""")
+        user_input = input(message)
+        if user_input == "1a":
+            problem_1a()
+        elif user_input == "1b":
+            problem_1b()
+        elif user_input == "1c":
+            problem_1c()
+        elif user_input == "1d":
+            problem_1d()
+        elif user_input == "1e":
+            problem_1e()
+        elif user_input == "1f":
+            problem_1f()
+        elif user_input == "display 1":
+            problem_1_display()
+        elif user_input == "display 2":
+            problem_2_display()
+        elif user_input == "exit":
+            break
+        else:
+            print("Invalid input")
+
+
+if __name__ == "__main__":
+    main()
+#+end_src
 
 * Test
 #+begin_src python :results output :session :tangle no

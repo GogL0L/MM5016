@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-## Lab 9 copied methods
+## Methods copied from lab 9
 
 
 def linear_interpolation(data_set):
@@ -178,7 +178,7 @@ problem_1e_function = runge_kutta_method(problem_1_derivative,
 problem_1e_y = list(map(problem_1e_function, problem_1_x_values))
 problem_1e_data_set = list(zip(problem_1_x_values, problem_1e_y))
 problem_1e_compare = [(problem_1_analytic_function(t) -
-                       problem_1c_function(t))
+                       problem_1e_function(t))
                       for t in problem_1_x_values]
 def problem_1e():
     print("Problem 1e compared values:", problem_1e_compare)
@@ -196,6 +196,32 @@ def problem_1f():
 
     print("y(1.978) analytic:", f_analytic(1.978))
     print("y(1.978) approximated:", f_interpolated(1.978))
+
+
+## Problem 1: display graphs
+def problem_1_display():
+   # a = linear_interpolation(problem_1a_data_set)
+   # problem_1a_interpolated_y = list(map(a, problem_1_x_values))
+   # c = linear_interpolation(problem_1c_data_set)
+   # problem_1c_interpolated_y = list(map(c, problem_1_x_values))
+   # e = linear_interpolation(problem_1e_data_set)
+   # problem_1e_interpolated_y = list(map(e, problem_1_x_values))
+    
+    plt.plot(problem_1_x_values, problem_1_y_values, label="Analytical")
+    plt.plot(problem_1_x_values, problem_1a_y, label="Euler's method")
+    #plt.plot(problem_1_x_values, problem_1a_interpolated_y,
+    #         label="Euler's method interpolated")
+    plt.plot(problem_1_x_values, problem_1c_y, label="Heun's method")
+    #plt.plot(problem_1_x_values, problem_1c_interpolated_y,
+    #         label="Heun's method interpolated")
+    plt.plot(problem_1_x_values, problem_1e_y, label="Runge-Kutta method")
+    #plt.plot(problem_1_x_values, problem_1e_interpolated_y,
+    #         label="Runge-Kutta method interpolated")
+    plt.xlabel("x")
+    plt.ylabel("y")
+
+    plt.legend()
+    plt.show()
 
 
 ## Problem 2: analytic data of function
@@ -221,8 +247,7 @@ problem_2_runge_kutta = runge_kutta_method(problem_2_derivative,
 
 ## Problem 2: Adams-Bashforth
 def bashforth_method(derivative, initial_value_orbit, stepsize):
-    """ Given that 'derivative' is a function of (x,y)
-    and that the 'initial_value' is a tuple of the form
+    """ Given that 'derivative' is a function of (x,y) and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
     approximates y using the Adams-Bashforth method in the equation 
     dy/dx = derivative(x,y).
@@ -230,7 +255,7 @@ def bashforth_method(derivative, initial_value_orbit, stepsize):
 
 
     def y(x):
-        orbit = initial_value_orbit
+        orbit = initial_value_orbit.copy()
         while 0 <= orbit[-1][0] < x:
             (x0,y0), (x1,y1) = orbit[-2:]
             x_next = x1 + stepsize 
@@ -244,4 +269,94 @@ def bashforth_method(derivative, initial_value_orbit, stepsize):
     return y
 
 ## To get the adams-Bashforth method:
-#f = bashforth_method( problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
+problem_2_bashforth = bashforth_method(problem_2_derivative,
+                                             problem_2_init_orbit,
+                                             problem_2_stepsize)
+
+
+## Problem 2: Adams-Moulton
+def moulton_method(derivative, initial_value_orbit, stepsize):
+    """ Given that 'derivative' is a function of (x,y) and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using the Adams-Moulton method in the equation 
+    dy/dx = derivative(x,y).
+    """
+
+
+    def y(x):
+        orbit = initial_value_orbit.copy()
+        while 0 <= orbit[-1][0] < x:
+            (x0,y0), (x1,y1) = orbit[-2:]
+            euler = euler_method(derivative, (x1,y1), stepsize)
+            x_next = x1 + stepsize 
+            y_next_approx = euler(x_next)
+            
+            y_next = (y1 + stepsize * ( (5/12) * derivative(x_next, y_next_approx)
+                                        + (2/3) * derivative(x1,y1)
+                                        - (1/12) * derivative(x0, y0)))
+            orbit.append((x_next, y_next))
+            
+        return orbit[-1][1]
+
+    
+    return y
+
+## To get the Adams-Moulton method:
+#f = trapezoidal_method( problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
+problem_2_moulton = moulton_method(problem_2_derivative,
+                                   problem_2_init_orbit,
+                                   problem_2_stepsize)
+
+
+## Problem 1: display graphs
+def problem_2_display():
+    y_runge_kutta = list(map(problem_2_runge_kutta, problem_2_x_values))
+    y_bashforth = list(map(problem_2_bashforth ,problem_2_x_values))
+    y_moulton = list(map(problem_2_moulton ,problem_2_x_values))
+    
+    plt.plot(problem_2_x_values, problem_2_y_values, label="Analytical")
+    plt.plot(problem_2_x_values, y_runge_kutta, label="Runge-Kutta")
+    plt.plot(problem_2_x_values, y_bashforth, label="Adams Bashforth")
+    plt.plot(problem_2_x_values, y_moulton, label="Adam Moulton method")
+
+    plt.xlabel("x")
+    plt.ylabel("y")
+
+    plt.legend()
+    plt.show()
+
+
+def main():
+    while True:
+        print("At any point, type 'exit', to exit")
+        message =(
+""" 
+To display solutions to '1a', '1b', '1c', '1d', '1e' or '1f'
+simply type in the string. To display a graph of all subroutines in task 1,
+type 'display 1'. To display the graph for task 2, type 'display 2'. 
+""")
+        user_input = input(message)
+        if user_input == "1a":
+            problem_1a()
+        elif user_input == "1b":
+            problem_1b()
+        elif user_input == "1c":
+            problem_1c()
+        elif user_input == "1d":
+            problem_1d()
+        elif user_input == "1e":
+            problem_1e()
+        elif user_input == "1f":
+            problem_1f()
+        elif user_input == "display 1":
+            problem_1_display()
+        elif user_input == "display 2":
+            problem_2_display()
+        elif user_input == "exit":
+            break
+        else:
+            print("Invalid input")
+
+
+if __name__ == "__main__":
+    main()
