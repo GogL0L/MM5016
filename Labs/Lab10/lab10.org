@@ -146,7 +146,7 @@ print("problem_1_data:", problem_1_data)
 #+end_src
 
 #+RESULTS:
-: problem_1_analytic_function: <function <lambda> at 0x7f0665d1b820>
+: problem_1_analytic_function: <function <lambda> at 0x7f4002de1820>
 : problem_1_x_values: [1.         1.05263158 1.10526316 1.15789474 1.21052632 1.26315789
 :  1.31578947 1.36842105 1.42105263 1.47368421 1.52631579 1.57894737
 :  1.63157895 1.68421053 1.73684211 1.78947368 1.84210526 1.89473684
@@ -161,7 +161,6 @@ print("problem_1_data:", problem_1_data)
 problem_1a_function = euler_method(problem_1_derivative, problem_1_initial_value, 0.05)
 problem_1a_y = list(map(problem_1a_function, problem_1_x_values))
 problem_1a_data_set = list(zip(problem_1_x_values, problem_1a_y))
-problem_1a_f_linearly_interpolated = linear_interpolation(problem_1a_data_set)
 problem_1a_compare = [(problem_1_analytic_function(t) -
                        problem_1a_function(t))
                       for t in problem_1_x_values]
@@ -184,8 +183,8 @@ problem_1a()
 #+begin_src python :results output :session
 ## Problem 1b
 def problem_1b():
-    f_analytic = problem_1_analytic_function
-    f_interpolated = problem_1a_f_linearly_interpolated
+    f_interpolated = linear_interpolation(problem_1a_data_set)
+    f_analytic = problem_1_analytic_function 
     print("y(1.052) analytic:", f_analytic(1.052))
     print("y(1.052) approximated:", f_interpolated(1.052))
 
@@ -262,7 +261,6 @@ print("yello")
 problem_1c_function = heun_method(problem_1_derivative, problem_1_initial_value, 0.05)
 problem_1c_y = list(map(problem_1c_function, problem_1_x_values))
 problem_1c_data_set = list(zip(problem_1_x_values, problem_1c_y))
-problem_1c_f_linearly_interpolated = linear_interpolation(problem_1c_data_set)
 problem_1c_compare = [(problem_1_analytic_function(t) -
                        problem_1c_function(t))
                       for t in problem_1_x_values]
@@ -280,13 +278,14 @@ problem_1c()
 #+RESULTS:
 : Problem 1a compared values: [0.0, -0.04112130234761635, -0.035496555767742355, -0.030681482453422948, -0.02653664985702764, -0.02295083841517853, -0.0198345164088215, -0.017115002183238914, -0.014732834112419435, -0.012639016555417992, -0.01079290899265517, -0.009160592771588538, -0.007713596250483845, -0.00642789151926515, -0.005283098788347984, -0.004261850931373878, -0.003349282526444175, -0.002532616404819832, -0.0018008271066698445, -0.0011443653991198288]
 
+
 ** d
 
 #+begin_src python :results output :session
 ## Problem 1d
 def problem_1d():
-    f_analytic = problem_1c_f_linearly_interpolated
-    f_interpolated = problem_1a_f_linearly_interpolated
+    f_interpolated = linear_interpolation(problem_1c_data_set)
+    f_analytic = problem_1_analytic_function 
     print("y(1.052) analytic:", f_analytic(1.052))
     print("y(1.052) approximated:", f_interpolated(1.052))
 
@@ -306,12 +305,13 @@ problem_1d()
 #+end_src
 
 #+RESULTS:
-: y(1.052) analytic: -0.9099721532805549
-: y(1.052) approximated: -0.9961051669699956
-: y(1.555) analytic: -0.6333668182903549
-: y(1.555) approximated: -0.7094723352327039
-: y(1.978) analytic: -0.5042298822557729
-: y(1.978) approximated: -0.5854187864185804
+: y(1.052) analytic: -0.9505703422053231
+: y(1.052) approximated: -0.9099721532805549
+: y(1.555) analytic: -0.6430868167202572
+: y(1.555) approximated: -0.6333668182903549
+: y(1.978) analytic: -0.5055611729019212
+: y(1.978) approximated: -0.5042298822557729
+
 
 ** e
 
