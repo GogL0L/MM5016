@@ -370,7 +370,7 @@ problem_1e_function = runge_kutta_method(problem_1_derivative,
 problem_1e_y = list(map(problem_1e_function, problem_1_x_values))
 problem_1e_data_set = list(zip(problem_1_x_values, problem_1e_y))
 problem_1e_compare = [(problem_1_analytic_function(t) -
-                       problem_1c_function(t))
+                       problem_1e_function(t))
                       for t in problem_1_x_values]
 def problem_1e():
     print("Problem 1e compared values:", problem_1e_compare)
@@ -384,7 +384,7 @@ problem_1e()
 #+end_src
 
 #+RESULTS:
-: Problem 1e compared values: [0.0, -0.04112130234761635, -0.035496555767742355, -0.030681482453422948, -0.02653664985702764, -0.02295083841517853, -0.0198345164088215, -0.017115002183238914, -0.014732834112419435, -0.012639016555417992, -0.01079290899265517, -0.009160592771588538, -0.007713596250483845, -0.00642789151926515, -0.005283098788347984, -0.004261850931373878, -0.003349282526444175, -0.002532616404819832, -0.0018008271066698445, -0.0011443653991198288]
+: Problem 1e compared values: [0.0, -0.04090915099810011, -0.03519676930940496, -0.03030313053746747, -0.026087072410002632, -0.02243602699049152, -0.019259400968214657, -0.016483669184723215, -0.014048694081599589, -0.011904934080945617, -0.010011304473898197, -0.008333522720552988, -0.0068428171616535804, -0.0055149110401392365, -0.004329216996057705, -0.003268193842439926, -0.002316829465850545, -0.0014622224873820366, -0.0006932418032596921, -2.479479163097764e-07]
 
 
 
@@ -423,7 +423,39 @@ problem_1f()
 
 
 ** problem 1 visualise
+#+begin_src python :results output :session
+## Problem 1: display graphs
+def problem_1_display():
+   # a = linear_interpolation(problem_1a_data_set)
+   # problem_1a_interpolated_y = list(map(a, problem_1_x_values))
+   # c = linear_interpolation(problem_1c_data_set)
+   # problem_1c_interpolated_y = list(map(c, problem_1_x_values))
+   # e = linear_interpolation(problem_1e_data_set)
+   # problem_1e_interpolated_y = list(map(e, problem_1_x_values))
+    
+    plt.plot(problem_1_x_values, problem_1_y_values, label="Analytical")
+    plt.plot(problem_1_x_values, problem_1a_y, label="Euler's method")
+    #plt.plot(problem_1_x_values, problem_1a_interpolated_y,
+    #         label="Euler's method interpolated")
+    plt.plot(problem_1_x_values, problem_1c_y, label="Heun's method")
+    #plt.plot(problem_1_x_values, problem_1c_interpolated_y,
+    #         label="Heun's method interpolated")
+    plt.plot(problem_1_x_values, problem_1e_y, label="Runge-Kutta method")
+    #plt.plot(problem_1_x_values, problem_1e_interpolated_y,
+    #         label="Runge-Kutta method interpolated")
 
+    plt.legend()
+    plt.show()
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+problem_1_display()
+#+end_src
+
+#+RESULTS:
 
 * Assignment 2
 
@@ -486,6 +518,7 @@ print(problem_2_runge_kutta(1))
 #+RESULTS:
 : 2.4058325398853753
 
+
 ** Problem 2 Adams-Bashforth
 
 #+begin_src python :results output :session
@@ -513,7 +546,10 @@ def bashforth_method(derivative, initial_value_orbit, stepsize):
     return y
 
 ## To get the adams-Bashforth method:
-#f = bashforth_method( problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
+problem_2_bashforth = bashforth_method(problem_2_derivative,
+                                             problem_2_init_orbit,
+                                             problem_2_stepsize)
+
 #+end_src
 
 #+RESULTS:
@@ -531,6 +567,7 @@ print(len(problem_2_init_orbit))
 : -24.96004356368945
 : -28.598088746742526
 : 3
+
 
 ** Problem 2 Adams-Moulton
 
@@ -560,6 +597,9 @@ def trapezoidal_method(derivative, initial_value_orbit, stepsize):
 
 ## To get the Adams-Moulton method:
 #f = trapezoidal_method( problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
+problem_2_trapezoidal = trapezoidal_method(problem_2_derivative,
+                                           problem_2_init_orbit,
+                                           problem_2_stepsize)
 #+end_src
 
 #+RESULTS:
@@ -572,6 +612,34 @@ print(f(1.5))
 
 #+RESULTS:
 : 2.535878535922188
+
+
+** problem 2 visualise
+#+begin_src python :results output :session
+## Problem 1: display graphs
+def problem_2_display():
+    y_runge_kutta = list(map(problem_2_runge_kutta, problem_2_x_values))
+    y_bashforth = list(map(problem_2_bashforth ,problem_2_x_values))
+    y_trapezoidal = list(map(problem_2_trapezoidal ,problem_2_x_values))
+    
+    plt.plot(problem_2_x_values, problem_2_y_values, label="Analytical")
+    plt.plot(problem_2_x_values, y_runge_kutta, label="Runge-Kutta")
+    plt.plot(problem_2_x_values, y_bashforth, label="Adams Bashforth")
+    plt.plot(problem_2_x_values, y_trapezoidal, label="Adam Moulton method")
+
+    plt.legend()
+    plt.show()
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+problem_2_display()
+#+end_src
+
+#+RESULTS:
+
 
 * Test
 #+begin_src python :results output :session :tangle no
