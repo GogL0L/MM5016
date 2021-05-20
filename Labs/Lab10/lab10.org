@@ -488,30 +488,54 @@ print(problem_2_runge_kutta(1))
 ** Problem 2 Adams-Bashforth
 
 #+begin_src python :results output :session
-def bashforth_method(initial_value, stepsize):
+## Problem 2: Adams-Bashforth
+def bashforth_method(derivative, initial_value_orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
     approximates y using the Adams-Bashforth method in the equation 
     dy/dx = derivative(x,y).
     """
-    y_exact = 
 
 
     def y(x):
-        x0, y0 = initial_value
-        orbit = [(x0,y0)] 
-        xk, yk = x0, y0
-        while x0 <= xk < x:
-            k1 = derivative(xk,yk)
-            k2 = derivative(xk + stepsize / 2, yk + stepsize * k1 / 2)
-            k3 = derivative(xk + stepsize / 2, yk + stepsize * k2 / 2)
-            k4 = derivative(xk + stepsize, yk + stepsize * k3)
-            x_next = xk + stepsize 
-            y_next = yk + (1/6) * stepsize * (k1 + 2 * k2 + 2 * k3 + k4)
-            xk, yk = x_next, y_next
-        return yk
+        orbit = initial_value_orbit
+        while 0 <= orbit[-1][0] < x:
+            (x0,y0), (x1,y1) = orbit[-2:]
+            x_next = x1 + stepsize 
+            y_next = (y1 + (3/2) * stepsize * derivative(x1,y1)
+                      - (1/2) * stepsize * derivative(x0,y0))
+            orbit.append((x_next, y_next))
+            
+        return orbit[-1][1]
 
     
     return y
+
+## To get the adams-Bashforth method:
+#f = bashforth_method( problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
 #+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+print(f(2))
+#+end_src
+
+#+RESULTS:
+: 3.0493685924806857
+
+* Test
+#+begin_src python :results output :session :tangle no
+hej = [1,2,3,4]
+print(hej)
+hej.append((1,2))
+print(hej)
+print([0,1,2,3,4][-3:])
+#+end_src
+
+#+RESULTS:
+: [1, 2, 3, 4]
+: [1, 2, 3, 4, (1, 2)]
+: [2, 3, 4]
