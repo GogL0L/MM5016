@@ -1,28 +1,5 @@
-
-
 import matplotlib.pyplot as plt
 import numpy as np
-
-
-def plot_function(function, interval):
-    """ Plots the function oven the given interval, where the interval
-    is represented by a tuple.
-    """
-    x_min, x_max = interval
-    x = np.linspace(x_min , x_max ,100)
-
-    y = np.array(map(function, x))
-
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    ax.spines['left'].set_position('center')
-    ax.spines['bottom'].set_position('zero')
-    ax.spines['right'].set_color('none')
-    ax.spines['top'].set_color('none')
-    ax.xaxis.set_ticks_position('bottom')
-    ax.yaxis.set_ticks_position('left')
-    plt.plot(x,y, 'r')
-    plt.show()
 
 
 def linear_interpolation(data_set):
@@ -51,11 +28,13 @@ def linear_interpolation(data_set):
         return complete_function
 
 
-data = [(0,0), (1,1), (2,4)]
-fun = linear_interpolation(data)
-print(fun(1.3))
-
-plot_function(fun, (0,5))
+def linear_interpolation_vector(data_set, query_points):
+    """ Transforms the the query_points list from the format of 
+    [x1,x2,x3...] to [f(x1), f(x2), f(x3) ...],
+    where f is the linearly interpolated function from data_set.
+    """
+    f = linear_interpolation(data_set)
+    return list(map(f,query_points))
 
 
 def product(factors):
@@ -64,17 +43,6 @@ def product(factors):
         return 1
     else:
         return factors[0] * product(factors[1:])
-
-
-print(product([1,2,3]))
-
-
-def langrange_polynomial_coefficients(data_set):
-    """ Takes a list of data points in form of tuple coordinates, that is:
-    [(x0, y0), (x1, y1) ...] and returns the list [a0, a1, a2...], so that
-    the lagrange polynomial is a0 + a1x + a2x^2 ...
-    """
-    l = lambda j, x: product([
 
 
 def lagrange_interpolation(data_set):
@@ -89,8 +57,95 @@ def lagrange_interpolation(data_set):
                                for xm in x_points if xm != x_points[j]])
 
     k = len(data_set)
-    lagrange_function = lambda x : sum([y_points[j] * l(j,x) for j in range(k+1)])
+    lagrange_function = lambda x : sum([y_points[j] * l(j,x) for j in range(k)])
     return lagrange_function
 
 
-print(lagrange_interpolation([(1,1), (2,2)])(5)
+def lagrange_interpolation_vector(data_set, query_points):
+    """ Transforms the the query_points list from the format of 
+    [x1,x2,x3...] to [f(x1), f(x2), f(x3) ...],
+    where f is the lagrange interpolated function from data_set.
+    """
+    f = lagrange_interpolation(data_set)
+    return list(map(f,query_points))
+
+
+def problem1a():
+    data = [(1,2), (2,2.5), (3,7), (4,10.5), (6,12.75), (8,13), (10,13)]
+    x = np.linspace(1 , 10 , 18)
+    y = linear_interpolation_vector(data, x)
+    plt.plot(x,y)
+    plt.show()
+
+
+def problem1b():
+    data = [(1,2), (2,2.5), (3,7), (4,10.5), (6,12.75), (8,13), (10,13)]
+    x = np.linspace(1 , 10 , 18)
+    y = lagrange_interpolation_vector(data, x)
+    plt.plot(x,y)
+    plt.show()
+
+
+def euler_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y in the equation dy/dx = derivative(x,y).
+    """
+    step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
+    y_next = lambda x, y, goal: (y + stepsize * derivative(x,y) if x < goal
+                                 else y - stepsize * derivative(x,y) )
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x or x0 >= xk > x:
+            xk = step_to_goal(xk, x)
+            yk = y_next(xk, yk, x)
+        return yk
+
+    
+    return y
+
+
+def problem2():
+    derivative = lambda x,y: y-x
+    initial_value = (0, 0.5)
+    y_analytic = lambda x: x + 1 - 0.5 * np.exp(x)
+    y_euler1 = euler_method(derivative, initial_value, 0.1)
+    y_euler2 = euler_method(derivative, initial_value, 0.05)
+    y_euler3 = euler_method(derivative, initial_value, 0.01)
+
+    x = np.linspace(0,10, 100)
+    y_exact = list(map(y_analytic, x))
+    y1 = list(map(y_euler1, x))
+    y2 = list(map(y_euler2, x))
+    y3 = list(map(y_euler3, x))
+
+    plt.plot(x, y_exact, label='Exact')
+    plt.plot(x, y1, label='0.1 step')
+    plt.plot(x, y2, label='0.05 step')
+    plt.plot(x, y3, label='0.01 step')
+    plt.legend()
+    plt.show()
+
+
+def main():
+    while True:
+        print("At any point type 'exit' to exit.")
+        user_input = input("What problem do you want to display? (1a, 1b or 2) ")
+        if user_input == "1a":
+            problem1a()
+        elif user_input == "1b":
+            problem1b()
+        elif user_input == "2":
+            problem2()
+        elif user_input == "exit":
+            break
+        else:
+            print("Not valid input")
+
+
+if __name__ == "__main__":
+    main()

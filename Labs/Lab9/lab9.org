@@ -3,7 +3,7 @@
 #+PROPERTY: header-args :tangle ./lab9.py :padline 2
 
 * Header
-#+begin_src python :results output :session
+#+begin_src python :results output :session :padline 0
 import matplotlib.pyplot as plt
 import numpy as np
 #+end_src
@@ -45,7 +45,7 @@ def linear_interpolation(data_set):
 #+RESULTS:
 
 *** Linear interpolation test
-#+begin_src python :results output :session
+#+begin_src python :results output :session :tangle no
 data = [(0,0), (1,1), (2,4)]
 fun = linear_interpolation(data)
 print(fun(1.3))
@@ -92,7 +92,7 @@ def product(factors):
 #+RESULTS:
 
 *** test
-#+begin_src python :results output :session
+#+begin_src python :results output :session :tangle no
 print(product([1,2,3]))
 #+end_src
 
@@ -262,17 +262,19 @@ problem2()
 * Main
 #+begin_src python :results output :session
 def main():
-    print("At any point type 'exit' to exit.")
-    user_input = input("What problem do you want to display? (1a, 1b or 2) ")
     while True:
-    if user_input == "1":
-        problem1()
-    elif user_input == "2":
-        problem2()
-    elif user_input == "exit":
-        break
-    else:
-        print("Not valid input")
+        print("At any point type 'exit' to exit.")
+        user_input = input("What problem do you want to display? (1a, 1b or 2) ")
+        if user_input == "1a":
+            problem1a()
+        elif user_input == "1b":
+            problem1b()
+        elif user_input == "2":
+            problem2()
+        elif user_input == "exit":
+            break
+        else:
+            print("Not valid input")
 
 
 if __name__ == "__main__":
