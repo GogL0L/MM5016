@@ -158,7 +158,7 @@ print(lagrange_interpolation_vector(data_set, query_points))
 #+begin_src python :results output :session
 def problem1a():
     data = [(1,2), (2,2.5), (3,7), (4,10.5), (6,12.75), (8,13), (10,13)]
-    x = np.linspace(0 , 10 , 20)
+    x = np.linspace(1 , 10 , 18)
     y = linear_interpolation_vector(data, x)
     plt.plot(x,y)
     plt.show()
@@ -169,6 +169,18 @@ problem1a()
 #+RESULTS:
 
 *** Problem 1b
+#+begin_src python :results output :session
+def problem1b():
+    data = [(1,2), (2,2.5), (3,7), (4,10.5), (6,12.75), (8,13), (10,13)]
+    x = np.linspace(1 , 10 , 18)
+    y = lagrange_interpolation_vector(data, x)
+    plt.plot(x,y)
+    plt.show()
+
+problem1b()
+#+end_src
+
+#+RESULTS:
 
 * Assignment 2
 
