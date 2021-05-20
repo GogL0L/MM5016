@@ -285,7 +285,7 @@ problem_1c()
 #+begin_src python :results output :session
 ## Problem 1d
 def problem_1d():
-    f_analytic = problem_1_analytic_function
+    f_analytic = problem_1c_f_linearly_interpolated
     f_interpolated = problem_1a_f_linearly_interpolated
     print("y(1.052) analytic:", f_analytic(1.052))
     print("y(1.052) approximated:", f_interpolated(1.052))
@@ -299,6 +299,19 @@ def problem_1d():
 #+end_src
 
 #+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+problem_1d()
+#+end_src
+
+#+RESULTS:
+: y(1.052) analytic: -0.9099721532805549
+: y(1.052) approximated: -0.9961051669699956
+: y(1.555) analytic: -0.6333668182903549
+: y(1.555) approximated: -0.7094723352327039
+: y(1.978) analytic: -0.5042298822557729
+: y(1.978) approximated: -0.5854187864185804
 
 ** e
 
