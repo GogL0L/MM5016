@@ -424,17 +424,24 @@ problem_1f()
 
 ** problem 1 visualise
 
+
 * Assignment 2
 
 ** Problem 2 header
 #+begin_src python :results output :session
 ## Problem 2: analytic data of function
+problem_2_stepsize = 0.1
 problem_2_analytic_function = lambda x: 2 + 2 * x + x ** 2 - np.exp(x)
 problem_2_derivative = lambda x,y: y - x ** 2
 problem_2_x_values = np.linspace(0, 3.3, int(3.3 / 0.1))
 problem_2_initial_value = (0,1)
 problem_2_y_values = list(map(problem_2_analytic_function, problem_2_x_values))
 problem_2_data = list(zip(problem_2_x_values, problem_2_y_values))
+
+problem_2_init_orbit_x = [-0.8 ,-0.9 ,0]
+problem_2_init_orbit_y = list(map(problem_2_analytic_function,
+                                  problem_2_init_orbit_x))
+problem_2_init_orbit = list(zip(problem_2_init_orbit_x, problem_2_init_orbit_y))
 #+end_src
 
 #+RESULTS:
@@ -459,3 +466,52 @@ print("problem_2_data:", problem_2_data)
 : problem_2_initial_value: (0, 1)
 : problem_2_data: [(0.0, 1.0), (0.1064516129032258, 1.1119110686866513), (0.2129032258064516, 1.2338693250358106), (0.3193548387096774, 1.3644576090746123), (0.4258064516129032, 1.5020995796074175), (0.532258064516129, 1.64504183432775), (0.6387096774193548, 1.7913340215878444), (0.7451612903225806, 1.938806718240547), (0.8516129032258064, 2.0850468226296512), (0.9580645161290322, 2.2273701836199473), (1.064516129032258, 2.3627911552076206), (1.1709677419354838, 2.4879887313795743), (1.2774193548387096, 2.5992688771012005), (1.3838709677419354, 2.6925226281661456), (1.4903225806451612, 2.7631794846492754), (1.596774193548387, 2.8061555693210645), (1.7032258064516128, 2.8157959630023663), (1.8096774193548386, 2.7858105627896492), (1.9161290322580644, 2.7092027356129034), (2.02258064516129, 2.5781899578684406), (2.129032258064516, 2.384115540969642), (2.235483870967742, 2.117350441549368), (2.3419354838709676, 1.7671840425814125), (2.4483870967741934, 1.3217026665894362), (2.554838709677419, 0.7676544429610193), (2.661290322580645, 0.09029899660400353), (2.767741935483871, -0.726759746984019), (2.8741935483870966, -1.7017595366668168), (2.9806451612903224, -2.854986660090187), (3.087096774193548, -4.2090060439631465), (3.193548387096774, -5.788917200146763), (3.3, -7.622638920657884)]
 
+
+** Problem 2 runge kutta
+#+begin_src python :results output :session
+## Problem 2: runge kutta
+problem_2_runge_kutta = runge_kutta_method(problem_2_derivative,
+                                           problem_2_initial_value,
+                                           problem_2_stepsize)
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+print(problem_2_runge_kutta(1))
+#+end_src
+
+#+RESULTS:
+: 2.4058325398853753
+
+** Problem 2 Adams-Bashforth
+
+#+begin_src python :results output :session
+def bashforth_method(initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using the Adams-Bashforth method in the equation 
+    dy/dx = derivative(x,y).
+    """
+    y_exact = 
+
+
+    def y(x):
+        x0, y0 = initial_value
+        orbit = [(x0,y0)] 
+        xk, yk = x0, y0
+        while x0 <= xk < x:
+            k1 = derivative(xk,yk)
+            k2 = derivative(xk + stepsize / 2, yk + stepsize * k1 / 2)
+            k3 = derivative(xk + stepsize / 2, yk + stepsize * k2 / 2)
+            k4 = derivative(xk + stepsize, yk + stepsize * k3)
+            x_next = xk + stepsize 
+            y_next = yk + (1/6) * stepsize * (k1 + 2 * k2 + 2 * k3 + k4)
+            xk, yk = x_next, y_next
+        return yk
+
+    
+    return y
+#+end_src
