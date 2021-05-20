@@ -1,0 +1,150 @@
+#+title: Lab 10 (Runge-Kutta and multi-step method)
+#+description: 
+#+PROPERTY: header-args :tangle ./lab10.py :padline 2
+
+* Header
+#+begin_src python :results output :session :padline 0
+import matplotlib.pyplot as plt
+import numpy as np
+#+end_src
+
+#+RESULTS:
+
+
+* Lab 9 methods
+
+** Linear interpolation
+
+#+begin_src python :results output :session
+def linear_interpolation(data_set):
+    """ Takes a list of data points in form of tuple coordinates, that is:
+    [(x0, y0), (x1, y1) ...] and returns an apporixmated function given by
+    linear interpolation.
+    """
+    if len(data_set) <= 1:
+        raise ValueError("<linear_interpolation: not enough data points>")
+        
+    data_set_sorted = sorted(data_set)
+    if len(data_set_sorted) == 2:
+        (x0, y0), (x1, y1) = data_set_sorted
+        k = (y1 - y0) / (x1 - x0)
+        m = y0
+        interpolated_function = lambda x: k * (x - x0) + m
+        return interpolated_function
+    else:
+        head = data_set_sorted[:2]
+        head_interval_end = head[1][0] 
+        tail = data_set_sorted[1:]
+        head_function = linear_interpolation(head)
+        tail_function = linear_interpolation(tail)
+        complete_function = lambda x:( head_function(x) if x <= head_interval_end
+                                       else tail_function(x))
+        return complete_function
+        
+#+end_src
+
+#+RESULTS:
+
+*** Linear interpolation test
+#+begin_src python :results output :session :tangle no
+data = [(0,0), (1,1), (2,4)]
+fun = linear_interpolation(data)
+print(fun(1.3))
+
+plot_function(fun, (0,5))
+#+end_src
+
+#+RESULTS:
+: 1.9000000000000001
+
+
+** Linear interpolation vector
+#+begin_src python :results output :session
+def linear_interpolation_vector(data_set, query_points):
+    """ Transforms the the query_points list from the format of 
+    [x1,x2,x3...] to [f(x1), f(x2), f(x3) ...],
+    where f is the linearly interpolated function from data_set.
+    """
+    f = linear_interpolation(data_set)
+    return list(map(f,query_points))
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+data_set = [(1,1), (2,4), (3,9)]
+query_points = [-1, 3, 4]
+print(linear_interpolation_vector(data_set, query_points))
+#+end_src
+
+#+RESULTS:
+: [(-1, -5.0), (3, 9.0), (4, 14.0)]
+
+
+** Euler's method
+#+begin_src python :results output :session
+def euler_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y in the equation dy/dx = derivative(x,y).
+    """
+    step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
+    y_next = lambda x, y, goal: (y + stepsize * derivative(x,y) if x < goal
+                                 else y - stepsize * derivative(x,y) )
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x or x0 >= xk > x:
+            xk = step_to_goal(xk, x)
+            yk = y_next(xk, yk, x)
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = euler_method(lambda x,y: y, (0,1), 0.1)
+print(f(1))
+print("ello")
+#+end_src
+
+#+RESULTS:
+: 2.33436821409
+: ello
+
+
+* Assignment 1
+
+** a
+#+begin_src python :results output :session
+def problem_1a():
+    derivative = lambda t,y: (1 / t **2) - (y / t) - y ** 2
+    initial_value = (1, -1)
+    f = euler_method(derivative, initial_value, 0.05)
+    x = np.linspace(1, 2, 0.05)
+    y = list(map(f,x))
+    data_set = list(zip(x,y))
+    f_linearly_interpolated = linear_interpolation(data_set) 
+    
+#+end_src
+
+** b
+
+** c
+
+** d
+
+** e
+
+** f
+
+
+* Assignment 2
