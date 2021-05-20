@@ -152,7 +152,7 @@ print(lagrange_interpolation_vector(data_set, query_points))
 #+RESULTS:
 : [(-1, 1.0), (3, 9.0), (4, 16.0)]
 
-** Problem
+** Problem 1
 
 *** Problem 1a
 #+begin_src python :results output :session
@@ -162,11 +162,14 @@ def problem1a():
     y = linear_interpolation_vector(data, x)
     plt.plot(x,y)
     plt.show()
-
-problem1a()
 #+end_src
 
 #+RESULTS:
+
+**** test
+#+begin_src python :results output :session :tangle no
+problem1a()
+#+end_src
 
 *** Problem 1b
 #+begin_src python :results output :session
@@ -176,11 +179,14 @@ def problem1b():
     y = lagrange_interpolation_vector(data, x)
     plt.plot(x,y)
     plt.show()
-
-problem1b()
 #+end_src
 
 #+RESULTS:
+
+**** test
+#+begin_src python :results output :session :tangle no
+problem1b()
+#+end_src
 
 * Assignment 2
 
@@ -222,27 +228,56 @@ print("ello")
 : 2.33436821409
 : ello
 
-* Plot function
+** Problem 2
 #+begin_src python :results output :session
-def plot_function(function, interval):
-    """ Plots the function oven the given interval, where the interval
-    is represented by a tuple.
-    """
-    x_min, x_max = interval
-    x = np.linspace(x_min , x_max ,100)
-    y = np.array(list(map(function, x)))
-    plt.plot(x,y)
+def problem2():
+    derivative = lambda x,y: y-x
+    initial_value = (0, 0.5)
+    y_analytic = lambda x: x + 1 - 0.5 * np.exp(x)
+    y_euler1 = euler_method(derivative, initial_value, 0.1)
+    y_euler2 = euler_method(derivative, initial_value, 0.05)
+    y_euler3 = euler_method(derivative, initial_value, 0.01)
+
+    x = np.linspace(0,10, 100)
+    y_exact = list(map(y_analytic, x))
+    y1 = list(map(y_euler1, x))
+    y2 = list(map(y_euler2, x))
+    y3 = list(map(y_euler3, x))
+
+    plt.plot(x, y_exact, label='Exact')
+    plt.plot(x, y1, label='0.1 step')
+    plt.plot(x, y2, label='0.05 step')
+    plt.plot(x, y3, label='0.01 step')
+    plt.legend()
     plt.show()
 #+end_src
 
 #+RESULTS:
-** test
+
+*** test
 #+begin_src python :results output :session :tangle no
-f = lagrange_interpolation([(0,0), (1,1), (3, 9)])
-plot_function(f, (0,5))
+problem2()
 #+end_src
 
-#+RESULTS:
+* Main
+#+begin_src python :results output :session
+def main():
+    print("At any point type 'exit' to exit.")
+    user_input = input("What problem do you want to display? (1a, 1b or 2) ")
+    while True:
+    if user_input == "1":
+        problem1()
+    elif user_input == "2":
+        problem2()
+    elif user_input == "exit":
+        break
+    else:
+        print("Not valid input")
+
+
+if __name__ == "__main__":
+    main()
+#+end_src
 
 * Test
 :PROPERTIES:
@@ -275,4 +310,27 @@ print(sorted([(5,3),(2,7),(3,1)]))
 
 #+RESULTS:
 : [(2, 7), (3, 1), (5, 3)]
+
+
+** Plot function
+#+begin_src python :results output :session
+def plot_function(function, interval):
+    """ Plots the function oven the given interval, where the interval
+    is represented by a tuple.
+    """
+    x_min, x_max = interval
+    x = np.linspace(x_min , x_max ,100)
+    y = np.array(list(map(function, x)))
+    plt.plot(x,y)
+    plt.show()
+#+end_src
+
+#+RESULTS:
+*** test
+#+begin_src python :results output :session :tangle no
+f = lagrange_interpolation([(0,0), (1,1), (3, 9)])
+plot_function(f, (0,5))
+#+end_src
+
+#+RESULTS:
 
