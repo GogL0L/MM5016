@@ -123,26 +123,66 @@ print("ello")
 
 * Assignment 1
 
+** Problem 1 header
+#+begin_src python :results output :session
+## Problem 1: analytic data of function
+problem_1_analytic_function = lambda t: -1 / t
+problem_1_derivative = lambda t,y: (1 / t **2) - (y / t) - y ** 2
+problem_1_x_values = np.linspace(1, 2, int(1 / 0.05))
+problem_1_initial_value = (1,-1)
+problem_1_y_values = list(map(problem_1_analytic_function, problem_1_x_values))
+problem_1_data = list(zip(problem_1_x_values, problem_1_y_values))
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+print("problem_1_analytic_function:", problem_1_analytic_function)
+print("problem_1_x_values:", problem_1_x_values)
+print("problem_1_initial_value:", problem_1_initial_value)
+#print("problem_1_y_values:", problem_1_y_values)
+print("problem_1_data:", problem_1_data)
+#+end_src
+
+#+RESULTS:
+: problem_1_analytic_function: <function <lambda> at 0x7fc0a4120b80>
+: problem_1_x_values: [1.         1.05263158 1.10526316 1.15789474 1.21052632 1.26315789
+:  1.31578947 1.36842105 1.42105263 1.47368421 1.52631579 1.57894737
+:  1.63157895 1.68421053 1.73684211 1.78947368 1.84210526 1.89473684
+:  1.94736842 2.        ]
+: problem_1_initial_value: (1, -1)
+: problem_1_data: [(1.0, -1.0), (1.0526315789473684, -0.9500000000000001), (1.1052631578947367, -0.9047619047619049), (1.1578947368421053, -0.8636363636363636), (1.2105263157894737, -0.8260869565217391), (1.263157894736842, -0.7916666666666667), (1.3157894736842106, -0.7599999999999999), (1.368421052631579, -0.7307692307692307), (1.4210526315789473, -0.7037037037037037), (1.4736842105263157, -0.6785714285714286), (1.526315789473684, -0.6551724137931035), (1.5789473684210527, -0.6333333333333333), (1.631578947368421, -0.6129032258064516), (1.6842105263157894, -0.59375), (1.736842105263158, -0.5757575757575757), (1.7894736842105263, -0.5588235294117647), (1.8421052631578947, -0.5428571428571428), (1.894736842105263, -0.5277777777777778), (1.9473684210526314, -0.5135135135135136), (2.0, -0.5)]
+
+** a
+#+begin_src python :results output :session
+## Problem 1a
+problem_1a_function = euler_method(problem_1_derivative, problem_1_initial_value, 0.05)
+problem_1a_y = list(map(f, problem_1_x_values))
+problem_1a_data_set = list(zip(problem_1_x_values, problem_1a_y))
+problem_1a_f_linearly_interpolated = linear_interpolation(problem_1_data)
+problem_1a_compare = [(problem_1_analytic_function(t) -
+                       problem_1a_function(t))
+                      for t in problem_1_x_values]
+print("Problem 1a compared values:", problem_1a_compare)
+#+end_src
+
+#+RESULTS:
+: Problem 1a compared values: [0.0, 0.04605786130566358, 0.048823164749769665, 0.05133736153199553, 0.05365483743428734, 0.05581773995856254, 0.057859054255661846, 0.059804830791779784, 0.061675818984271547, 0.06348867906034905, 0.06525689061341156, 0.06699144047903283, 0.06870134829226604, 0.07039407144388043, 0.07207581958713305, 0.07375180071305631, 0.0754264150283076, 0.07710340871357091, 0.07878599662485064, 0.08047696079165656]
+
 ** b
 #+begin_src python :results output :session
 def problem_1b():
-    derivative = lambda t,y: (1 / t **2) - (y / t) - y ** 2
-    initial_value = (1, -1)
-    f = euler_method(derivative, initial_value, 0.05)
-    x = np.linspace(1, 2, int(1 / 0.05))
-    y = list(map(f,x))
-    data_set = list(zip(x,y))
-    f_linearly_interpolated = linear_interpolation(data_set)
-
-    f_analytic = lambda t: - 1 / t
+    f_analytic = problem_1_analytic_function
+    f_interpolated = problem_1a_f_linearly_interpolated
     print("y(1.052) analytic:", f_analytic(1.052))
-    print("y(1.052) approximated:", f_linearly_interpolated(1.052))
+    print("y(1.052) approximated:", f_interpolated(1.052))
 
     print("y(1.555) analytic:", f_analytic(1.555))
-    print("y(1.555) approximated:", f_linearly_interpolated(1.555))
+    print("y(1.555) approximated:", f_interpolated(1.555))
 
     print("y(1.978) analytic:", f_analytic(1.978))
-    print("y(1.978) approximated:", f_linearly_interpolated(1.978))
+    print("y(1.978) approximated:", f_interpolated(1.978))
 
     
 #+end_src
@@ -156,11 +196,52 @@ problem_1b()
 
 #+RESULTS:
 : y(1.052) analytic: -0.9505703422053231
-: y(1.052) approximated: -0.9961051669699956
+: y(1.052) approximated: -0.9506
 : y(1.555) analytic: -0.6430868167202572
-: y(1.555) approximated: -0.7094723352327039
+: y(1.555) approximated: -0.6432701149425287
 : y(1.978) analytic: -0.5055611729019212
-: y(1.978) approximated: -0.5854187864185804
+: y(1.978) approximated: -0.5056486486486487
+
+** Heuns's method
+#+begin_src python :results output :session
+def heun_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y in the equation dy/dx = derivative(x,y).
+    """
+    step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
+    y_next_bar = lambda x, y, goal: (y + stepsize * derivative(x,y) if x < goal
+                                     else y - stepsize * derivative(x,y) )
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x:
+            x_next = xk + stepsize 
+            y_bar = yk + stepsize * derivative(xk,yk)
+            y_next = yk + (stepsize / 2) * (derivative(xk, yk) +
+                                            derivative(x_next, y_bar))
+            xk, yk = x_next, y_next
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = heun_method(lambda x,y: y, (0,1), 0.1)
+print(f(1))
+print("yello")
+#+end_src
+
+#+RESULTS:
+: 2.718236862559957
+: yello
 
 ** c
 
