@@ -2,6 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+## Description
+"""
+The methods are written to output the desired function. In order to
+see the solutions to all the tasks run this as a python 3 file
+in a terminal.
+"""
+
+
 ## Methods copied from lab 9
 
 
