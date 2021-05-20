@@ -79,7 +79,7 @@ print(linear_interpolation_vector(data_set, query_points))
 #+end_src
 
 #+RESULTS:
-: [(-1, -5.0), (3, 9.0), (4, 14.0)]
+: [-5.0, 9.0, 14.0]
 
 
 ** Euler's method
@@ -123,20 +123,44 @@ print("ello")
 
 * Assignment 1
 
-** a
+** b
 #+begin_src python :results output :session
-def problem_1a():
+def problem_1b():
     derivative = lambda t,y: (1 / t **2) - (y / t) - y ** 2
     initial_value = (1, -1)
     f = euler_method(derivative, initial_value, 0.05)
-    x = np.linspace(1, 2, 0.05)
+    x = np.linspace(1, 2, int(1 / 0.05))
     y = list(map(f,x))
     data_set = list(zip(x,y))
-    f_linearly_interpolated = linear_interpolation(data_set) 
+    f_linearly_interpolated = linear_interpolation(data_set)
+
+    f_analytic = lambda t: - 1 / t
+    print("y(1.052) analytic:", f_analytic(1.052))
+    print("y(1.052) approximated:", f_linearly_interpolated(1.052))
+
+    print("y(1.555) analytic:", f_analytic(1.555))
+    print("y(1.555) approximated:", f_linearly_interpolated(1.555))
+
+    print("y(1.978) analytic:", f_analytic(1.978))
+    print("y(1.978) approximated:", f_linearly_interpolated(1.978))
+
     
 #+end_src
 
-** b
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+problem_1b()
+#+end_src
+
+#+RESULTS:
+: y(1.052) analytic: -0.9505703422053231
+: y(1.052) approximated: -0.9961051669699956
+: y(1.555) analytic: -0.6430868167202572
+: y(1.555) approximated: -0.7094723352327039
+: y(1.978) analytic: -0.5055611729019212
+: y(1.978) approximated: -0.5854187864185804
 
 ** c
 
