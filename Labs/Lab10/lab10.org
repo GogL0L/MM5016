@@ -15,8 +15,10 @@ import numpy as np
 
 ** Header
 #+begin_src python :results output :session
-## Lab 9 copied methods
+## Methods copied from lab 9
 #+end_src
+
+#+RESULTS:
 
 
 ** Linear interpolation
@@ -152,7 +154,7 @@ print("problem_1_data:", problem_1_data)
 #+end_src
 
 #+RESULTS:
-: problem_1_analytic_function: <function <lambda> at 0x7f4002de1820>
+: problem_1_analytic_function: <function <lambda> at 0x7efecd46a940>
 : problem_1_x_values: [1.         1.05263158 1.10526316 1.15789474 1.21052632 1.26315789
 :  1.31578947 1.36842105 1.42105263 1.47368421 1.52631579 1.57894737
 :  1.63157895 1.68421053 1.73684211 1.78947368 1.84210526 1.89473684
@@ -443,6 +445,8 @@ def problem_1_display():
     plt.plot(problem_1_x_values, problem_1e_y, label="Runge-Kutta method")
     #plt.plot(problem_1_x_values, problem_1e_interpolated_y,
     #         label="Runge-Kutta method interpolated")
+    plt.xlabel("x")
+    plt.ylabel("y")
 
     plt.legend()
     plt.show()
@@ -489,7 +493,7 @@ print(len(problem_2_init_orbit))
 #+end_src
 
 #+RESULTS:
-: problem_2_analytic_function: <function <lambda> at 0x7f4002de1c10>
+: problem_2_analytic_function: <function <lambda> at 0x7efecd3f5af0>
 : problem_2_x_values: [0.         0.10645161 0.21290323 0.31935484 0.42580645 0.53225806
 :  0.63870968 0.74516129 0.8516129  0.95806452 1.06451613 1.17096774
 :  1.27741935 1.38387097 1.49032258 1.59677419 1.70322581 1.80967742
@@ -573,7 +577,7 @@ print(len(problem_2_init_orbit))
 
 #+begin_src python :results output :session
 ## Problem 2: Adams-Moulton
-def trapezoidal_method(derivative, initial_value_orbit, stepsize):
+def moulton_method(derivative, initial_value_orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y) and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
     approximates y using the Adams-Moulton method in the equation 
@@ -585,9 +589,13 @@ def trapezoidal_method(derivative, initial_value_orbit, stepsize):
         orbit = initial_value_orbit.copy()
         while 0 <= orbit[-1][0] < x:
             (x0,y0), (x1,y1) = orbit[-2:]
+            euler = euler_method(derivative, (x1,y1), stepsize)
             x_next = x1 + stepsize 
-            y_next = y1 + ( (1/2) * stepsize *
-                            (derivative(x1,y1) + derivative(x0,y0)))
+            y_next_approx = euler(x_next)
+            
+            y_next = (y1 + stepsize * ( (5/12) * derivative(x_next, y_next_approx)
+                                        + (2/3) * derivative(x1,y1)
+                                        - (1/12) * derivative(x0, y0)))
             orbit.append((x_next, y_next))
             
         return orbit[-1][1]
@@ -597,21 +605,21 @@ def trapezoidal_method(derivative, initial_value_orbit, stepsize):
 
 ## To get the Adams-Moulton method:
 #f = trapezoidal_method( problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
-problem_2_trapezoidal = trapezoidal_method(problem_2_derivative,
-                                           problem_2_init_orbit,
-                                           problem_2_stepsize)
+problem_2_moulton = moulton_method(problem_2_derivative,
+                                   problem_2_init_orbit,
+                                   problem_2_stepsize)
 #+end_src
 
 #+RESULTS:
 
 *** test
 #+begin_src python :results output :session :tangle no
-f = trapezoidal_method( problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
-print(f(1.5))
+f = moulton_method( problem_2_derivative, problem_2_init_orbit, problem_2_stepsize)
+print(f(1))
 #+end_src
 
 #+RESULTS:
-: 2.535878535922188
+: 2.245725946882161
 
 
 ** problem 2 visualise
@@ -620,12 +628,15 @@ print(f(1.5))
 def problem_2_display():
     y_runge_kutta = list(map(problem_2_runge_kutta, problem_2_x_values))
     y_bashforth = list(map(problem_2_bashforth ,problem_2_x_values))
-    y_trapezoidal = list(map(problem_2_trapezoidal ,problem_2_x_values))
+    y_moulton = list(map(problem_2_moulton ,problem_2_x_values))
     
     plt.plot(problem_2_x_values, problem_2_y_values, label="Analytical")
     plt.plot(problem_2_x_values, y_runge_kutta, label="Runge-Kutta")
     plt.plot(problem_2_x_values, y_bashforth, label="Adams Bashforth")
-    plt.plot(problem_2_x_values, y_trapezoidal, label="Adam Moulton method")
+    plt.plot(problem_2_x_values, y_moulton, label="Adam Moulton method")
+
+    plt.xlabel("x")
+    plt.ylabel("y")
 
     plt.legend()
     plt.show()
