@@ -152,7 +152,7 @@ def find_next_gaussian_elimination_task(matrix):
 
 #+RESULTS:
 
-** test: find next gaussian elimination task
+*** test: find next gaussian elimination task
 #+begin_src python :results output :session :tangle no
 print(find_next_gaussian_elimination_task([[1,0],[0,1]]))
 #+end_src
@@ -202,7 +202,7 @@ def gaussian_elimination(A, b):
 
 #+RESULTS:
 
-** Gaussian elimination test
+*** Gaussian elimination test
 #+begin_src python :results output :session :tangle no
 matrix = [[-3,-8,-5],[1,4,3],[6,10,-5]]
 vector = [[3],[4],[5]]
