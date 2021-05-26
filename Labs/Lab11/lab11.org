@@ -130,5 +130,18 @@ print("matrix times x:", matrix_multiply(matrix, x))
 : vector: [[1], [2], [3], [4]]
 : matrix times x: [[1.0], [2.0], [3.0000000000000036], [3.999999999999999]]
 
-** Main
 
+
+** Finite difference method
+#+begin_src python :results output :session
+def finite_difference_method(p, q, r, ya, yb, interval, stepsize):
+    """ Numerically solves the function y(x) from the equation 
+    y''(x) = p(x) y' + q(x) y + r(x) with boundary values y(a) = ya
+    and y(b) = yb, with the specified stepsize, in the interval given
+    as a tuple (left, right) symbolising that x ranges from
+    left <= x <= right. This function then returns a list of x values
+    partitioned according to the interval and stepsize aswell as a corresponding 
+    list of y values.
+    """
+    pass
+#+end_src
