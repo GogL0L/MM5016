@@ -214,6 +214,16 @@ print(projection(v,u))
 ** Shooting method
 
 ** Finite difference method
+#+begin_src python :results output :session
+def finite_difference_method(p, q, r, ya, yb, interval, stepsize):
+    """ Numerically solves the function y(x) from the equation 
+    y''(x) = p(x) y' + q(x) y + r(x) with boundary values y(a) = ya
+    and y(b) = yb, with the specified stepsize, in the interval given
+    as a tuple (left, right) symbolising that x ranges from
+    left <= x <= right.
+    """
+    pass
+#+end_src
 
 ** Main
 
