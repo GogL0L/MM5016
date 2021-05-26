@@ -211,6 +211,16 @@ print(projection(v,u))
 
 * Code
 
+** Tridiagonal solver
+#+begin_src python :results output :session
+def tridiagonal_elimination(A,b):
+    """ Returns the solution x to the equation Ax = b,
+    where A is an n by n tridiagonal matrix and
+    b is an n dimensional column vector.
+    """
+    pass
+#+end_src
+
 ** Shooting method
 
 ** Finite difference method
