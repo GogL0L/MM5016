@@ -20,7 +20,14 @@ in a terminal.
 
 #+RESULTS:
 
+
+
 * Linear algebra från tidigare labbar
+
+** Head
+#+begin_src python :results output :session
+## Linear algebra code from previous labs
+#+end_src
 
 ** matrix multiply
 #+begin_src python :results output :session
@@ -70,6 +77,131 @@ print(matrix_multiply(scale_row(3,1,3), [[1,2,3],[4,5,6],[7,8,9]]))
 
 #+RESULTS:
 : [[3], [4]]
+
+
+
+* Euler step function from previous lab
+
+** Header
+#+begin_src python :results output :session :padline
+## Euler method from previous lab
+#+end_src
+
+** Euler's method
+#+begin_src python :results output :session
+def euler_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y in the equation dy/dx = derivative(x,y).
+    """
+    step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
+    y_next = lambda x, y, goal: (y + stepsize * derivative(x,y) if x < goal
+                                 else y - stepsize * derivative(x,y) )
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x or x0 >= xk > x:
+            xk = step_to_goal(xk, x)
+            yk = y_next(xk, yk, x)
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = euler_method(lambda x,y: y, (0,1), 0.1)
+print(f(1))
+print("ello")
+#+end_src
+
+#+RESULTS:
+: 2.33436821409
+: ello
+
+
+* Functions related to secant method from previous lab
+
+
+** Head
+#+begin_src python :results output :session
+## Functions related to secant method from previous lab
+#+end_src
+
+** Iterate method
+
+#+begin_src python :results output :session
+## Iterate function
+def iterate(function, root_approximates, tolerance, next_values_function,
+            iteration=0, max_iterations=100, debug=False):
+    """ Approximates a root x for the equation function(x) = 0,
+    by applying the next_values_function on the list root_approximates 
+    until tolerance is met on the last element of the list, in that
+    case that last element is returned. If debug is True, then a tuple of
+    that mentioned value and the iteration is returned. An error is raised 
+    if iteration exceeds max_iterations.
+    """
+    # The root_approximates list will usually be (always, in the context of
+    # this asignment) updated by calculating a new value based on all
+    # the values in the root_approximates list, and then appending that new value,
+    # and deleting the first element in root_approximates.
+    # So the last element in root_approximates will be the most recent estimate of
+    # the root. In the case of Newton's method, the root_approximates list
+    # will just be a single value surrounded by a list.
+    newest_root_approximate = root_approximates[-1]
+    satisfies_tolerance = abs(function(newest_root_approximate)) <= tolerance
+    if iteration > max_iterations:
+        raise RecursionError("<iterate: maximum ammount of iterations reached>")
+    elif satisfies_tolerance and debug:
+        return newest_root_approximate, iteration
+    elif satisfies_tolerance and not debug:
+        return newest_root_approximate
+    else:
+        next_values = next_values_function(root_approximates)
+        return iterate(function, next_values, tolerance, next_values_function,
+                       iteration+1, max_iterations, debug)
+
+
+#+end_src
+
+#+RESULTS:
+
+** Secant method
+
+#+begin_src python :results output :session
+def secant_next_values_function(function):
+    """ The next_values_function for the Secant method. """
+    f = function
+    next_value_function = lambda x0, x : x - f(x) * (x0 - x) / ( f(x0) - f(x) ) 
+    # As mentioned in the comments for iterate, this updates function
+    # updates root_approximates by calculating the new approximate root,
+    # appending it, and deleting the first element of the list.
+    return lambda root_approximates: [root_approximates[1],
+                                      next_value_function(root_approximates[0],
+                                                          root_approximates[1])]
+
+
+def find_root_secant(function, root_approximates,
+                     tolerance=0.00001, debug=False):
+    """ Solve the root x for the equation function(x) = 0 using
+    the secant method, where root_approximates is a list of 2 approximates
+    of the root.
+    """
+    next_values_function = secant_next_values_function(function)
+    return iterate(function, root_approximates, tolerance, next_values_function,
+                   debug=debug)
+
+    
+#+end_src
+
+#+RESULTS:
+
 
 * Code
 
@@ -182,6 +314,25 @@ print("y:", list(y))
 : lenght of x: 11
 : x: [1.0, 1.4, 1.8, 2.2, 2.6, 3.0, 3.4000000000000004, 3.8000000000000003, 4.2, 4.6, 5.0]
 : y: [1, 0.7301467157431596, 0.5746319191763533, 0.4735548382961563, 0.40260906989609313, 0.3500810045645499, 0.30963077469382644, 0.2775251582522122, 0.2513997177651217, 0.22935179488281188, 0.2]
+
+** Shooting method
+#+begin_src python :results output :session
+def shooting_method(f, ya, yb, interval, tolerance, partitions):
+    """ Numerically solves the function y(x) from the equation 
+    y''(x) = f(x,y,y') with boundary values y(a) = ya
+    and y(b) = yb, with the specified stepsize, in the interval given
+    as a tuple (left, right) symbolising that x ranges from
+    left <= x <= right. It is calculated by using the secant method
+    on the euler step method with the initial value y'(a) being the
+    variable solved for in the secant method.
+    This function then returns a list of x values
+    partitioned according to the interval and stepsize aswell as a corresponding 
+    list of y values.
+    """
+
+#+end_src
+
+
 
 * Test
 
