@@ -87,17 +87,27 @@ print(matrix_multiply(scale_row(3,1,3), [[1,2,3],[4,5,6],[7,8,9]]))
 ## Euler method from previous lab
 #+end_src
 
+
+
 ** Euler's method
 #+begin_src python :results output :session
-def euler_method(derivative, initial_value, stepsize):
-    """ Given that 'derivative' is a function of (x,y)
-    and that the 'initial_value' is a tuple of the form
-    (x0, y(x0)), this method returns a function that
-    approximates y in the equation dy/dx = derivative(x,y).
+def vector_euler_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a vector valued function of (x,y) 
+    where x is a normal varaible and y is vector valued and that
+    'initial_value' is a tuple of the form (x0, y(x0)), where y(x0) is
+    vector valued. This method returns a function that
+    approximates vector valued y in the equation dy/dx = derivative(x,y).
     """
+    add = lambda x,y: [x[i] + y[i] for i in range(len(x))]
+    scale = lambda s,x: [s * x[i] for i in range(len(x))]
+    minus = lambda x,y : add(x, scale(-1,y))
+
     step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
-    y_next = lambda x, y, goal: (y + stepsize * derivative(x,y) if x < goal
-                                 else y - stepsize * derivative(x,y) )
+    y_next = lambda x, y, goal: (add(y,
+                                     scale(stepsize, derivative(x,y))
+                                     if x < goal
+                                 else minus(y, scale(stepsize, derivative(x,y)))))
+
 
 
     def y(x):
@@ -116,14 +126,60 @@ def euler_method(derivative, initial_value, stepsize):
 
 *** test
 #+begin_src python :results output :session :tangle no
-f = euler_method(lambda x,y: y, (0,1), 0.1)
-print(f(1))
+y_prim = lambda x,y: [ x * y[1] + 1 * y[0] + 2 / x ** 3, y[1]]
+init_value = (1, [-1,1])
+f = vector_euler_method(y_prim, init_value, 0.0001)
+print(f(2))
 print("ello")
 #+end_src
 
 #+RESULTS:
-: 2.33436821409
+: [5.735541229993203, 5.436020039057771]
 : ello
+
+
+** Runge-Kutta
+
+#+begin_src python :results output :session
+def runge_kutta_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using runge kutta method in the equation 
+    dy/dx = derivative(x,y).
+    """
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x:
+            k1 = derivative(xk,yk)
+            k2 = derivative(xk + stepsize / 2, yk + stepsize * k1 / 2)
+            k3 = derivative(xk + stepsize / 2, yk + stepsize * k2 / 2)
+            k4 = derivative(xk + stepsize, yk + stepsize * k3)
+            x_next = xk + stepsize 
+            y_next = yk + (1/6) * stepsize * (k1 + 2 * k2 + 2 * k3 + k4)
+            xk, yk = x_next, y_next
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = runge_kutta_method(lambda x,y: y, (0,1), 0.01)
+print(f(1))
+print("yello")
+#+end_src
+
+#+RESULTS:
+: 2.718281828234403
+: yello
 
 
 * Functions related to secant method from previous lab
@@ -133,6 +189,8 @@ print("ello")
 #+begin_src python :results output :session
 ## Functions related to secant method from previous lab
 #+end_src
+
+
 
 ** Iterate method
 
@@ -171,6 +229,8 @@ def iterate(function, root_approximates, tolerance, next_values_function,
 #+end_src
 
 #+RESULTS:
+
+
 
 ** Secant method
 
@@ -315,9 +375,10 @@ print("y:", list(y))
 : x: [1.0, 1.4, 1.8, 2.2, 2.6, 3.0, 3.4000000000000004, 3.8000000000000003, 4.2, 4.6, 5.0]
 : y: [1, 0.7301467157431596, 0.5746319191763533, 0.4735548382961563, 0.40260906989609313, 0.3500810045645499, 0.30963077469382644, 0.2775251582522122, 0.2513997177651217, 0.22935179488281188, 0.2]
 
+
 ** Shooting method
 #+begin_src python :results output :session
-def shooting_method(f, ya, yb, interval, tolerance, partitions):
+def shooting_method(f, ya, yb, interval, partitions):
     """ Numerically solves the function y(x) from the equation 
     y''(x) = f(x,y,y') with boundary values y(a) = ya
     and y(b) = yb, with the specified stepsize, in the interval given
@@ -329,10 +390,36 @@ def shooting_method(f, ya, yb, interval, tolerance, partitions):
     partitioned according to the interval and stepsize aswell as a corresponding 
     list of y values.
     """
+    a,b = interval
+    y_prim = lambda x,y: [y[1], f(x, y[0], y[1])]
+
+    y_z = lambda z: vector_euler_method(y_prim, (a, [ya, z]), 0.001)
+    phi = lambda z: y_z(z)(b)[0] - yb
+
+    z = find_root_secant(phi, [0,1])
+
+    x = list(np.linspace(a, b, partitions))
+    #y = list(map(y_z(z), x))
+    y = [y_z(z)(xi)[0] for xi in x]
+    return x,y
 
 #+end_src
 
+#+RESULTS:
 
+*** test
+#+begin_src python :results output :session :tangle no
+f = lambda x, y, y_prim: x * y_prim + y + 2 / x ** 3
+x,y = shooting_method(f, 1, 0.2, (1,5), 10)
+print("lenght of x:", len(list(x)))
+print("x:", list(x))
+print("y:", list(y))
+#+end_src
+
+#+RESULTS:
+: lenght of x: 10
+: x: [1.0, 1.4444444444444444, 1.8888888888888888, 2.333333333333333, 2.7777777777777777, 3.2222222222222223, 3.6666666666666665, 4.111111111111111, 4.555555555555555, 5.0]
+: y: [1, 1.385519769271463, 1.0595988458179897, 0.8574381711291972, 0.7202958908139506, 0.6206925028224204, 0.5449989316211006, 0.48301912627859755, 0.41499725987665814, 0.1999999980735709]
 
 * Test
 
