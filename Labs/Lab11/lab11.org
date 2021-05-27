@@ -421,6 +421,37 @@ print("y:", list(y))
 : x: [1.0, 1.4444444444444444, 1.8888888888888888, 2.333333333333333, 2.7777777777777777, 3.2222222222222223, 3.6666666666666665, 4.111111111111111, 4.555555555555555, 5.0]
 : y: [1, 1.385519769271463, 1.0595988458179897, 0.8574381711291972, 0.7202958908139506, 0.6206925028224204, 0.5449989316211006, 0.48301912627859755, 0.41499725987665814, 0.1999999980735709]
 
+
+* Main
+#+begin_src python :results output :session
+def main():
+    p = lambda t: 0
+    q = lambda t: 3/2
+    r = lambda t: 0
+    interval = (0,1)
+    ta, tb = 4,1
+    f = lambda t, x, x_prim: q(t) * x
+    
+    t1, x1 = finite_difference_method(p, q, r, ta, tb, interval, 10)
+    t2, x2 = finite_difference_method(p, q, r, ta, tb, interval, 100)
+
+    t3, x3 = shooting_method(f, ta, tb, interval, 10)
+    t4, x4 = shooting_method(f, ta, tb, interval, 100)
+    
+    plt.plot(t1, x1, label="Finite difference dx = 0.1")
+    plt.plot(t2, x2, label="Finite difference dx = 0.01")
+    plt.plot(t3, x3, label="Shooting method dx = 0.1")
+    plt.plot(t4, x4, label="Shooting method dx = 0.01")
+
+    plt.xlabel("t")
+    plt.ylabel("x")
+
+    plt.legend()
+    plt.show()
+
+main()
+#+end_src
+
 * Test
 
 ** concat list
