@@ -129,6 +129,9 @@ print("yello")
 : 2.718281828234403
 : yello
 
+
+
+
 *** Heuns's method
 #+begin_src python :results output :session
 def heun_method(derivative, initial_value, stepsize):
@@ -168,6 +171,9 @@ print("yello")
 : 2.9990593355020874
 : yello
 
+
+
+
 *** Euler's method
 #+begin_src python :results output :session
 def euler_method(derivative, initial_value, stepsize):
@@ -205,6 +211,9 @@ print("ello")
 #+RESULTS:
 : 2.33436821409
 : ello
+
+
+
 
 *** Problem 2 Adams-Bashforth
 
@@ -251,6 +260,8 @@ print(len(problem_2_init_orbit))
 #+end_src
 
 #+RESULTS:
+
+
 
 *** Problem 2 Adams-Moulton
 
@@ -299,13 +310,23 @@ print(f(1))
 
 #+RESULTS:
 
+
 * Project 1 tasks
 
 ** task A (Euler's method)
 
+
+
 ** task B (Runge-Kutta second order)
+
+
 
 ** task C (Runge-Kutta fourth order)
 
+
+
 ** task D (Any multi-step method, in my case Adams-Bashforth)
+
+
+
 
