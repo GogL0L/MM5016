@@ -12,7 +12,7 @@ import numpy as np
 
 ## Description
 """
-The methods are written to output the desired function. In order to
+In order to
 see the solutions to all the tasks run this as a python 3 file
 in a terminal.
 """
@@ -265,6 +265,12 @@ def find_root_secant(function, root_approximates,
 
 * Code
 
+** Head
+#+begin_src python :results output :session
+## Methods related to this lab
+#+end_src
+
+
 ** Tridiagonal solver
 #+begin_src python :results output :session
 def tridiagonal_elimination(A,y):
@@ -396,7 +402,7 @@ def shooting_method(f, ya, yb, interval, partitions):
     y_z = lambda z: vector_euler_method(y_prim, (a, [ya, z]), 0.001)
     phi = lambda z: y_z(z)(b)[0] - yb
 
-    z = find_root_secant(phi, [0,1])
+    z = find_root_secant(phi, [4,1])
 
     x = list(np.linspace(a, b, partitions))
     #y = list(map(y_z(z), x))
@@ -440,8 +446,8 @@ def main():
     
     plt.plot(t1, x1, label="Finite difference dx = 0.1")
     plt.plot(t2, x2, label="Finite difference dx = 0.01")
-    plt.plot(t3, x3, label="Shooting method dx = 0.1")
-    plt.plot(t4, x4, label="Shooting method dx = 0.01")
+    plt.plot(t3, x3, label="Shooting method using simple euler method dx = 0.1")
+    plt.plot(t4, x4, label="Shooting method using simple euler method dx = 0.01")
 
     plt.xlabel("t")
     plt.ylabel("x")
@@ -449,8 +455,11 @@ def main():
     plt.legend()
     plt.show()
 
-main()
+if __name__ == "__main__":
+    main()
 #+end_src
+
+#+RESULTS:
 
 * Test
 
