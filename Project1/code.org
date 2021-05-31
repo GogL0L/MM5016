@@ -2,9 +2,53 @@
 #+description: 
 #+PROPERTY: header-args :tangle ./project1.py :padline 2
 * Head
+#+begin_src python :results output :session
+from math import sqrt
+#+end_src
 * Code
 
-** Runge-Kutta
+** Statitstics
+*** Average
+#+begin_src python :results output :session
+def average(data_set):
+    """ Given a list of data [a1, a2, a3, ..., an], this returns
+    the average given by (a1 + a2 + a3 + ... + an) / n.
+    """
+    n = len(data_set)
+    return sum(data_set) / n
+#+end_src
+*** Standard deviation
+#+begin_src python :results output :session
+def standard_deviation(estimated_data, correct_data):
+    """ Given estimated_data = [e1, e2, e3, ..., en] and
+    correct_data = [c1, c2, c3, ..., cn], this returns the
+    squareroot of the variance, i.e. 
+    (((e1 - c1)^2 + (e2 - c2)^2 + ... + (en - cn)^2) / n)^0.5.
+    """
+    n = len(estimated_data)
+    differences = [estimated_data[i] - correct_data[i] for i in range(n)]
+    differences_squared = list(map(lambda x: x ** 2, differences))
+    return sqrt(average(differences_squared))
+#+end_src
+**** test
+#+begin_src python :results output :session :tangle no
+edata = [4, -4, 2, 2]
+cdata = [0, 0, 0, 0]
+print(standard_deviation(edata, cdata))
+#+end_src
+*** Range
+#+begin_src python :results output :session
+def biggest_error(estimated_data, correct_data):
+    """ Returns the biggest error difference between an estimated
+    data point and its correct value.
+    """
+    differences = [estimated_data[i] - correct_data[i] for i in range(n)]
+    
+#+end_src
+
+** ODE solvers
+
+*** Runge-Kutta
 
 #+begin_src python :results output :session
 def runge_kutta_method(derivative, initial_value, stepsize):
@@ -36,7 +80,7 @@ def runge_kutta_method(derivative, initial_value, stepsize):
 #+RESULTS:
 
 
-*** test
+**** test
 #+begin_src python :results output :session :tangle no
 f = runge_kutta_method(lambda x,y: y, (0,1), 0.01)
 print(f(1))
@@ -47,7 +91,7 @@ print("yello")
 : 2.718281828234403
 : yello
 
-** Heuns's method
+*** Heuns's method
 #+begin_src python :results output :session
 def heun_method(derivative, initial_value, stepsize):
     """ Given that 'derivative' is a function of (x,y)
@@ -75,7 +119,7 @@ def heun_method(derivative, initial_value, stepsize):
 
 #+RESULTS:
 
-*** test
+**** test
 #+begin_src python :results output :session :tangle no
 f = heun_method(lambda x,y: y, (0,1), 0.1)
 print(f(1))
@@ -86,7 +130,7 @@ print("yello")
 : 2.9990593355020874
 : yello
 
-** Euler's method
+*** Euler's method
 #+begin_src python :results output :session
 def euler_method(derivative, initial_value, stepsize):
     """ Given that 'derivative' is a function of (x,y)
@@ -113,7 +157,7 @@ def euler_method(derivative, initial_value, stepsize):
 
 #+RESULTS:
 
-*** test
+***** test
 #+begin_src python :results output :session :tangle no
 f = euler_method(lambda x,y: y, (0,1), 0.1)
 print(f(1))
@@ -124,7 +168,7 @@ print("ello")
 : 2.33436821409
 : ello
 
-** Problem 2 Adams-Bashforth
+*** Problem 2 Adams-Bashforth
 
 #+begin_src python :results output :session
 ## Problem 2: Adams-Bashforth
@@ -159,7 +203,7 @@ problem_2_bashforth = bashforth_method(problem_2_derivative,
 
 #+RESULTS:
 
-*** test
+**** test
 #+begin_src python :results output :session :tangle no
 f = bashforth_method(problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
 g = problem_2_runge_kutta
@@ -173,7 +217,7 @@ print(len(problem_2_init_orbit))
 : -28.598088746742526
 : 3
 
-** Problem 2 Adams-Moulton
+*** Problem 2 Adams-Moulton
 
 #+begin_src python :results output :session
 ## Problem 2: Adams-Moulton
@@ -212,7 +256,7 @@ problem_2_moulton = moulton_method(problem_2_derivative,
 
 #+RESULTS:
 
-*** test
+**** test
 #+begin_src python :results output :session :tangle no
 f = moulton_method( problem_2_derivative, problem_2_init_orbit, problem_2_stepsize)
 print(f(1))
@@ -220,3 +264,4 @@ print(f(1))
 
 #+RESULTS:
 : 2.245725946882161
+
