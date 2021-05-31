@@ -289,6 +289,33 @@ from the notes we can calculate the condition number by
 .
 \end{align*}
 
+The charactheristic equation for \( A \) is
+\begin{align*}
+ &  (5- \lambda) (10 - \lambda) - 49 = 0 \\
+\iff & \lambda ^2 - 15x + 1 = 0 \\
+\iff & (\lambda - \frac{15}{2}) ^2  = \frac{15 ^2}{4}  -1 \\
+\iff & (\lambda - \frac{15}{2}) ^2  = \frac{15 ^2 - 4}{4} \\
+\iff & (\lambda - \frac{15}{2})  = \pm \frac{\sqrt{15 ^2 - 4}}{2} \\
+\iff & \lambda  = \frac{15}{2} \pm \frac{\sqrt{15 ^2 - 4}}{2} \\
+\iff & \lambda  =  \frac{15 \pm \sqrt{15 ^2 - 4}}{2} \\
+\iff & \lambda  =  \frac{15 \pm \sqrt{221}}{2}
+.
+\end{align*}
+
+From the second to last row, we can see that \( \sqrt{221} \) is less thann 15, thus
+both eigenvalues are positive which means:
+\begin{align*}
+ &  \rho(A) =  \frac{\| \lambda _{max}(A) \| }{\| \lambda _{min}(A) \| } \\
+& = \frac{\lambda _{max}(A)}{\lambda _{min}(A)} \\
+& = \frac{15 + \sqrt{221}}{15 - \sqrt{221}} \\
+& = \frac{15 ^2 + 221 + 30 \sqrt{221}}{15 ^2 - 221} \\
+& = \frac{446 + 30 \sqrt{221}}{4} \\
+& = \frac{223 + 15 \sqrt{221}}{2} 
+.
+\end{align*}
+
+Let us now calculate the rest of the right hand side:
+
 \begin{align*}
  &  \frac{\| b_T - b_A \| _{2}}{\| b_T \| _{2}} \\
 & = \frac{\sqrt{0.01 ^2 + 0.01 ^2}}{\sqrt{0.7 ^2 + 1}} \\
@@ -298,13 +325,17 @@ from the notes we can calculate the condition number by
 
 The inequality is thus equivalent to:
 \begin{align*}
- &  10 \cdot \sqrt{0.0293} \leq \frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
-\iff & \sqrt{100 \cdot 0.0293} \leq \sqrt{\frac{0.0002}{1.49} } \\
-\iff & \sqrt{2.93} \leq \sqrt{\frac{1}{10^{4}} \cdot \frac{2}{1.49}} \\
-\iff & \sqrt{2.93} \leq \frac{1}{10 ^2} \cdot \sqrt{\frac{2}{1.49}}
+ &  10 \cdot \sqrt{0.0293} \leq \frac{223 + 15 \sqrt{221}}{2} \frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
+\iff &  20 \cdot \sqrt{0.0293} \leq (223 + 15 \sqrt{221}) \frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
+\iff & \sqrt{100 \cdot 0.0293} \leq (223 + 15 \sqrt{221}) \sqrt{\frac{0.0002}{1.49} } \\
+\iff & \sqrt{2.93} \leq (223 + 15 \sqrt{221}) \sqrt{\frac{1}{10^{4}} \cdot \frac{2}{1.49}} \\
+\iff & \sqrt{2.93} \leq (223 + 15 \sqrt{221}) \frac{1}{10 ^2} \cdot \sqrt{\frac{2}{1.49}} \\
+\iff & 10 ^2 \sqrt{2.93} \leq (223 + 15 \sqrt{221}) \cdot \sqrt{\frac{2}{1.49}} \\
+\iff &  \sqrt{293} \leq (223 + 15 \sqrt{221}) \cdot \sqrt{\frac{2}{1.49}} \\
+\iff &  \sqrt{\frac{1.49 \cdot293}{2}} \leq 223 + 15 \sqrt{221} \\
+\iff &  \sqrt{218.285} \leq 223 + 15 \sqrt{221} \\
 .
 \end{align*}
 
-
-
+Which is true, and thus the proof is done.
 #+LATEX: \end{solution}
