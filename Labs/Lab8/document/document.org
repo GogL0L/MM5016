@@ -211,5 +211,100 @@ using Gaussian elimination method to obtain the solution \( x_1 \)
 when \( b _{T} = (b_1, b_2) = (0.7, 1) \). Also solve the above system
 with \( b_A = (b_1, b_2) = (0.69, 1.01) \) using the same method to
 obtain the solution \( x_2 \). Show that
-
 #+LATEX: \end{exercise}
+
+** sol: 4 :ignore:
+#+LATEX: \begin{solution}[4]  \label{sol:4}
+*Solving for \( x_1 \)*:
+\begin{align*}
+5x_1 + 7x_2 = b_1 \\
+7x_1 + 10x_2 = b_2
+.
+\end{align*}
+Let us scale each row, so that the factors in \( x_1 \) match:
+\begin{align*}
+35x_1 + 49x_2 = 7b_1 \\
+35x_1 + 50x_2 = 5b_2
+.
+\end{align*}
+Let's eliminate:
+\begin{align*}
+35x_1 + 49x_2 = 7b_2 \\
+ x_2 = 5b_2 - 7b_1
+.
+\end{align*}
+And let's substitute:
+\begin{align*}
+35x_1 + 245 b_2 - 343 b_1 = 7 b_2 \\
+x_2 = 5b_2 - 7b_1
+.
+\end{align*}
+
+Simpify:
+\begin{align*}
+x_1 = 10 b_1 - 7 b_2 \\
+x_2 = 5b_2 - 7b_1
+.
+\end{align*}
+
+We can then plugin the \( b_T \) or \( b_A \), to get the desired solution.
+If we plugin \( b_T \) we get the solution (we will now transition from \( x_1 \) and
+\( x_2 \) being numbers to vectors, specified by the correction in Discord):
+\begin{align*}
+x_1 =
+\left( \begin{array}{c}
+0 \\
+0.1
+\end{array} \right)
+.
+\end{align*}
+
+and for \( b_A \) we get:
+\begin{align*}
+x_2 =
+\left( \begin{array}{}
+-0.17 \\
+0.22
+\end{array} \right)
+.
+\end{align*}
+
+
+*Proving the inequality*:
+First let us calculate the left hand side:
+\begin{align*}
+ &  \frac{\| x_1 - x_2 \| _{2}}{\| x_1 \| _{2}} \\
+& = \frac{\sqrt{0.17 ^2 + 0.02 ^2}}{\sqrt{0.1 ^2}} \\
+& = 10 \cdot \sqrt{0.0293}
+.
+\end{align*}
+
+
+Let us now calculate the right hand side.
+\( \| A \| _{2} \| A^{-1}  \| _{2} \) is equal to the condition number. So let's calculate it.
+We can see that the matrix \( A \) is normal as it is symmetric. Using a corollary
+from the notes we can calculate the condition number by
+\begin{align*}
+\rho(A) = \frac{\| \lambda _{\max}(A) \| }{\| \lambda _{min}(A) \|} 
+.
+\end{align*}
+
+\begin{align*}
+ &  \frac{\| b_T - b_A \| _{2}}{\| b_T \| _{2}} \\
+& = \frac{\sqrt{0.01 ^2 + 0.01 ^2}}{\sqrt{0.7 ^2 + 1}} \\
+& = \frac{\sqrt{0.0002}}{\sqrt{1.49}} 
+.
+\end{align*}
+
+The inequality is thus equivalent to:
+\begin{align*}
+ &  10 \cdot \sqrt{0.0293} \leq \frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
+\iff & \sqrt{100 \cdot 0.0293} \leq \sqrt{\frac{0.0002}{1.49} } \\
+\iff & \sqrt{2.93} \leq \sqrt{\frac{1}{10^{4}} \cdot \frac{2}{1.49}} \\
+\iff & \sqrt{2.93} \leq \frac{1}{10 ^2} \cdot \sqrt{\frac{2}{1.49}}
+.
+\end{align*}
+
+
+
+#+LATEX: \end{solution}
