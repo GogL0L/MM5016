@@ -313,72 +313,6 @@ print(f(1))
 #+RESULTS:
 
 
-** Display
-#+begin_src python :results output :session
-def display_errors(ODE_function,
-                   ODE_problem_string_representation,
-                   ODE_solver,
-                   ODE_solver_string_representation,
-                   initial_value_orbit,
-                   data_points_list,
-                   interval,
-                   analytic_function):
-    """ Displays a graph of the error data using the ODE_solver on this
-    ODE_function problem in the given interval for all the data points sizes. """
-    (start, end) = interval
-    x_intervals = list(map(lambda N: np.linspace(start, end, N),
-                           data_points_list))
-    approximated_functions = list(map(
-        lambda N: ODE_solver(ODE_function, initial_value_orbit, N),
-        data_points_list))
-    y_intervals = [list(map(approximated_functions[i], x_intervals[i]))
-                   for i in range(len(x_intervals))]
-
-    correct_y_intervals = [list(map(analytic_function, x_intervals[i]))
-                           for i in range(len(x_intervals))]
-   
-    
-
-    # data to plot
-    n_groups = len(data_points_list)
-    deviations = [standard_deviations(y_intervals[i], correct_y_intervals[i])
-                  for i in range(len(y_intervals))]
-    max_errors = [biggest_error(y_intervals[i], correct_y_intervals[i])
-                  for i in range(len(y_intervals))]
-
-    # create plot
-    fig, ax = plt.subplots()
-    index = np.arange(n_groups)
-    bar_width = 0.35
-    opacity = 0.8
-
-    rects1 = plt.bar(index, deviation, bar_width,
-    alpha=opacity,
-    color='b',
-    label=('Standard deviation')
-
-    rects2 = plt.bar(index + bar_width, max_error, bar_width,
-    alpha=opacity,
-    color='g',
-    label=('Greated absolute value error')
-
-    plt.xlabel('Number of points')
-    plt.ylabel('Error')
-    plt.title('Error for approximating the solution to ',
-              ODE_problem_string_representation,
-              ' using ',
-              ODE_solver_string_representation
-              )
-    plt.xticks(index + bar_width, list(map(str, data_points_list)))
-    plt.legend()
-
-    plt.tight_layout()
-    plt.show()
-#+end_src
-
-#+RESULTS:
-
-
 ** Display chart
 #+begin_src python :results output :session
 def display_chart_comparison(title, y1_data, y1_label, y2_data, y2_label,
@@ -421,6 +355,64 @@ y1 = [1,2,3,4]
 y2 = [5,6,7,8]
 yo = ["först", "andra", "tredje","fjärde"]
 display_chart_comparison("hello", y1, "y1", y2, "y2", yo, "x_label", "y_label")
+#+end_src
+
+#+RESULTS:
+
+
+** Display
+#+begin_src python :results output :session
+def display_errors(ODE_function,
+                   ODE_problem_string_representation,
+                   ODE_solver,
+                   ODE_solver_string_representation,
+                   initial_value_orbit,
+                   data_points_list,
+                   interval,
+                   analytic_function):
+    """ Displays a graph of the error data using the ODE_solver on this
+    ODE_function problem in the given interval for all the data points sizes. """
+    (start, end) = interval
+    x_intervals = list(map(lambda N: np.linspace(start, end, N),
+                           data_points_list))
+    approximated_functions = list(map(
+        lambda N: ODE_solver(ODE_function, initial_value_orbit, N),
+        data_points_list))
+    y_intervals = [list(map(approximated_functions[i], x_intervals[i]))
+                   for i in range(len(x_intervals))]
+
+    correct_y_intervals = [list(map(analytic_function, x_intervals[i]))
+                           for i in range(len(x_intervals))]
+   
+    x_labels = list(map(str, data_points_list))
+    deviations = [standard_deviation(y_intervals[i], correct_y_intervals[i])
+                  for i in range(len(y_intervals))]
+    max_errors = [biggest_error(y_intervals[i], correct_y_intervals[i])
+                  for i in range(len(y_intervals))]
+    title = ('Error for approximating the solution to ' +
+              ODE_problem_string_representation +
+              ' using ' +
+              ODE_solver_string_representation)
+
+    display_chart_comparison(title, deviations, "standard deviation",
+                             max_errors, "Biggest absolute value error.",
+                             x_labels,
+                             "Number of points", "Error")
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session
+display_errors(lambda x,y: 2 * x,
+                   "dy/dx = 2 * x",
+                   euler_method,
+                   "euler method",
+                   (0,0),
+                   [5,10,20],
+                   (0,1),
+                   lambda x: x ** 2)
+
 #+end_src
 
 #+RESULTS:
