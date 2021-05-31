@@ -381,15 +381,11 @@ def display_errors(ODE_function,
 
 ** Display chart
 #+begin_src python :results output :session
-def display_chart_comparison(title, y1_data, y1_label  y2_data, y2_label,
+def display_chart_comparison(title, y1_data, y1_label, y2_data, y2_label,
+                             x_data_labels,
                              x_label, y_label):
-        # data to plot
+    # data to plot
     n_groups = len(y1_data)
-    y1_datas = [standard_y1_datas(y_intervals[i], correct_y_intervals[i])
-                  for i in range(len(y_intervals))]
-    y2_datas = [biggest_error(y_intervals[i], correct_y_intervals[i])
-                  for i in range(len(y_intervals))]
-
     # create plot
     fig, ax = plt.subplots()
     index = np.arange(n_groups)
@@ -404,12 +400,12 @@ def display_chart_comparison(title, y1_data, y1_label  y2_data, y2_label,
     rects2 = plt.bar(index + bar_width, y2_data, bar_width,
     alpha=opacity,
     color='g',
-    label=(y2_label)
+    label=(y2_label))
 
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(title)
-    plt.xticks(index + bar_width, list(map(str, data_points_list)))
+    plt.xticks(index + bar_width, x_data_labels)
     plt.legend()
 
     plt.tight_layout()
@@ -423,7 +419,8 @@ def display_chart_comparison(title, y1_data, y1_label  y2_data, y2_label,
 #+begin_src python :results output :session :tangle no
 y1 = [1,2,3,4]
 y2 = [5,6,7,8]
-display_char_comparison("hello", y1, "y1", y2, "y2", "x_label", "y_label")
+yo = ["först", "andra", "tredje","fjärde"]
+display_chart_comparison("hello", y1, "y1", y2, "y2", yo, "x_label", "y_label")
 #+end_src
 
 #+RESULTS:
