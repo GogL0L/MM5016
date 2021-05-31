@@ -390,16 +390,18 @@ display_graph(x,y, labels, "x", "y", "stuff")
 
 ** Display
 #+begin_src python :results output :session
-def display_errors(ODE_function,
-                   ODE_problem_string_representation,
-                   ODE_solver,
-                   ODE_solver_string_representation,
-                   initial_value_orbit,
-                   data_points_list,
-                   interval,
-                   analytic_function):
-    """ Displays a graph of the error data using the ODE_solver on this
-    ODE_function problem in the given interval for all the data points sizes. """
+def display_all(ODE_function,
+                ODE_problem_string_representation,
+                ODE_solver,
+                ODE_solver_string_representation,
+                initial_value_orbit,
+                data_points_list,
+                interval,
+                analytic_function):
+    """ First it displays a graph of the all the calculated solutions linearly
+    interpolated. When the window is closed it proceeds to display statistics
+    regarding the standard deviation and biggest error.
+    """
     (start, end) = interval
     interval_size = end - start
     step_size = lambda N: interval_size / N
@@ -520,14 +522,14 @@ interval = (0,2)
 def task_a():
     """ Prints out the graph for the errors using Euler's method. """
     #display(F, euler_method, N, interval, analytic_function)
-    display_errors(F,
-               F_label,
-               euler_method,
-               "Euler's method",
-               (0,2),
-               N,
-               (0,2),
-               analytic_solution)
+    display_all(F,
+                F_label,
+                euler_method,
+                "Euler's method",
+                (0,2),
+                N,
+                (0,2),
+                analytic_solution)
 #+end_src
 
 #+RESULTS:
