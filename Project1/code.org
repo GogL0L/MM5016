@@ -90,7 +90,7 @@ print(big)
 *** Runge-Kutta
 
 #+begin_src python :results output :session
-def runge_kutta_method(derivative, initial_value, stepsize):
+def runge_kutta_2_method(derivative, initial_value, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
@@ -177,12 +177,13 @@ print("yello")
 
 *** Euler's method
 #+begin_src python :results output :session
-def euler_method(derivative, initial_value, stepsize):
+def euler_method(derivative, orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
     approximates y in the equation dy/dx = derivative(x,y).
     """
+    initial_value = orbit[-1]
     step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
     y_next = lambda x, y, goal: (y + stepsize * derivative(x,y) if x < goal
                                  else y - stepsize * derivative(x,y) )
@@ -512,6 +513,7 @@ print(analytic_solution(3))
 #+begin_src python :results output :session
 N = [10, 20, 40, 80, 160, 320, 640]
 interval = (0,2)
+orbit = [(-1, analytic_solution(-1)), (0, analytic_solution(0))]
 #+end_src
 
 #+RESULTS:
@@ -526,9 +528,9 @@ def task_a():
                 F_label,
                 euler_method,
                 "Euler's method",
-                (0,2),
+                [(0,2)],
                 N,
-                (0,2),
+                interval,
                 analytic_solution)
 #+end_src
 
@@ -543,6 +545,46 @@ task_a()
 
 
 ** task B (Runge-Kutta second order)
+#+begin_src python :results output :session
+def task_b():
+    """ Prints out the graph for the errors using Euler's method. """
+    #display(F, euler_method, N, interval, analytic_function)
+    display_all(F,
+                F_label,
+                runge_kutta_2_method,
+                "Second order Runge-Kutta method",
+                [(0,3), (1,4)],
+                N,
+                interval,
+                analytic_solution)
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+task_a()
+#+end_src
+
+#+RESULTS:
+#+begin_example
+(0, 2)
+orbit:  (0, 2)
+initial_value:  2
+orbit:  (0, 2)
+initial_value:  2
+orbit:  (0, 2)
+initial_value:  2
+orbit:  (0, 2)
+initial_value:  2
+orbit:  (0, 2)
+initial_value:  2
+orbit:  (0, 2)
+initial_value:  2
+orbit:  (0, 2)
+initial_value:  2
+#+end_example
+
 
 
 
