@@ -359,6 +359,35 @@ display_chart_comparison("hello", y1, "y1", y2, "y2", yo, "x_label", "y_label")
 #+RESULTS:
 
 
+** Display graph
+#+begin_src python :results output :session
+def display_graph(x_data_list, y_data_list, y_data_labels,
+                  x_axis_label, y_axis_label, title):
+    """ Displays multiple functions in one graph. """
+    n = len(x_data_list)
+    for i in range(n):
+        plt.plot(x_data_list[i], y_data_list[i], label=y_data_labels[i])
+    plt.xlabel(x_axis_label)
+    plt.ylabel(y_axis_label)
+    plt.title(title)
+
+    plt.legend()
+    plt.show()
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+x = [[1,2,3,4],[0,2,0,4],[1,2,3]]
+y = [[1,4,9,16],[0,2,0,4],[3,5,7]]
+labels = ["squared", "linear", "linear offset"]
+display_graph(x,y, labels, "x", "y", "stuff")
+#+end_src
+
+#+RESULTS:
+
+
 ** Display
 #+begin_src python :results output :session
 def display_errors(ODE_function,
@@ -395,6 +424,18 @@ def display_errors(ODE_function,
               ' using ' +
               ODE_solver_string_representation)
 
+    display_graph_string = ("Graph of solutions interpolated using " +
+                            ODE_solver_string_representation)
+    x_data_largest = np.linspace(start, end, 640)
+    analytic_y_data = list(map(analytic_function, x_data_largest))
+    display_graph(x_intervals + [x_data_largest],
+                  y_intervals + [analytic_y_data],
+                  x_labels + ["Analytic function"],
+                  "t", "u(t)",
+                  display_graph_string)
+                              
+                  
+
     display_chart_comparison(title, deviations, "standard deviation",
                              max_errors, "Biggest absolute value error.",
                              x_labels,
@@ -419,33 +460,6 @@ display_errors(lambda x,y: 2 * x,
 #+RESULTS:
 
 
-
-** Display graph
-#+begin_src python :results output :session
-def display_graph(x_data_list, y_data_list, y_data_labels,
-                  x_axis_label, y_axis_label):
-    """ Displays multiple functions in one graph. """
-    n = len(x_data_list)
-    for i in range(n):
-        plt.plot(x_data_list[i], y_data_list[i], label=y_data_labels[i])
-    plt.xlabel(x_axis_label)
-    plt.ylabel(y_axis_label)
-
-    plt.legend()
-    plt.show()
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-x = [[1,2,3,4],[0,2,0,4],[1,2,3]]
-y = [[1,4,9,16],[0,2,0,4],[3,5,7]]
-labels = ["squared", "linear", "linear offset"]
-display_graph(x,y, labels, "x", "y")
-#+end_src
-
-#+RESULTS:
 
 * Project 1 tasks
 
