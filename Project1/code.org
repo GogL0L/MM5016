@@ -553,7 +553,7 @@ def task_b():
                 F_label,
                 runge_kutta_2_method,
                 "Second order Runge-Kutta method",
-                [(0,3), (1,4)],
+                orbit,
                 N,
                 interval,
                 analytic_solution)
@@ -563,36 +563,66 @@ def task_b():
 
 *** test
 #+begin_src python :results output :session :tangle no
-task_a()
+task_b()
 #+end_src
 
-#+RESULTS:
-#+begin_example
-(0, 2)
-orbit:  (0, 2)
-initial_value:  2
-orbit:  (0, 2)
-initial_value:  2
-orbit:  (0, 2)
-initial_value:  2
-orbit:  (0, 2)
-initial_value:  2
-orbit:  (0, 2)
-initial_value:  2
-orbit:  (0, 2)
-initial_value:  2
-orbit:  (0, 2)
-initial_value:  2
-#+end_example
 
 
 
 
 ** task C (Runge-Kutta fourth order)
+#+begin_src python :results output :session
+def task_c():
+    """ Prints out the graph for the errors using Euler's method. """
+    #display(F, euler_method, N, interval, analytic_function)
+    display_all(F,
+                F_label,
+                runge_kutta_4_method,
+                "Fourth order Runge-Kutta method",
+                orbit,
+                N,
+                interval,
+                analytic_solution)
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+task_c()
+#+end_src
+
+
+
+
 
 
 
 ** task D (Any multi-step method, in my case Adams-Bashforth)
+#+begin_src python :results output :session
+def task_d():
+    """ Prints out the graph for the errors using Euler's method. """
+    #display(F, euler_method, N, interval, analytic_function)
+    display_all(F,
+                F_label,
+                runge_kutta_2_method,
+                "Adams-Bashforth method",
+                orbit,
+                N,
+                interval,
+                analytic_solution)
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+task_d()
+#+end_src
+
+
+
+
 
 
 
