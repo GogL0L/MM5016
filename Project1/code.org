@@ -3,12 +3,13 @@
 #+PROPERTY: header-args :tangle ./project1.py :padline 2
 * Head
 #+begin_src python :results output :session
-from math import sqrt, cos, pi
+from math import sqrt, sin,  cos, pi, exp
 import numpy as np
 import matplotlib.pyplot as plt
 #+end_src
 
 #+RESULTS:
+
 
 * Code for submethods
 
@@ -373,10 +374,12 @@ def display_errors(ODE_function,
     """ Displays a graph of the error data using the ODE_solver on this
     ODE_function problem in the given interval for all the data points sizes. """
     (start, end) = interval
+    interval_size = end - start
+    step_size = lambda N: interval_size / N
     x_intervals = list(map(lambda N: np.linspace(start, end, N),
                            data_points_list))
     approximated_functions = list(map(
-        lambda N: ODE_solver(ODE_function, initial_value_orbit, N),
+        lambda N: ODE_solver(ODE_function, initial_value_orbit, step_size(N)),
         data_points_list))
     y_intervals = [list(map(approximated_functions[i], x_intervals[i]))
                    for i in range(len(x_intervals))]
@@ -405,17 +408,19 @@ def display_errors(ODE_function,
 *** test
 #+begin_src python :results output :session
 display_errors(lambda x,y: 2 * x,
-                   "dy/dx = 2 * x",
-                   euler_method,
-                   "euler method",
-                   (0,0),
-                   [5,10,20],
-                   (0,1),
-                   lambda x: x ** 2)
+               "dy/dx = 2 * x",
+               euler_method,
+               "euler method",
+               (0,0),
+               [5,10,20],
+               (0,1),
+               lambda x: x ** 2)
 
 #+end_src
 
 #+RESULTS:
+
+
 
 * Project 1 tasks
 
@@ -426,6 +431,8 @@ def F(t,u):
     the ODE for Project 1. I.e du/dt = cos(pi * t) + u(t).
     """
     return cos(pi * t) + u
+
+F_label = "du/dt = cos(pi * t) + u(t)"
 #+end_src
 
 #+RESULTS:
@@ -437,6 +444,26 @@ print(F(1,2))
 
 #+RESULTS:
 : 1.0
+
+
+
+** Analytic function
+#+begin_src python :results output :session
+analytic_solution = lambda t:( (pi * sin(pi*t))/(pi ** 2  + 1)
+                               - (cos(pi*t))/(pi ** 2 + 1)
+                               + ( 2 + 1/(pi **2 + 1) ) * exp(t)
+                               )
+#+end_src
+
+#+RESULTS:
+
+*** Test
+#+begin_src python :results output :session :tangel no
+print(analytic_solution(3))
+#+end_src
+
+#+RESULTS:
+: 42.110936250298195
 
 
 
@@ -453,10 +480,26 @@ interval = (0,2)
 #+begin_src python :results output :session
 def task_a():
     """ Prints out the graph for the errors using Euler's method. """
-    display(F, euler_method, N, interval, analytic_function)
+    #display(F, euler_method, N, interval, analytic_function)
+    display_errors(F,
+               F_label,
+               euler_method,
+               "Euler's method",
+               (0,2),
+               N,
+               (0,2),
+               analytic_solution)
 #+end_src
 
 #+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+task_a()
+#+end_src
+
+#+RESULTS:
+
 
 ** task B (Runge-Kutta second order)
 
