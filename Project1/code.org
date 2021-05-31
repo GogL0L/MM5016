@@ -3,3 +3,220 @@
 #+PROPERTY: header-args :tangle ./project1.py :padline 2
 * Head
 * Code
+
+** Runge-Kutta
+
+#+begin_src python :results output :session
+def runge_kutta_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using runge kutta method in the equation 
+    dy/dx = derivative(x,y).
+    """
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x:
+            k1 = derivative(xk,yk)
+            k2 = derivative(xk + stepsize / 2, yk + stepsize * k1 / 2)
+            k3 = derivative(xk + stepsize / 2, yk + stepsize * k2 / 2)
+            k4 = derivative(xk + stepsize, yk + stepsize * k3)
+            x_next = xk + stepsize 
+            y_next = yk + (1/6) * stepsize * (k1 + 2 * k2 + 2 * k3 + k4)
+            xk, yk = x_next, y_next
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = runge_kutta_method(lambda x,y: y, (0,1), 0.01)
+print(f(1))
+print("yello")
+#+end_src
+
+#+RESULTS:
+: 2.718281828234403
+: yello
+
+** Heuns's method
+#+begin_src python :results output :session
+def heun_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using heun's method in the equation 
+    dy/dx = derivative(x,y).
+    """
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x:
+            x_next = xk + stepsize 
+            y_bar = yk + stepsize * derivative(xk,yk)
+            y_next = yk + (stepsize / 2) * (derivative(xk, yk) +
+                                            derivative(x_next, y_bar))
+            xk, yk = x_next, y_next
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = heun_method(lambda x,y: y, (0,1), 0.1)
+print(f(1))
+print("yello")
+#+end_src
+
+#+RESULTS:
+: 2.9990593355020874
+: yello
+
+** Euler's method
+#+begin_src python :results output :session
+def euler_method(derivative, initial_value, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y in the equation dy/dx = derivative(x,y).
+    """
+    step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
+    y_next = lambda x, y, goal: (y + stepsize * derivative(x,y) if x < goal
+                                 else y - stepsize * derivative(x,y) )
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x or x0 >= xk > x:
+            xk = step_to_goal(xk, x)
+            yk = y_next(xk, yk, x)
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = euler_method(lambda x,y: y, (0,1), 0.1)
+print(f(1))
+print("ello")
+#+end_src
+
+#+RESULTS:
+: 2.33436821409
+: ello
+
+** Problem 2 Adams-Bashforth
+
+#+begin_src python :results output :session
+## Problem 2: Adams-Bashforth
+def bashforth_method(derivative, initial_value_orbit, stepsize):
+    """ Given that 'derivative' is a function of (x,y) and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using the Adams-Bashforth method in the equation 
+    dy/dx = derivative(x,y).
+    """
+
+
+    def y(x):
+        orbit = initial_value_orbit.copy()
+        while 0 <= orbit[-1][0] < x:
+            (x0,y0), (x1,y1) = orbit[-2:]
+            x_next = x1 + stepsize 
+            y_next = (y1 + (3/2) * stepsize * derivative(x1,y1)
+                      - (1/2) * stepsize * derivative(x0,y0))
+            orbit.append((x_next, y_next))
+            
+        return orbit[-1][1]
+
+    
+    return y
+
+## To get the adams-Bashforth method:
+problem_2_bashforth = bashforth_method(problem_2_derivative,
+                                             problem_2_init_orbit,
+                                             problem_2_stepsize)
+
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = bashforth_method(problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
+g = problem_2_runge_kutta
+print(f(4))
+print(g(4))
+print(len(problem_2_init_orbit))
+#+end_src
+
+#+RESULTS:
+: -24.96004356368945
+: -28.598088746742526
+: 3
+
+** Problem 2 Adams-Moulton
+
+#+begin_src python :results output :session
+## Problem 2: Adams-Moulton
+def moulton_method(derivative, initial_value_orbit, stepsize):
+    """ Given that 'derivative' is a function of (x,y) and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using the Adams-Moulton method in the equation 
+    dy/dx = derivative(x,y).
+    """
+
+
+    def y(x):
+        orbit = initial_value_orbit.copy()
+        while 0 <= orbit[-1][0] < x:
+            (x0,y0), (x1,y1) = orbit[-2:]
+            euler = euler_method(derivative, (x1,y1), stepsize)
+            x_next = x1 + stepsize 
+            y_next_approx = euler(x_next)
+            
+            y_next = (y1 + stepsize * ( (5/12) * derivative(x_next, y_next_approx)
+                                        + (2/3) * derivative(x1,y1)
+                                        - (1/12) * derivative(x0, y0)))
+            orbit.append((x_next, y_next))
+            
+        return orbit[-1][1]
+
+    
+    return y
+
+## To get the Adams-Moulton method:
+#f = trapezoidal_method( problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
+problem_2_moulton = moulton_method(problem_2_derivative,
+                                   problem_2_init_orbit,
+                                   problem_2_stepsize)
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+f = moulton_method( problem_2_derivative, problem_2_init_orbit, problem_2_stepsize)
+print(f(1))
+#+end_src
+
+#+RESULTS:
+: 2.245725946882161
