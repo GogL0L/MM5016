@@ -66,9 +66,7 @@ def biggest_error(estimated_data, correct_data):
     n = len(estimated_data)
     differences = [estimated_data[i] - correct_data[i] for i in range(n)]
     differences_abs = [abs(differences[i]) for i in range(n)]
-    biggest_error_index = differences_abs.index(max(differences_abs))
-    biggest_error = differences[biggest_error_index]
-    return biggest_error
+    return max(differences_abs)
     
 #+end_src
 
@@ -421,6 +419,33 @@ display_errors(lambda x,y: 2 * x,
 #+RESULTS:
 
 
+
+** Display graph
+#+begin_src python :results output :session
+def display_graph(x_data_list, y_data_list, y_data_labels,
+                  x_axis_label, y_axis_label):
+    """ Displays multiple functions in one graph. """
+    n = len(x_data_list)
+    for i in range(n):
+        plt.plot(x_data_list[i], y_data_list[i], label=y_data_labels[i])
+    plt.xlabel(x_axis_label)
+    plt.ylabel(y_axis_label)
+
+    plt.legend()
+    plt.show()
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+x = [[1,2,3,4],[0,2,0,4],[1,2,3]]
+y = [[1,4,9,16],[0,2,0,4],[3,5,7]]
+labels = ["squared", "linear", "linear offset"]
+display_graph(x,y, labels, "x", "y")
+#+end_src
+
+#+RESULTS:
 
 * Project 1 tasks
 
