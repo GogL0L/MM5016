@@ -8,9 +8,10 @@ from math import sqrt
 
 #+RESULTS:
 
-* Code
+* Code for submethods
 
 ** Statitstics
+
 *** Average
 #+begin_src python :results output :session
 def average(data_set):
@@ -297,4 +298,14 @@ print(f(1))
 #+end_src
 
 #+RESULTS:
+
+* Project 1 tasks
+
+** task A (Euler's method)
+
+** task B (Runge-Kutta second order)
+
+** task C (Runge-Kutta fourth order)
+
+** task D (Any multi-step method, in my case Adams-Bashforth)
 
