@@ -3,7 +3,7 @@
 #+PROPERTY: header-args :tangle ./project1.py :padline 2
 * Head
 #+begin_src python :results output :session
-from math import sqrt
+from math import sqrt, cos, pi
 #+end_src
 
 #+RESULTS:
@@ -313,9 +313,28 @@ print(f(1))
 
 * Project 1 tasks
 
+** Function
+#+begin_src python :results output :session
+def F(t,u):
+    """ The function symbolising the second the derivative from
+    the ODE for Project 1. I.e du/dt = cos(pi * t) + u(t).
+    """
+    return cos(pi * t) + u
+#+end_src
+
+#+RESULTS:
+
+*** test
+#+begin_src python :results output :session :tangle no
+print(F(1,2))
+#+end_src
+
+#+RESULTS:
+: 1.0
+
+
+
 ** task A (Euler's method)
-
-
 
 ** task B (Runge-Kutta second order)
 
@@ -326,7 +345,6 @@ print(f(1))
 
 
 ** task D (Any multi-step method, in my case Adams-Bashforth)
-
 
 
 
