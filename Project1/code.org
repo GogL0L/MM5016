@@ -4,6 +4,7 @@
 * Head
 #+begin_src python :results output :session
 from math import sqrt, cos, pi
+import numpy as np
 #+end_src
 
 #+RESULTS:
@@ -311,6 +312,26 @@ print(f(1))
 #+RESULTS:
 
 
+** Display
+#+begin_src python :results output :session
+def display_errors(ODE_function,
+                   ODE_solver,
+                   initial_value_orbit,
+                   data_points_list,
+                   interval,
+                   analytic_function):
+    """ Displays a graph of the error data using the ODE_solver on this
+    ODE_function problem in the given interval for all the data points sizes. """
+    (start, end) = interval
+    x_intervals = list(map(lambda N: np.linspace(start, end, N),
+                           data_points_list))
+    approximated_functions = list(map(
+        lambda N: ODE_solver(ODE_function, initial_value_orbit, N),
+        data_points_list))
+    y_intervals = [list(map(approximated_functions[i], x_intervals[i]))
+                   for i in range(len(x_intervals))]
+#+end_src
+
 * Project 1 tasks
 
 ** Function
@@ -334,7 +355,19 @@ print(F(1,2))
 
 
 
+** N data points
+#+begin_src python :results output :session
+N = [10, 20, 40, 80, 160, 320, 640]
+interval = (0,2)
+#+end_src
+
+
 ** task A (Euler's method)
+#+begin_src python :results output :session
+def task_a():
+    """ Prints out the graph for the errors using Euler's method. """
+    display(F, euler_method, N, interval, analytic_function)
+#+end_src
 
 ** task B (Runge-Kutta second order)
 
