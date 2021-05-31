@@ -87,10 +87,10 @@ print(big)
 
 ** ODE solvers
 
-*** Runge-Kutta
+*** Runge-Kutta second order
 
 #+begin_src python :results output :session
-def runge_kutta_2_method(derivative, initial_value, stepsize):
+def runge_kutta_2_method(derivative, orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
@@ -98,6 +98,53 @@ def runge_kutta_2_method(derivative, initial_value, stepsize):
     dy/dx = derivative(x,y).
     """
 
+    initial_value = orbit[-1]
+
+
+    def y(x):
+        x0, y0 = initial_value
+        xk, yk = x0, y0
+        while x0 <= xk < x:
+            k1 = derivative(xk,yk)
+            k2 = derivative(xk + 2 * stepsize / 3, yk + 2 * stepsize * k1 / 3)
+            x_next = xk + stepsize 
+            y_next = yk + stepsize * (k1 / 4 + 3 * k2 / 4)
+            xk, yk = x_next, y_next
+        return yk
+
+    
+    return y
+#+end_src
+
+#+RESULTS:
+
+
+**** test
+#+begin_src python :results output :session :tangle no
+f = runge_kutta_2_method(lambda x,y: y, [(0,1)], 0.01)
+print(f(1))
+print("yello")
+#+end_src
+
+#+RESULTS:
+: 2.718236862559957
+: yello
+
+
+
+
+
+*** Runge-Kutta fourth order
+
+#+begin_src python :results output :session
+def runge_kutta_4_method(derivative, orbit, stepsize):
+    """ Given that 'derivative' is a function of (x,y)
+    and that the 'initial_value' is a tuple of the form
+    (x0, y(x0)), this method returns a function that
+    approximates y using runge kutta method in the equation 
+    dy/dx = derivative(x,y).
+    """
+    initial_value = orbit[-1]
 
     def y(x):
         x0, y0 = initial_value
@@ -121,7 +168,7 @@ def runge_kutta_2_method(derivative, initial_value, stepsize):
 
 **** test
 #+begin_src python :results output :session :tangle no
-f = runge_kutta_method(lambda x,y: y, (0,1), 0.01)
+f = runge_kutta_4_method(lambda x,y: y, [(0,1)], 0.01)
 print(f(1))
 print("yello")
 #+end_src
@@ -129,8 +176,6 @@ print("yello")
 #+RESULTS:
 : 2.718281828234403
 : yello
-
-
 
 
 *** Heuns's method
@@ -211,16 +256,13 @@ print("ello")
 #+end_src
 
 #+RESULTS:
-: 2.33436821409
-: ello
 
 
 
 
-*** Problem 2 Adams-Bashforth
+*** Adams-Bashforth
 
 #+begin_src python :results output :session
-## Problem 2: Adams-Bashforth
 def bashforth_method(derivative, initial_value_orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y) and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
@@ -242,11 +284,6 @@ def bashforth_method(derivative, initial_value_orbit, stepsize):
 
     
     return y
-
-## To get the adams-Bashforth method:
-problem_2_bashforth = bashforth_method(problem_2_derivative,
-                                             problem_2_init_orbit,
-                                             problem_2_stepsize)
 
 #+end_src
 
@@ -427,8 +464,11 @@ def display_all(ODE_function,
               ' using ' +
               ODE_solver_string_representation)
 
-    display_graph_string = ("Graph of solutions interpolated using " +
-                            ODE_solver_string_representation)
+    display_graph_string = ("Graph of approximated solutions to " +
+                            ODE_problem_string_representation +
+                            " calculated using " +
+                            ODE_solver_string_representation +
+                            " and then linearly interpolated ")
     x_data_largest = np.linspace(start, end, 640)
     analytic_y_data = list(map(analytic_function, x_data_largest))
     display_graph(x_intervals + [x_data_largest],
@@ -566,6 +606,8 @@ def task_b():
 task_b()
 #+end_src
 
+#+RESULTS:
+
 
 
 
@@ -592,6 +634,8 @@ def task_c():
 task_c()
 #+end_src
 
+#+RESULTS:
+
 
 
 
@@ -605,7 +649,7 @@ def task_d():
     #display(F, euler_method, N, interval, analytic_function)
     display_all(F,
                 F_label,
-                runge_kutta_2_method,
+                bashforth_method,
                 "Adams-Bashforth method",
                 orbit,
                 N,
@@ -619,6 +663,8 @@ def task_d():
 #+begin_src python :results output :session :tangle no
 task_d()
 #+end_src
+
+#+RESULTS:
 
 
 
