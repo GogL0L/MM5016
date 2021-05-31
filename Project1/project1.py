@@ -1,8 +1,3 @@
-#+title: Project 1
-#+description: 
-#+PROPERTY: header-args :tangle ./project1.py :padline 2
-* Head
-#+begin_src python :results output :session :padline 0
 from math import sqrt, sin,  cos, pi, exp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,31 +9,16 @@ In order to display the graphs of the approximated solutions to
 the ODE and statistics regarding the error, run this as a python 3 
 file in a terminal.
 """
-#+end_src
-
-#+RESULTS:
 
 
-* Code for submethods
-
-** Statitstics
-
-*** Average
-#+begin_src python :results output :session
 def average(data_set):
     """ Given a list of data [a1, a2, a3, ..., an], this returns
     the average given by (a1 + a2 + a3 + ... + an) / n.
     """
     n = len(data_set)
     return sum(data_set) / n
-#+end_src
-
-#+RESULTS:
 
 
-
-*** Standard deviation
-#+begin_src python :results output :session
 def standard_deviation(estimated_data, correct_data):
     """ Given estimated_data = [e1, e2, e3, ..., en] and
     correct_data = [c1, c2, c3, ..., cn], this returns the
@@ -49,24 +29,8 @@ def standard_deviation(estimated_data, correct_data):
     differences = [estimated_data[i] - correct_data[i] for i in range(n)]
     differences_squared = list(map(lambda x: x ** 2, differences))
     return sqrt(average(differences_squared))
-#+end_src
-
-#+RESULTS:
-
-**** test
-#+begin_src python :results output :session :tangle no
-edata = [4, -4, 2, 2]
-cdata = [0, 0, 0, 1]
-print(standard_deviation(edata, cdata))
-#+end_src
-
-#+RESULTS:
-: 3.0413812651491097
 
 
-
-*** Biggest error
-#+begin_src python :results output :session
 def biggest_error(estimated_data, correct_data):
     """ Returns the biggest error difference between an estimated
     data point and its correct value.
@@ -75,29 +39,8 @@ def biggest_error(estimated_data, correct_data):
     differences = [estimated_data[i] - correct_data[i] for i in range(n)]
     differences_abs = [abs(differences[i]) for i in range(n)]
     return max(differences_abs)
-    
-#+end_src
-
-#+RESULTS:
-
-**** test
-#+begin_src python :results output :session :tangle no
-edata = [-4, 4, 2, 2]
-cdata = [0, 0, 0, -5]
-big = biggest_error(edata, cdata)
-print(big)
-#+end_src
-
-#+RESULTS:
-: 7
 
 
-
-** ODE solvers
-
-*** Runge-Kutta second order
-
-#+begin_src python :results output :session
 def runge_kutta_2_method(derivative, orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
@@ -122,29 +65,8 @@ def runge_kutta_2_method(derivative, orbit, stepsize):
 
     
     return y
-#+end_src
-
-#+RESULTS:
 
 
-**** test
-#+begin_src python :results output :session :tangle no
-f = runge_kutta_2_method(lambda x,y: y, [(0,1)], 0.01)
-print(f(1))
-print("yello")
-#+end_src
-
-#+RESULTS:
-: 2.718236862559957
-: yello
-
-
-
-
-
-*** Runge-Kutta fourth order
-
-#+begin_src python :results output :session
 def runge_kutta_4_method(derivative, orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
@@ -169,26 +91,8 @@ def runge_kutta_4_method(derivative, orbit, stepsize):
 
     
     return y
-#+end_src
-
-#+RESULTS:
 
 
-**** test
-#+begin_src python :results output :session :tangle no
-f = runge_kutta_4_method(lambda x,y: y, [(0,1)], 0.01)
-print(f(1))
-print("yello")
-#+end_src
-
-#+RESULTS:
-: 2.718281828234403
-: yello
-
-
-
-*** Euler's method
-#+begin_src python :results output :session
 def euler_method(derivative, orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
@@ -211,25 +115,8 @@ def euler_method(derivative, orbit, stepsize):
 
     
     return y
-#+end_src
-
-#+RESULTS:
-
-***** test
-#+begin_src python :results output :session :tangle no
-f = euler_method(lambda x,y: y, (0,1), 0.1)
-print(f(1))
-print("ello")
-#+end_src
-
-#+RESULTS:
 
 
-
-
-*** Adams-Bashforth
-
-#+begin_src python :results output :session
 def bashforth_method(derivative, initial_value_orbit, stepsize):
     """ Given that 'derivative' is a function of (x,y) and that the 'initial_value' is a tuple of the form
     (x0, y(x0)), this method returns a function that
@@ -252,25 +139,7 @@ def bashforth_method(derivative, initial_value_orbit, stepsize):
     
     return y
 
-#+end_src
 
-#+RESULTS:
-
-**** test
-#+begin_src python :results output :session :tangle no
-f = bashforth_method(problem_2_derivative ,problem_2_init_orbit, problem_2_stepsize)
-g = problem_2_runge_kutta
-print(f(4))
-print(g(4))
-print(len(problem_2_init_orbit))
-#+end_src
-
-#+RESULTS:
-
-
-
-** Display chart
-#+begin_src python :results output :session
 def display_chart_comparison(title, y1_data, y1_label, y2_data, y2_label,
                              x_data_labels,
                              x_label, y_label):
@@ -301,23 +170,7 @@ def display_chart_comparison(title, y1_data, y1_label, y2_data, y2_label,
     plt.tight_layout()
     plt.show()
 
-#+end_src
 
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-y1 = [1,2,3,4]
-y2 = [5,6,7,8]
-yo = ["först", "andra", "tredje","fjärde"]
-display_chart_comparison("hello", y1, "y1", y2, "y2", yo, "x_label", "y_label")
-#+end_src
-
-#+RESULTS:
-
-
-** Display graph
-#+begin_src python :results output :session
 def display_graph(x_data_list, y_data_list, y_data_labels,
                   x_axis_label, y_axis_label, title):
     """ Displays multiple functions in one graph. """
@@ -330,23 +183,8 @@ def display_graph(x_data_list, y_data_list, y_data_labels,
 
     plt.legend()
     plt.show()
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-x = [[1,2,3,4],[0,2,0,4],[1,2,3]]
-y = [[1,4,9,16],[0,2,0,4],[3,5,7]]
-labels = ["squared", "linear", "linear offset"]
-display_graph(x,y, labels, "x", "y", "stuff")
-#+end_src
-
-#+RESULTS:
 
 
-** Display
-#+begin_src python :results output :session
 def display_all(ODE_function,
                 ODE_problem_string_representation,
                 ODE_solver,
@@ -402,31 +240,8 @@ def display_all(ODE_function,
                              max_errors, "Biggest absolute value error.",
                              x_labels,
                              "Number of points", "Error")
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-display_errors(lambda x,y: 2 * x,
-               "dy/dx = 2 * x",
-               euler_method,
-               "euler method",
-               (0,0),
-               [5,10,20],
-               (0,1),
-               lambda x: x ** 2)
-
-#+end_src
-
-#+RESULTS:
 
 
-
-* Project 1 tasks
-
-** Function
-#+begin_src python :results output :session
 def F(t,u):
     """ The function symbolising the second the derivative from
     the ODE for Project 1. I.e du/dt = cos(pi * t) + u(t).
@@ -434,52 +249,19 @@ def F(t,u):
     return cos(pi * t) + u
 
 F_label = "du/dt = cos(pi * t) + u(t)"
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-print(F(1,2))
-#+end_src
-
-#+RESULTS:
-: 1.0
 
 
-
-** Analytic function
-#+begin_src python :results output :session
 analytic_solution = lambda t:( (pi * sin(pi*t))/(pi ** 2  + 1)
                                - (cos(pi*t))/(pi ** 2 + 1)
                                + ( 2 + 1/(pi **2 + 1) ) * exp(t)
                                )
-#+end_src
-
-#+RESULTS:
-
-*** Test
-#+begin_src python :results output :session :tangle no
-print(analytic_solution(3))
-#+end_src
-
-#+RESULTS:
-: 42.110936250298195
 
 
-
-** N data points
-#+begin_src python :results output :session
 N = [10, 20, 40, 80, 160, 320, 640]
 interval = (0,2)
 orbit = [(-1, analytic_solution(-1)), (0, analytic_solution(0))]
-#+end_src
-
-#+RESULTS:
 
 
-** task A (Euler's method)
-#+begin_src python :results output :session
 def task_a():
     """ Prints out the graph for the errors using Euler's method. """
     #display(F, euler_method, N, interval, analytic_function)
@@ -491,20 +273,8 @@ def task_a():
                 N,
                 interval,
                 analytic_solution)
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-task_a()
-#+end_src
-
-#+RESULTS:
 
 
-** task B (Runge-Kutta second order)
-#+begin_src python :results output :session
 def task_b():
     """ Prints out the graph for the errors using Euler's method. """
     #display(F, euler_method, N, interval, analytic_function)
@@ -516,23 +286,8 @@ def task_b():
                 N,
                 interval,
                 analytic_solution)
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-task_b()
-#+end_src
-
-#+RESULTS:
 
 
-
-
-
-** task C (Runge-Kutta fourth order)
-#+begin_src python :results output :session
 def task_c():
     """ Prints out the graph for the errors using Euler's method. """
     #display(F, euler_method, N, interval, analytic_function)
@@ -544,25 +299,8 @@ def task_c():
                 N,
                 interval,
                 analytic_solution)
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-task_c()
-#+end_src
-
-#+RESULTS:
 
 
-
-
-
-
-
-** task D (Any multi-step method, in my case Adams-Bashforth)
-#+begin_src python :results output :session
 def task_d():
     """ Prints out the graph for the errors using Euler's method. """
     #display(F, euler_method, N, interval, analytic_function)
@@ -574,28 +312,8 @@ def task_d():
                 N,
                 interval,
                 analytic_solution)
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-task_d()
-#+end_src
-
-#+RESULTS:
 
 
-
-
-
-
-
-
-
-
-* Main
-#+begin_src python :results output :session
 def main():
     while True:
         print("At any point, type 'exit', to exit")
@@ -626,4 +344,3 @@ program resumes.
 
 if __name__ == "__main__":
     main()
-#+end_src
