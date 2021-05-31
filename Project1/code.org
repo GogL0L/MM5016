@@ -5,6 +5,9 @@
 #+begin_src python :results output :session
 from math import sqrt
 #+end_src
+
+#+RESULTS:
+
 * Code
 
 ** Statitstics
@@ -17,6 +20,11 @@ def average(data_set):
     n = len(data_set)
     return sum(data_set) / n
 #+end_src
+
+#+RESULTS:
+
+
+
 *** Standard deviation
 #+begin_src python :results output :session
 def standard_deviation(estimated_data, correct_data):
@@ -30,21 +38,50 @@ def standard_deviation(estimated_data, correct_data):
     differences_squared = list(map(lambda x: x ** 2, differences))
     return sqrt(average(differences_squared))
 #+end_src
+
+#+RESULTS:
+
 **** test
 #+begin_src python :results output :session :tangle no
 edata = [4, -4, 2, 2]
-cdata = [0, 0, 0, 0]
+cdata = [0, 0, 0, 1]
 print(standard_deviation(edata, cdata))
 #+end_src
-*** Range
+
+#+RESULTS:
+: 3.0413812651491097
+
+
+
+*** Biggest error
 #+begin_src python :results output :session
 def biggest_error(estimated_data, correct_data):
     """ Returns the biggest error difference between an estimated
     data point and its correct value.
     """
+    n = len(estimated_data)
     differences = [estimated_data[i] - correct_data[i] for i in range(n)]
+    differences_abs = [abs(differences[i]) for i in range(n)]
+    biggest_error_index = differences_abs.index(max(differences_abs))
+    biggest_error = differences[biggest_error_index]
+    return biggest_error
     
 #+end_src
+
+#+RESULTS:
+
+**** test
+#+begin_src python :results output :session :tangle no
+edata = [-4, 4, 2, 2]
+cdata = [0, 0, 0, -5]
+big = biggest_error(edata, cdata)
+print(big)
+#+end_src
+
+#+RESULTS:
+: 7
+
+
 
 ** ODE solvers
 
@@ -213,9 +250,6 @@ print(len(problem_2_init_orbit))
 #+end_src
 
 #+RESULTS:
-: -24.96004356368945
-: -28.598088746742526
-: 3
 
 *** Problem 2 Adams-Moulton
 
@@ -263,5 +297,4 @@ print(f(1))
 #+end_src
 
 #+RESULTS:
-: 2.245725946882161
 
