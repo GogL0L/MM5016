@@ -1,11 +1,3 @@
-#+title: Lab 11: Boundary Value Problems
-#+description: 
-#+PROPERTY: header-args :tangle ./lab11.py :padline 2
-
-
-
-* Header
-#+begin_src python :results output :session :padline 0
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -16,23 +8,11 @@ In order to
 see the solutions to all the tasks run this as a python 3 file
 in a terminal.
 """
-#+end_src
-
-#+RESULTS:
 
 
-
-* Linear algebra från tidigare labbar
-
-** Head
-#+begin_src python :results output :session
 ## Linear algebra code from previous labs
-#+end_src
 
-#+RESULTS:
 
-** matrix multiply
-#+begin_src python :results output :session
 def matrix_multiply(matrix1, matrix2):
     m = len(matrix1)
     n = len(matrix2)
@@ -41,60 +21,17 @@ def matrix_multiply(matrix1, matrix2):
                                for k in range(n)])
     row = lambda i: [element(i,j) for j in range(p)]
     return [row(i) for i in range(m)]
-#+end_src
 
-#+RESULTS:
 
-** Transpose
-#+begin_src python :results output :session
 def transpose(matrix):
     """ Transposes an n by m matrix. """
     n = len(matrix)
     m = len(matrix[0])
     return [[matrix[i][j] for i in range(n)] for j in range(m)]
-#+end_src
 
-#+RESULTS:
-
-*** Test av transpose
-#+begin_src python :results output :session :tangle no
-matrix = [[1,2,3],[4,5,6],[7,8,9]]
-vector = [[1],[2],[3]]
-print("Matrix tranposed:", transpose(matrix))
-print("Vector tranposed:", transpose(vector))
-#+end_src
-
-#+RESULTS:
-: Matrix tranposed: [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
-: Vector tranposed: [[1, 2, 3]]
-
-** test av allt ovanför
-#+begin_src python :results output :session :tangle no
-print(matrix_multiply([[1,0],[0,1]], [[3],[4]]))
-print(create_identity(3))
-print(switch(0,1,3))
-print(add_multiple_of_row_to_other_row(3,0,1,3))
-print(matrix_multiply(scale_row(3,1,3), [[1,2,3],[4,5,6],[7,8,9]]))
-#+end_src
-
-#+RESULTS:
-: [[3], [4]]
-
-
-
-* Euler step function from previous lab
-
-** Header
-#+begin_src python :results output :session :padline
 ## Euler method from previous lab
-#+end_src
-
-#+RESULTS:
 
 
-
-** Euler's method
-#+begin_src python :results output :session
 def vector_euler_method(derivative, initial_value, stepsize):
     """ Given that 'derivative' is a vector valued function of (x,y) 
     where x is a normal varaible and y is vector valued and that
@@ -124,109 +61,11 @@ def vector_euler_method(derivative, initial_value, stepsize):
 
     
     return y
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-y_prim = lambda x,y: [ x * y[1] + 1 * y[0] + 2 / x ** 3, y[1]]
-init_value = (1, [-1,1])
-f = vector_euler_method(y_prim, init_value, 0.0001)
-print(f(2))
-print("ello")
-#+end_src
-
-#+RESULTS:
-: [5.735541229993203, 5.436020039057771]
-: ello
-
-*** test 2
-#+begin_src python :results output :session :tangle no
-y_prim = lambda x,y: [y[1], y[1] - y[0] + 4 + 2 * x - x ** 2 - x ** 3]
-init_value = (0, [0,0])
-f = vector_euler_method(y_prim, init_value, 0.0001)
-print(f(1))
-print("ello")
-#+end_src
-
-#+RESULTS:
-: [5.765954491424662, 12.804476035098887]
-: ello
-
-*** test 3 (actual uppgiften)
-#+begin_src python :results output :session :tangle no
-y_prim = lambda x,y: [y[1], (3/2) * y[0]]
-init_value = (0, [4,-5.433546])
-f = vector_euler_method(y_prim, init_value, 0.0001)
-print(f(1))
-print("ello")
-#+end_src
-
-#+RESULTS:
-: [0.4964538156256338, -2.4274046194773575]
-: ello
 
 
-** Runge-Kutta
-
-#+begin_src python :results output :session :tangle no
-def runge_kutta_method(derivative, initial_value, stepsize):
-    """ Given that 'derivative' is a function of (x,y)
-    and that the 'initial_value' is a tuple of the form
-    (x0, y(x0)), this method returns a function that
-    approximates y using runge kutta method in the equation 
-    dy/dx = derivative(x,y).
-    """
-
-
-    def y(x):
-        x0, y0 = initial_value
-        xk, yk = x0, y0
-        while x0 <= xk < x:
-            k1 = derivative(xk,yk)
-            k2 = derivative(xk + stepsize / 2, yk + stepsize * k1 / 2)
-            k3 = derivative(xk + stepsize / 2, yk + stepsize * k2 / 2)
-            k4 = derivative(xk + stepsize, yk + stepsize * k3)
-            x_next = xk + stepsize 
-            y_next = yk + (1/6) * stepsize * (k1 + 2 * k2 + 2 * k3 + k4)
-            xk, yk = x_next, y_next
-        return yk
-
-    
-    return y
-#+end_src
-
-#+RESULTS:
-
-
-*** test
-#+begin_src python :results output :session :tangle no
-f = runge_kutta_method(lambda x,y: y, (0,1), 0.01)
-print(f(1))
-print("yello")
-#+end_src
-
-#+RESULTS:
-: 2.718281828234403
-: yello
-
-
-* Functions related to secant method from previous lab
-
-
-** Head
-#+begin_src python :results output :session
 ## Functions related to secant method from previous lab
-#+end_src
-
-#+RESULTS:
 
 
-
-** Iterate method
-
-#+begin_src python :results output :session
 ## Iterate function
 def iterate(function, root_approximates, tolerance, next_values_function,
             iteration=0, max_iterations=100, debug=False):
@@ -258,15 +97,6 @@ def iterate(function, root_approximates, tolerance, next_values_function,
                        iteration+1, max_iterations, debug)
 
 
-#+end_src
-
-#+RESULTS:
-
-
-
-** Secant method
-
-#+begin_src python :results output :session
 def secant_next_values_function(function):
     """ The next_values_function for the Secant method. """
     f = function
@@ -289,24 +119,10 @@ def find_root_secant(function, root_approximates,
     return iterate(function, root_approximates, tolerance, next_values_function,
                    debug=debug)
 
-    
-#+end_src
 
-#+RESULTS:
-
-
-* Code
-
-** Head
-#+begin_src python :results output :session
 ## Methods related to this lab
-#+end_src
-
-#+RESULTS:
 
 
-** Tridiagonal solver
-#+begin_src python :results output :session
 def tridiagonal_elimination(A,y):
     """ Returns the solution x to the equation Ax = y,
     where A is an n by n tridiagonal matrix and
@@ -343,29 +159,8 @@ def tridiagonal_elimination(A,y):
 
     x_vector = [[x(i)] for i in range(n)]
     return x_vector
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-matrix = [[2,3,0,0], [5,7,11,0], [0, 13, 17, 23], [0,0,4,6]]
-vector = [[1], [2], [3], [4]]
-x = tridiagonal_elimination(matrix, vector)
-print("x:", x)
-print("vector:", vector)
-print("matrix times x:", matrix_multiply(matrix, x))
-#+end_src
-
-#+RESULTS:
-: x: [[1.9061413673232903], [-0.9374275782155268], [-0.08806488991888758], [0.7253765932792583]]
-: vector: [[1], [2], [3], [4]]
-: matrix times x: [[1.0], [2.0], [3.0000000000000036], [3.999999999999999]]
 
 
-
-** Finite difference method
-#+begin_src python :results output :session
 def finite_difference_method(p, q, r, ya, yb, interval, partitions):
     """ Numerically solves the function y(x) from the equation 
     y''(x) = p(x) y' + q(x) y + r(x) with boundary values y(a) = ya
@@ -395,29 +190,8 @@ def finite_difference_method(p, q, r, ya, yb, interval, partitions):
          for i in range(1,n)]
     u = tridiagonal_elimination(A,f)
     return x, transpose([[ya]] + u + [[yb]])[0]
-#+end_src
-
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-p = lambda x: x
-q = lambda x: 1
-r = lambda x: 2 / x ** 3
-x,y = finite_difference_method(p, q, r, 1, 0.2, (1,5), 10)
-print("lenght of x:", len(list(x)))
-print("x:", list(x))
-print("y:", list(y))
-#+end_src
-
-#+RESULTS:
-: lenght of x: 11
-: x: [1.0, 1.4, 1.8, 2.2, 2.6, 3.0, 3.4000000000000004, 3.8000000000000003, 4.2, 4.6, 5.0]
-: y: [1, 0.7301467157431596, 0.5746319191763533, 0.4735548382961563, 0.40260906989609313, 0.3500810045645499, 0.30963077469382644, 0.2775251582522122, 0.2513997177651217, 0.22935179488281188, 0.2]
 
 
-** Shooting method
-#+begin_src python :results output :session
 def shooting_method(f, ya, yb, interval, partitions):
     """ Numerically solves the function y(x) from the equation 
     y''(x) = f(x,y,y') with boundary values y(a) = ya
@@ -443,43 +217,7 @@ def shooting_method(f, ya, yb, interval, partitions):
     y = [y_z(z)(xi)[0] for xi in x]
     return x,y
 
-#+end_src
 
-#+RESULTS:
-
-*** test
-#+begin_src python :results output :session :tangle no
-f = lambda x, y, y_prim: x * y_prim + y + 2 / x ** 3
-x,y = shooting_method(f, 1, 0.2, (1,5), 10)
-print("lenght of x:", len(list(x)))
-print("x:", list(x))
-print("y:", list(y))
-#+end_src
-
-#+RESULTS:
-: lenght of x: 10
-: x: [1.0, 1.4444444444444444, 1.8888888888888888, 2.333333333333333, 2.7777777777777777, 3.2222222222222223, 3.6666666666666665, 4.111111111111111, 4.555555555555555, 5.0]
-: y: [1, 1.3855197692714816, 1.0595988458180474, 0.8574381711293708, 0.7202958908145137, 0.6206925028245771, 0.5449989316310457, 0.48301912633453203, 0.4149972602579165, 0.20000000123562345]
-
-*** test 2 (med riktiga funktionen
-#+begin_src python :results output :session :tangle no
-f = lambda x, y, y_prim: (3/2) * y
-x,y,z = shooting_method(f, 4, 1, (0,1), 10)
-print("lenght of x:", len(list(x)))
-print("x:", list(x))
-print("y:", list(y))
-print("z:", z)
-#+end_src
-
-#+RESULTS:
-: lenght of x: 10
-: x: [0.0, 0.1111111111111111, 0.2222222222222222, 0.3333333333333333, 0.4444444444444444, 0.5555555555555556, 0.6666666666666666, 0.7777777777777777, 0.8888888888888888, 1.0]
-: y: [4, 6.868317153565393, 5.858511994194524, 4.957306941988525, 4.148004006002628, 3.4156089411918593, 2.74655344449494, 2.128443789147573, 1.549831240433782, 0.9999999999998967]
-: z: -5.433546070175916
-
-
-* Main
-#+begin_src python :results output :session
 def main():
     p = lambda t: 0
     q = lambda t: 3/2
@@ -508,33 +246,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-#+end_src
-
-#+RESULTS:
-
-* Test
-
-** concat list
-#+begin_src python :results output :session :tangle no
-print([1,2] + [3,4])
-#+end_src
-
-#+RESULTS:
-: [1, 2, 3, 4]
-
-** List multiple
-#+begin_src python :results output :session :tangle no
-print(5*[0])
-#+end_src
-
-#+RESULTS:
-: [0, 0, 0, 0, 0]
-
-** Numpy linspace
-#+begin_src python :results output :session :tangle no
-print(list(np.linspace(1,10,5)))
-#+end_src
-
-#+RESULTS:
-: [1.0, 3.25, 5.5, 7.75, 10.0]
-
