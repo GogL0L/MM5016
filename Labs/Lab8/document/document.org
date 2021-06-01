@@ -269,6 +269,9 @@ x_2 =
 .
 \end{align*}
 
+The equation is just a reformulation of the equation in the notes.
+
+What follows is an alternative proof in case it is sufficent.
 
 *Proving the inequality*:
 First let us calculate the left hand side:
@@ -281,7 +284,9 @@ First let us calculate the left hand side:
 
 
 Let us now calculate the right hand side.
-\( \| A \| _{2} \| A^{-1}  \| _{2} \) is equal to the eigenvalue with greatest magnitude. So let us
+\( \| A \| _{2} \| A^{-1}  \| _{2} \) is the condition number. When A is normal, it can
+be calculated by dividing the greatest eigenvalue magnitude with
+the lowest magnitude . So let us
 calculate the eigenvalues.
 The charactheristic equation for \( A \) is
 \begin{align*}
@@ -296,9 +301,11 @@ The charactheristic equation for \( A \) is
 .
 \end{align*}
 
-So the greatest eigenvalue is
+So the greatest condition number is
 \begin{align*}
-\frac{15 + \sqrt{221}}{2} 
+ &  \frac{15 + \sqrt{221}}{15 - \sqrt{221}} \\
+& = \frac{15 ^2 + 221 + 30 \sqrt{221}}{15 ^2 - 221} \\
+& = \frac{223 + 15 \sqrt{221}}{2} 
 .
 \end{align*}
 
@@ -314,14 +321,15 @@ Let us now calculate the rest of the right hand side:
 
 The inequality is thus equivalent to:
 \begin{align*}
- &  10 \cdot \sqrt{0.0293} \leq (223 + 15 \sqrt{221})\frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
-\iff & \sqrt{100 \cdot 0.0293} \leq (223 + 15 \sqrt{221}) \sqrt{\frac{0.0002}{1.49} } \\
-\iff & \sqrt{2.93} \leq (223 + 15 \sqrt{221}) \sqrt{\frac{1}{10^{4}} \cdot \frac{2}{1.49}} \\
-\iff & \sqrt{2.93} \leq (223 + 15 \sqrt{221}) \frac{1}{10 ^2} \cdot \sqrt{\frac{2}{1.49}} \\
-\iff & 10 ^2 \sqrt{2.93} \leq (223 + 15 \sqrt{221}) \cdot \sqrt{\frac{2}{1.49}} \\
-\iff &  \sqrt{293} \leq (223 + 15 \sqrt{221}) \cdot \sqrt{\frac{2}{1.49}} \\
-\iff &  \sqrt{\frac{1.49 \cdot293}{2}} \leq 223 + 15 \sqrt{221} \\
-\iff &  \sqrt{218.285} \leq 223 + 15 \sqrt{221} \\
+ &  10 \cdot \sqrt{0.0293} \leq \frac{1}{2} (223 + 15 \sqrt{221})\frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
+\iff &  20 \cdot \sqrt{0.0293} \leq (223 + 15 \sqrt{221})\frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
+\iff & \sqrt{400 \cdot 0.0293} \leq (223 + 15 \sqrt{221}) \sqrt{\frac{0.0002}{1.49} } \\
+\iff & \sqrt{11.72} \leq (223 + 15 \sqrt{221}) \sqrt{\frac{1}{10^{4}} \cdot \frac{2}{1.49}} \\
+\iff & \sqrt{11.72} \leq (223 + 15 \sqrt{221}) \frac{1}{10 ^2} \cdot \sqrt{\frac{2}{1.49}} \\
+\iff & 10 ^2 \sqrt{11.72} \leq (223 + 15 \sqrt{221}) \cdot \sqrt{\frac{2}{1.49}} \\
+\iff &  \sqrt{1172} \leq (223 + 15 \sqrt{221}) \cdot \sqrt{\frac{2}{1.49}} \\
+\iff &  \sqrt{\frac{1.49 \cdot1172}{2}} \leq 223 + 15 \sqrt{221} \\
+\iff &  \sqrt{873.14} \leq 223 + 15 \sqrt{221}
 .
 \end{align*}
 
