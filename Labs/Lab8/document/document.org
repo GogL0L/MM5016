@@ -408,4 +408,23 @@ Show that \( \kappa(A) \geq 1 \) for any non-singular matrix A.
 \end{align*}
 #+LATEX: \end{solution}
 
+** ex: 7 :ignore:
+#+LATEX: \begin{example}[7]  \label{ex:7}
+For any two \( n \times n \) non singular matrices A and B, show that
+\( \kappa(AB) \leq \kappa(A)\kappa(B) \).
+#+LATEX: \end{example}
+
+** sol: 7 :ignore:
+#+LATEX: \begin{solution}[7]  \label{sol:7}
+\begin{align*}
+ &  \kappa(A)\kappa(B) = \| A \| \| A^{-1}  \| \| B \| \| B^{-1}  \| \\
+& = \| A \| \| B \| \| B^{-1}  \| \| A^{-1}  \| \\
+& \geq \| AB \| \| B^{-1} A^{-1}  \| \\
+& = \| AB \| \| (AB)^{-1}  \| \\
+& = \kappa(AB)
+.
+\end{align*}
+
+#+LATEX: \end{solution}
+
 

@@ -1,4 +1,4 @@
-% Created 2021-06-01 Tue 03:07
+% Created 2021-06-01 Tue 03:13
 % Intended LaTeX compiler: pdflatex
 \documentclass[10pt]{article}
      \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
@@ -18,7 +18,7 @@
 \maketitle
 
 \section{Problems}
-\label{sec:org51aa248}
+\label{sec:orgddeef3c}
 
 \begin{exercise}[1]  \label{exe:1}
 The two quantities \(x\) and \(y\) have a relative error
@@ -382,5 +382,20 @@ Show that \(\kappa(A) \geq 1\) for any non-singular matrix A.
 \kappa(A) = \| A \| \| A^{-1}  \| \geq \| A A^{-1}   \| = \| I \| = 1
 .
 \end{align*}
+\end{solution}
+\begin{example}[7]  \label{ex:7}
+For any two \(n \times n\) non singular matrices A and B, show that
+\(\kappa(AB) \leq \kappa(A)\kappa(B)\).
+\end{example}
+\begin{solution}[7]  \label{sol:7}
+\begin{align*}
+ &  \kappa(A)\kappa(B) = \| A \| \| A^{-1}  \| \| B \| \| B^{-1}  \| \\
+& = \| A \| \| B \| \| B^{-1}  \| \| A^{-1}  \| \\
+& \geq \| AB \| \| B^{-1} A^{-1}  \| \\
+& = \| AB \| \| (AB)^{-1}  \| \\
+& = \kappa(AB)
+.
+\end{align*}
+
 \end{solution}
 \end{document}
