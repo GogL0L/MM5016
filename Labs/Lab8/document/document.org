@@ -400,14 +400,12 @@ was thus wrong, and the proof is complete.
 Show that \( \kappa(A) \geq 1 \) for any non-singular matrix A.
 #+LATEX: \end{exercise}
 
-*** sol: 6                                                         :ignore:
-#+LATEX: \begin{solution}[6]  \label{sol:6}
-Let us prove it for matrices of dimension two or higher.
-Let \( A \) be a non singular matrix of dimension \( n \). That means there exists
-\( n \) linearly independent eigenvectors, as otherwise the span of \( A \)
-wouldn't be the whole room, and \( A \) would be singular. But from
-linear algebra we know that each distinct eigenvector has it's own
-eigen value, which are all distinct. Because they are distinct there exists
-a largest one, let's call it \( \lambda \).
+*** sol: 6                                                        :ignore:
+#+LATEX: \begin{solution}[6]  \label{sol:6b}
+\begin{align*}
+\kappa(A) = \| A \| \| A^{-1}  \| \geq \| A A^{-1}   \| = \| I \| = 1
+.
+\end{align*}
 #+LATEX: \end{solution}
+
 

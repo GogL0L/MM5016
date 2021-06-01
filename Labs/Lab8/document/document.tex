@@ -1,4 +1,4 @@
-% Created 2021-06-01 Tue 02:55
+% Created 2021-06-01 Tue 03:07
 % Intended LaTeX compiler: pdflatex
 \documentclass[10pt]{article}
      \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
@@ -18,7 +18,7 @@
 \maketitle
 
 \section{Problems}
-\label{sec:org80cb0e5}
+\label{sec:org51aa248}
 
 \begin{exercise}[1]  \label{exe:1}
 The two quantities \(x\) and \(y\) have a relative error
@@ -377,13 +377,10 @@ was thus wrong, and the proof is complete.
 \begin{exercise}[6]  \label{exe:6}
 Show that \(\kappa(A) \geq 1\) for any non-singular matrix A.
 \end{exercise}
-\begin{solution}[6]  \label{sol:6}
-Let us prove it for matrices of dimension two or higher.
-Let \(A\) be a non singular matrix of dimension \(n\). That means there exists
-\(n\) linearly independent eigenvectors, as otherwise the span of \(A\)
-wouldn't be the whole room, and \(A\) would be singular. But from
-linear algebra we know that each distinct eigenvector has it's own
-eigen value, which are all distinct. Because they are distinct there exists
-a largest one, let's call it \(\lambda\).
+\begin{solution}[6]  \label{sol:6b}
+\begin{align*}
+\kappa(A) = \| A \| \| A^{-1}  \| \geq \| A A^{-1}   \| = \| I \| = 1
+.
+\end{align*}
 \end{solution}
 \end{document}
