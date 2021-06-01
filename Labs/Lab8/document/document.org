@@ -215,7 +215,6 @@ obtain the solution \( x_2 \). Show that
 
 ** sol: 4 :ignore:
 #+LATEX: \begin{solution}[4]  \label{sol:4}
-*Solving for \( x_1 \)*:
 \begin{align*}
 5x_1 + 7x_2 = b_1 \\
 7x_1 + 10x_2 = b_2
@@ -229,13 +228,13 @@ Let us scale each row, so that the factors in \( x_1 \) match:
 \end{align*}
 Let's eliminate:
 \begin{align*}
-35x_1 + 49x_2 = 7b_2 \\
+35x_1 + 49x_2 = 7b_1 \\
  x_2 = 5b_2 - 7b_1
 .
 \end{align*}
 And let's substitute:
 \begin{align*}
-35x_1 + 245 b_2 - 343 b_1 = 7 b_2 \\
+35x_1 + 245 b_2 - 343 b_1 = 7 b_1 \\
 x_2 = 5b_2 - 7b_1
 .
 \end{align*}
@@ -269,9 +268,9 @@ x_2 =
 .
 \end{align*}
 
-The equation is just a reformulation of the equation in the notes.
+The inequality statement is just a reformulation of the theorem in the notes.
 
-What follows is an alternative proof in case it is sufficent.
+What follows is an alternative proof in case it is not sufficent.
 
 *Proving the inequality*:
 First let us calculate the left hand side:

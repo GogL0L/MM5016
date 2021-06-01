@@ -29,6 +29,8 @@ in a terminal.
 ## Linear algebra code from previous labs
 #+end_src
 
+#+RESULTS:
+
 ** matrix multiply
 #+begin_src python :results output :session
 def matrix_multiply(matrix1, matrix2):
@@ -87,6 +89,8 @@ print(matrix_multiply(scale_row(3,1,3), [[1,2,3],[4,5,6],[7,8,9]]))
 ## Euler method from previous lab
 #+end_src
 
+#+RESULTS:
+
 
 
 ** Euler's method
@@ -102,10 +106,10 @@ def vector_euler_method(derivative, initial_value, stepsize):
     scale = lambda s,x: [s * x[i] for i in range(len(x))]
     minus = lambda x,y : add(x, scale(-1,y))
 
-    step_to_goal = lambda x, goal: x+stepsize if x < goal else x - stepsize
+    step_to_goal = lambda x, goal: x+stepsize if x <= goal else x - stepsize
     y_next = lambda x, y, goal: (add(y,
                                      scale(stepsize, derivative(x,y))
-                                     if x < goal
+                                     if x <= goal
                                  else minus(y, scale(stepsize, derivative(x,y)))))
 
 
@@ -114,8 +118,8 @@ def vector_euler_method(derivative, initial_value, stepsize):
         x0, y0 = initial_value
         xk, yk = x0, y0
         while x0 <= xk < x or x0 >= xk > x:
-            xk = step_to_goal(xk, x)
             yk = y_next(xk, yk, x)
+            xk = step_to_goal(xk, x)
         return yk
 
     
@@ -137,10 +141,36 @@ print("ello")
 : [5.735541229993203, 5.436020039057771]
 : ello
 
+*** test 2
+#+begin_src python :results output :session :tangle no
+y_prim = lambda x,y: [y[1], y[1] - y[0] + 4 + 2 * x - x ** 2 - x ** 3]
+init_value = (0, [0,0])
+f = vector_euler_method(y_prim, init_value, 0.0001)
+print(f(1))
+print("ello")
+#+end_src
+
+#+RESULTS:
+: [5.765954491424662, 12.804476035098887]
+: ello
+
+*** test 3 (actual uppgiften)
+#+begin_src python :results output :session :tangle no
+y_prim = lambda x,y: [y[1], (3/2) * y[0]]
+init_value = (0, [4,-5.433546])
+f = vector_euler_method(y_prim, init_value, 0.0001)
+print(f(1))
+print("ello")
+#+end_src
+
+#+RESULTS:
+: [0.4964538156256338, -2.4274046194773575]
+: ello
+
 
 ** Runge-Kutta
 
-#+begin_src python :results output :session
+#+begin_src python :results output :session :tangle no
 def runge_kutta_method(derivative, initial_value, stepsize):
     """ Given that 'derivative' is a function of (x,y)
     and that the 'initial_value' is a tuple of the form
@@ -189,6 +219,8 @@ print("yello")
 #+begin_src python :results output :session
 ## Functions related to secant method from previous lab
 #+end_src
+
+#+RESULTS:
 
 
 
@@ -269,6 +301,8 @@ def find_root_secant(function, root_approximates,
 #+begin_src python :results output :session
 ## Methods related to this lab
 #+end_src
+
+#+RESULTS:
 
 
 ** Tridiagonal solver
@@ -399,10 +433,10 @@ def shooting_method(f, ya, yb, interval, partitions):
     a,b = interval
     y_prim = lambda x,y: [y[1], f(x, y[0], y[1])]
 
-    y_z = lambda z: vector_euler_method(y_prim, (a, [ya, z]), 0.001)
+    y_z = lambda z: vector_euler_method(y_prim, (a, [ya, z]), 0.0001)
     phi = lambda z: y_z(z)(b)[0] - yb
 
-    z = find_root_secant(phi, [4,1])
+    z = find_root_secant(phi, [1,4])
 
     x = list(np.linspace(a, b, partitions))
     #y = list(map(y_z(z), x))
@@ -425,7 +459,23 @@ print("y:", list(y))
 #+RESULTS:
 : lenght of x: 10
 : x: [1.0, 1.4444444444444444, 1.8888888888888888, 2.333333333333333, 2.7777777777777777, 3.2222222222222223, 3.6666666666666665, 4.111111111111111, 4.555555555555555, 5.0]
-: y: [1, 1.385519769271463, 1.0595988458179897, 0.8574381711291972, 0.7202958908139506, 0.6206925028224204, 0.5449989316211006, 0.48301912627859755, 0.41499725987665814, 0.1999999980735709]
+: y: [1, 1.3855197692714816, 1.0595988458180474, 0.8574381711293708, 0.7202958908145137, 0.6206925028245771, 0.5449989316310457, 0.48301912633453203, 0.4149972602579165, 0.20000000123562345]
+
+*** test 2 (med riktiga funktionen
+#+begin_src python :results output :session :tangle no
+f = lambda x, y, y_prim: (3/2) * y
+x,y,z = shooting_method(f, 4, 1, (0,1), 10)
+print("lenght of x:", len(list(x)))
+print("x:", list(x))
+print("y:", list(y))
+print("z:", z)
+#+end_src
+
+#+RESULTS:
+: lenght of x: 10
+: x: [0.0, 0.1111111111111111, 0.2222222222222222, 0.3333333333333333, 0.4444444444444444, 0.5555555555555556, 0.6666666666666666, 0.7777777777777777, 0.8888888888888888, 1.0]
+: y: [4, 6.868317153565393, 5.858511994194524, 4.957306941988525, 4.148004006002628, 3.4156089411918593, 2.74655344449494, 2.128443789147573, 1.549831240433782, 0.9999999999998967]
+: z: -5.433546070175916
 
 
 * Main
