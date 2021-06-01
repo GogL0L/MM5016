@@ -1,4 +1,4 @@
-% Created 2021-06-01 Tue 01:26
+% Created 2021-06-01 Tue 02:10
 % Intended LaTeX compiler: pdflatex
 \documentclass[10pt]{article}
      \usepackage{/home/john/texstuff/NoTeX/NotesTeXSW}
@@ -18,7 +18,7 @@
 \maketitle
 
 \section{Problems}
-\label{sec:org734e2d9}
+\label{sec:org8625600}
 
 \begin{exercise}[1]  \label{exe:1}
 The two quantities \(x\) and \(y\) have a relative error
@@ -267,14 +267,8 @@ First let us calculate the left hand side:
 
 
 Let us now calculate the right hand side.
-\(\| A \| _{2} \| A^{-1}  \| _{2}\) is equal to the condition number. So let's calculate it.
-We can see that the matrix \(A\) is normal as it is symmetric. Using a corollary
-from the notes we can calculate the condition number by
-\begin{align*}
-\rho(A) = \frac{\| \lambda _{\max}(A) \| }{\| \lambda _{min}(A) \|} 
-.
-\end{align*}
-
+\(\| A \| _{2} \| A^{-1}  \| _{2}\) is equal to the eigenvalue with greatest magnitude. So let us
+calculate the eigenvalues.
 The charactheristic equation for \(A\) is
 \begin{align*}
  &  (5- \lambda) (10 - \lambda) - 49 = 0 \\
@@ -288,17 +282,12 @@ The charactheristic equation for \(A\) is
 .
 \end{align*}
 
-From the second to last row, we can see that \(\sqrt{221}\) is less thann 15, thus
-both eigenvalues are positive which means:
+So the greatest eigenvalue is
 \begin{align*}
- &  \rho(A) =  \frac{\| \lambda _{max}(A) \| }{\| \lambda _{min}(A) \| } \\
-& = \frac{\lambda _{max}(A)}{\lambda _{min}(A)} \\
-& = \frac{15 + \sqrt{221}}{15 - \sqrt{221}} \\
-& = \frac{15 ^2 + 221 + 30 \sqrt{221}}{15 ^2 - 221} \\
-& = \frac{446 + 30 \sqrt{221}}{4} \\
-& = \frac{223 + 15 \sqrt{221}}{2} 
+\frac{15 + \sqrt{221}}{2} 
 .
 \end{align*}
+
 
 Let us now calculate the rest of the right hand side:
 
@@ -311,8 +300,7 @@ Let us now calculate the rest of the right hand side:
 
 The inequality is thus equivalent to:
 \begin{align*}
- &  10 \cdot \sqrt{0.0293} \leq \frac{223 + 15 \sqrt{221}}{2} \frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
-\iff &  20 \cdot \sqrt{0.0293} \leq (223 + 15 \sqrt{221}) \frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
+ &  10 \cdot \sqrt{0.0293} \leq (223 + 15 \sqrt{221})\frac{\sqrt{0.0002}}{\sqrt{1.49}} \\
 \iff & \sqrt{100 \cdot 0.0293} \leq (223 + 15 \sqrt{221}) \sqrt{\frac{0.0002}{1.49} } \\
 \iff & \sqrt{2.93} \leq (223 + 15 \sqrt{221}) \sqrt{\frac{1}{10^{4}} \cdot \frac{2}{1.49}} \\
 \iff & \sqrt{2.93} \leq (223 + 15 \sqrt{221}) \frac{1}{10 ^2} \cdot \sqrt{\frac{2}{1.49}} \\
@@ -377,5 +365,17 @@ Which means that
 \end{align*}
 This is a contradiction for the rules about norms. The assumption
 was thus wrong, and the proof is complete.
+\end{solution}
+\begin{exercise}[6]  \label{exe:6}
+Show that \(\kappa(A) \geq 1\) for any non-singular matrix A.
+\end{exercise}
+\begin{solution}[6]  \label{sol:6}
+Let us prove it for matrices of dimension two or higher.
+Let \(A\) be a non singular matrix of dimension \(n\). That means there exists
+\(n\) linearly independent eigenvectors, as otherwise the span of \(A\)
+wouldn't be the whole room, and \(A\) would be singular. But from
+linear algebra we know that each distinct eigenvector has it's own
+eigen value, which are all distinct. Because they are distinct there exists
+a largest one, let's call it \(\lambda\).
 \end{solution}
 \end{document}
