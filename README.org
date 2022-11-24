@@ -1,0 +1,53 @@
+#+TITLE: Numerical Analysis I 
+* Description
+This repo contains all the assignments I did for the course [[https://www.su.se/english/search-courses-and-programmes/mm5016-1.482620][Numerical Analysis I]] during my Bachelore Program in Mathematics at Stockholm University.
+* Labs
+** Lab 2 (Nonlinear algebraic equations)
+- [[file:Labs/Lab2/lab_assignment02_0326.pdf][Instructions]]
+- [[file:Labs/Lab2/report/report.pdf][Report]]
+- [[file:Labs/Lab2/lab2.py][Code]]
+
+** Lab 3 (Numerical Integration)
+- [[file:Labs/Lab3/local-book.pdf][Instructions]]
+- [[file:Labs/Lab3/lab3.py][Code]]
+
+** Lab 4 (Basic Gaussian Elimination)
+- [[file:Labs/Lab4/local-book.pdf][Instructions]]
+- [[file:Labs/Lab4/document.pdf][Solutions by hand to problems 1,2 and 3]]
+- [[file:Labs/Lab4/lab4.py][Code (Solution to problem 4)]]
+
+** Lab 5 (Gaussian Elimination with partial pivoting)
+- [[file:Labs/Lab5/local-book.pdf][Instructions]]
+- [[file:Labs/Lab5/lab5.py][Code]]
+
+** Lab 6 (QR method)
+- [[file:Labs/Lab6/local-book.pdf][Instructions]]
+- [[file:Labs/Lab6/document/document.pdf][Finding the QR decomposition using the Gram-Schmidt method by hand]]
+- [[file:Labs/Lab6/lab6.py][Code (Subroutine for finding the QR decomposition)]]
+** Lab 7 (Iterative method and Gradient descent method)
+- [[file:Labs/Lab7/local-book.pdf][Instructions]]
+- [[file:Labs/Lab7/document/document.pdf][Solution to problem 1 (Gaussian elimination)]]
+- [[file:Labs/Lab7/lab7.py][Code]]
+** Lab 8 (Error Analysis)
+- [[file:Labs/Lab8/local-book.pdf][Instructions]]
+- [[file:Labs/Lab8/document/document.pdf][Solutions]]
+
+** Lab 9 (Interpolation and ODE basic)
+- [[file:Labs/Lab9/local-book.pdf][Instructions]]
+- [[file:Labs/Lab9/lab9.py][Code]]
+
+** Lab 10 (Runge-Kutta and multi-step method)
+- [[file:Labs/Lab10/local-book.pdf][Instructions]]
+- [[file:Labs/Lab10/lab10.py][Code]]
+
+** Lab 11 (Boundary Value Problem with shooting method and finite difference method)
+- [[file:Labs/Lab11/local-book.pdf][Instructions]]
+- [[file:Labs/Lab11/lab11.py][Code]]
+
+* Project
+
+The project is about solving a differential equation using Euler's method, second and fourth order Runge-Kutta aswell as a multi-step method (I choose Adam-Bashforth).
+
+- [[file:Project1/local-book.pdf][Instructions]]
+- [[file:Project1/document/document.pdf][Report]]
+- [[file:Project1/project1.py][Code]]
